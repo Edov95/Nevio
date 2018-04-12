@@ -74,7 +74,7 @@ mag_h=abs(h_bar);
 K_est=v^2/(2*s^2); % estimated value of K 
 
 % plot an histogram of h to get an idea of the shape of the distribution
-Nbins=100;
+Nbins=17;
 figure,
 hist(mag_h, Nbins)
 ylabel('Number of samples')
@@ -111,8 +111,8 @@ f=1/Tc:1/Tc:Nsamples;
 Welch_centered=fftshift(Welch_P);
 figure,
 plot(10*log10(Welch_centered))
-%ylim([-10 30])
-%xlim([Nsamples/2-5*Nsamples*fd Nsamples/2+5*Nsamples*fd])
+ylim([-10 30])
+xlim([Nsamples/2-5*Nsamples*fd Nsamples/2+5*Nsamples*fd])
 xticks([39850 39900 39950 40000 40050 40100 40150])
 xticklabels({'-150','-100','-50','0','50','100','150'});
 ylabel('H(f) [dB]')

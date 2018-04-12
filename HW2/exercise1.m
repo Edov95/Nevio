@@ -1,7 +1,7 @@
 clc; close all; clear global; clearvars;
 
 %% COMPUTE r(k)
-L=31;
+L=127;
 Nlim=20;
 
 %additive noise
@@ -56,13 +56,7 @@ end
 h_est=h_est(1:Nlim);
 figure, stem(0:19,h_est), hold on,
 stem(0:19,h,'r*'), title('h_{analytic} vs h_{estimate-CORR}'), xlabel('n'), ylim([-0.5 1.2]), xlim([-2 20])
-
-%% SNR ADD REALIZATIONS!
-
-en_h=sum(h.^2);
-delta_h=h_est-h;
-en_deltah=sum(delta_h.^2); 
-SNR=en_h/en_deltah;
+legend('h_{est-CORR}','h_{analytic}')
 
 %% LS
 d0=r_0;
@@ -81,5 +75,6 @@ end
 h_ls=h_ls(1:Nlim);
 figure, stem(0:19, h_ls),title('h_{ls}'), hold on,
 stem(0:19,h,'r*'), title('h_{analytic} vs h_{estimate-LS}'), xlabel('n'), ylim([-0.5 1.2]), xlim([-2 20])
+legend('h_{est-LS}','h_{analytic}')
 
 %estimate of sigmaw 
