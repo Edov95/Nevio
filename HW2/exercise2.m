@@ -74,12 +74,12 @@ mag_h=abs(h_bar);
 K_est=v^2/(2*s^2); % estimated value of K 
 
 % plot an histogram of h to get an idea of the shape of the distribution
-Nbins=17;
-figure,
-hist(mag_h, Nbins)
-ylabel('Number of samples')
-xlabel('Value')
-title('Histogram of h_0')
+% Nbins=17;
+% figure,
+% histogram(mag_h,Nbins,'Normalization','pdf')
+% ylabel('Number of samples')
+% xlabel('Value')
+% title('Histogram of h_0')
 
 % compute the theoretical and the estimated distributions
 x=linspace(0,3,1000);
@@ -90,11 +90,13 @@ th=ricepdf(x,v_th,s_th );
 
 % plot of the theoretical and estimated distributions
 figure
-plot(x,est,'r'), hold on, plot(x,th,'b')
-title('estimated pdf')
+%plot(x,est,'r'), hold on, plot(x,th,'b')
+Nbins=17;
+histogram(mag_h,Nbins,'Normalization','pdf','DisplayStyle','stairs'), hold on, plot(x,th,'r-.'), hold on, plot(x,est,'k'),
+title('Estimate of the pdf of h_0')
 ylabel('f_x(a)')
 xlabel('a')
-legend('Estimate','theoretical pdf')
+legend('Histogram','theoretical pdf','Estimated pdf')
 
 %% SPECTRUM ESTIMATION
 

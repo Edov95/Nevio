@@ -14,7 +14,6 @@ end
 o=d(L:2*L-1);
 Phi=I'*I;
 theta=I'*o;
-
 h_ls=inv(Phi)*theta;
 %h_ls=h_ls(1:N);
 end
