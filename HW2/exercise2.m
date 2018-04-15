@@ -42,7 +42,7 @@ t = 1:length(h_full);
 t_int = Tc/Tp:Tc/Tp:length(h_full);
 h_int = interp1(t, h_full, t_int, 'spline');
 
-%multiply by sqrt(M_h0) to give the desired power
+%multiply by sqrt(M_h0) to give the desired power 
 h_int=h_int*sqrt(Md);
 
 %drop the transient and add C because of LOS component

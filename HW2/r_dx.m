@@ -3,7 +3,7 @@ function [rx]=r_dx(x,r)
 % x the input sequence of length 2*L
 % r the output of the filter
 % OUTPUT
-% rx the cross correlation of d and x of length L=length(x)/2
+% rx the cross correlation of d and x of length L=length(x)/2-1
 
 L=length(x)/2;
 rx=zeros(L, 1);
