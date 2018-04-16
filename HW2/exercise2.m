@@ -92,7 +92,7 @@ th=ricepdf(x,v_th,s_th );
 figure
 %plot(x,est,'r'), hold on, plot(x,th,'b')
 Nbins=17;
-histogram(mag_h,Nbins,'Normalization','pdf','DisplayStyle','stairs'), hold on, plot(x,th,'r-.'), hold on, plot(x,est,'k'),
+histogram(mag_h,Nbins,'Normalization','pdf','DisplayStyle','stairs'), hold on, plot(x,th,'r-.')%, hold on, plot(x,est,'k'),
 title('Estimate of the pdf of h_0')
 ylabel('f_x(a)')
 xlabel('a')
@@ -101,19 +101,20 @@ legend('Histogram','theoretical pdf','Estimated pdf')
 %% SPECTRUM ESTIMATION
 
 % Welch estimator
-S=600;   %overlap
-D=1200;   %window length
+S=700;   %overlap
+D=3500;   %window length
 
 w_welch=window(@hamming,D);
-%w_welch=kaiser(D,5);
+%w_welch=kaiser(D,8);
 
 [Welch_P, Ns] = welchPSD(h', w_welch, S);
-
+%Welch_P=Welch_P/Nsamples;
 f=1/Tc:1/Tc:Nsamples;
 Welch_centered=fftshift(Welch_P);
 figure,
 plot(10*log10(Welch_centered))
-ylim([-10 30])
+ylim([-5 35])
+%ylim([-40 -15])
 xlim([Nsamples/2-5*Nsamples*fd Nsamples/2+5*Nsamples*fd])
 xticks([39850 39900 39950 40000 40050 40100 40150])
 xticklabels({'-150','-100','-50','0','50','100','150'});

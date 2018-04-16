@@ -3,4 +3,4 @@ clc; close all; clear global; clearvars;
 sigdB=-8;
 sigmaw=10^(sigdB/10);
 w = wgn(1000000,1,sigdB,'real'); 
-save('Noise','w')
+save('Noise_try','w')

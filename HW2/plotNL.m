@@ -1,7 +1,7 @@
-clc; close all; clear global; clearvars;
+
 %% MAKES THE PLOT REQUIRED TO CHOOSE L AND N  
-load('swCORR.mat','SWcorr')
-load('swLS.mat','SWls')
+% load('swCORR.mat','SWcorr')
+% load('swLS.mat','SWls')
 sigdB=-8;
 N=[2:20];
 

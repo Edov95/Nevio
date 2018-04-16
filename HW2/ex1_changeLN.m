@@ -7,7 +7,7 @@ Nbound=20;
 sigdB=-8;
 sigmaw=10^(sigdB/10);
 
-load('Noise.mat','w')
+load('Noise_try.mat','w')
 sw_collectLS=zeros(Nbound,1);
 
 for n=1:length(Lvect)
@@ -105,5 +105,5 @@ for n=1:length(Lvect)
 end
 SWcorr=SWcorr(2:end,:);
 SWls=SWls(2:end,:);
-save('swCORR.mat','SWcorr')
-save('swLS.mat','SWls')
+% save('swCORR.mat','SWcorr')
+% save('swLS.mat','SWls')

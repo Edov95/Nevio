@@ -1,14 +1,14 @@
 clc; close all; clear global; clearvars;
 
 %% COMPUTE r(k)
-L=127;
-Ncurrent=15;
+L=63;
+Ncurrent=6;
 
 %additive noise
 sigdB=-8;
 sigmaw=10^(sigdB/10);
 
-load('Noise.mat','w')
+load('Noise_try.mat','w')
 
 
 %PN sequence

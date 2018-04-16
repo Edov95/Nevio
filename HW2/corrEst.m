@@ -3,11 +3,11 @@ function [h0, h1, r_0, r_1] = corrEst(x, d_true, Ncurrent)
 %the correlation method
 L=length(x)/2;
 %split even and odd samples of the output of the channel
-r_0_true=d_true(1:2:end);
-r_1_true=d_true(2:2:end);
+d0=d_true(1:2:end);
+d1=d_true(2:2:end);
 
-h0=r_dx(x, r_0_true);
-h1=r_dx(x, r_1_true);
+h0=r_dx(x, d0);
+h1=r_dx(x, d1);
 
 if (Ncurrent<L)
 h0=h0(1:ceil(Ncurrent/2));
