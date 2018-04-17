@@ -5,9 +5,11 @@ L=length(x)/2;
 %split even and odd samples of the output of the channel
 d0=d_true(1:2:end);
 d1=d_true(2:2:end);
+Ed0=sum(d0.^2);
+Ed1=sum(d1.^2);
 
-h0=LS(x, d0, L);
-h1=LS(x, d1, L);
+[h0]=LS(x, d0, L);
+[h1]=LS(x, d1, L);
 
 if (Ncurrent<L)
 h0=h0(1:ceil(Ncurrent/2));

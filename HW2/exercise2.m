@@ -92,7 +92,7 @@ th=ricepdf(x,v_th,s_th );
 figure
 %plot(x,est,'r'), hold on, plot(x,th,'b')
 Nbins=17;
-histogram(mag_h,Nbins,'Normalization','pdf','DisplayStyle','stairs'), hold on, plot(x,th,'r-.')%, hold on, plot(x,est,'k'),
+histogram(mag_h, Nbins,'Normalization','pdf','DisplayStyle','stairs'), hold on, plot(x,th,'r-.')%, hold on, plot(x,est,'k'),
 title('Estimate of the pdf of h_0')
 ylabel('f_x(a)')
 xlabel('a')
@@ -118,5 +118,5 @@ ylim([-5 35])
 xlim([Nsamples/2-5*Nsamples*fd Nsamples/2+5*Nsamples*fd])
 xticks([39850 39900 39950 40000 40050 40100 40150])
 xticklabels({'-150','-100','-50','0','50','100','150'});
-ylabel('H(f) [dB]')
+ylabel('P_h(f) [dB]')
 xlabel('f')
