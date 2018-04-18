@@ -14,12 +14,14 @@ plot(N,SWcorr(:,2),'g--x'), hold on,
 plot(N,SWcorr(:,3),'k--d'), hold on,
 plot(N,SWcorr(:,4),'y--v'), hold on,
 plot(N,SWcorr(:,5),'c--*'), hold on,
+plot(N,SWcorr(:,6),'m--s'), hold on,
 plot(N,SWls(:,1),'-ro'), hold on,
 plot(N,SWls(:,2),'-gx'), hold on,
 plot(N,SWls(:,3),'-kd'), hold on,
 plot(N,SWls(:,4),'-yv'), hold on,
 plot(N,SWls(:,5),'-c*'), hold on,
-legend('\sigma_w^2','L=7','L=15','L=31','L=63','L=127','L=7','L=15','L=31','L=63','L=127','Location','South','Orientation','horizontal')
+plot(N,SWls(:,6),'-ms')
+legend('\sigma_w^2','L=7','L=15','L=31','L=63','L=127','L=255','L=7','L=15','L=31','L=63','L=127','L=255','Location','South','Orientation','horizontal')
 ylabel('\epsilon/L')
 xlabel('N')
 title('\epsilon/L vs N')

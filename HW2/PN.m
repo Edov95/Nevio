@@ -3,8 +3,6 @@ function [pn] = PN(L)
 r = log2(L+1);
 pn = zeros(L,1);
 
-% Initial conditions (set to one, arbitrary)
-% Must not be ALL zeros
 pn(1:r) = ones(1,r).';
 
 for l=r+1:L
@@ -23,6 +21,8 @@ for l=r+1:L
             pn(l) = xor(pn(l-5), pn(l-6));
         case 7
             pn(l) = xor(pn(l-6), pn(l-7));
+        case 8
+            pn(l) = xor(xor(pn(l-2), pn(l-3)), xor(pn(l-4), pn(l-8)));
     end
 end
 end

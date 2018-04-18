@@ -15,7 +15,7 @@ C=sqrt(K/(K+1));
 a_ds=[1, -4.4153, 8.6283, -9.4592, 6.1051, -1.3542, -3.3622, 7.2390, -7.9361, 5.1221, -1.8401, 2.8706e-1];
 b_ds=[1.3651e-4, 8.1905e-4, 2.0476e-3, 2.7302e-3, 2.0476e-3, 9.0939e-4, 6.7852e-4, 1.3550e-3, 1.8076e-3, 1.3550e-3, 5.3726e-4, 6.1818e-5, -7.1294e-5, ...
     -9.5058e-5, -7.1294e-5, -2.5505e-5, 1.3321e-5, 4.5186e-5, 6.0248e-5, 4.5186e-5, 1.8074e-5, 3.0124e-6];
-% The energy of the doppler filter need to be normalized to 1
+% The energy of the doppler filter needs to be normalized to 1
 h_ds=impz(b_ds, a_ds);
 E_hds=sum(h_ds.^2);
 b_ds=b_ds/sqrt(E_hds);
@@ -108,13 +108,13 @@ w_welch=window(@hamming,D);
 %w_welch=kaiser(D,8);
 
 [Welch_P, Ns] = welchPSD(h', w_welch, S);
-%Welch_P=Welch_P/Nsamples;
+Welch_P=Welch_P/Nsamples;
 f=1/Tc:1/Tc:Nsamples;
 Welch_centered=fftshift(Welch_P);
 figure,
 plot(10*log10(Welch_centered))
-ylim([-5 35])
-%ylim([-40 -15])
+%ylim([-5 35])
+ylim([-55 -15])
 xlim([Nsamples/2-5*Nsamples*fd Nsamples/2+5*Nsamples*fd])
 xticks([39850 39900 39950 40000 40050 40100 40150])
 xticklabels({'-150','-100','-50','0','50','100','150'});

@@ -1,13 +1,13 @@
 clc; close all; clear global; clearvars;
 
 %% COMPUTE r(k)
-Lvect=[7 15 31 63 127];
+Lvect=[7 15 31 63 127 255];
 Nlim=20;
 %additive noise
 sigdB=-8;
 sigmaw=10^(sigdB/10);
 
-load('Noise_try.mat','w')
+load('Noise_good2.mat','w')
 sw_collectLS=zeros(Nlim,1);
 
 for n=1:length(Lvect)
