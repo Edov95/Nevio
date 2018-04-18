@@ -2,20 +2,19 @@ clc; close all; clear global; clearvars;
 
 %% COMPUTE r(k)
 Lvect=[7 15 31 63 127];
-N=20;
-Nstart=2;
+Nlim=20;
 %additive noise
 sigdB=-8;
 sigmaw=10^(sigdB/10);
 
 load('Noise_try.mat','w')
-sw_collectLS=zeros(N,1);
+sw_collectLS=zeros(Nlim,1);
 
 for n=1:length(Lvect)
     
     L=Lvect(n);
     
-    for Ncurrent=1:N
+    for Ncurrent=1:Nlim
         
         %PN sequence
         x=[PN(L); PN(L)];
@@ -26,7 +25,6 @@ for n=1:length(Lvect)
             end
         end
         
-        %filter polyphase components
         a1=-0.9635;
         a2=0.4642;
         h=impz(1, [1 a1 a2]);
