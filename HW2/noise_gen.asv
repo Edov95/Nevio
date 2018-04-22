@@ -1,8 +1,0 @@
-clc; close all; clear global; clearvars;
-%generates white noise with variance -8dB, 1 million samples 
-sigdB=-8;
-sigdBhalf=10^(-);
-sigmaw=10^(sigdB/10);
-w = wgn(10000,1,sigdB,'real'); 
-whalf=wgn(10000,1,);
-save('Noise_try','w')
