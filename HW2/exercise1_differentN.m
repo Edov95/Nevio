@@ -111,5 +111,5 @@ for n=1:length(Lvect)
 end
 SWcorr=SWcorr(2:end,:);
 SWls=SWls(2:end,:);
-% save('swCORR.mat','SWcorr')
-% save('swLS.mat','SWls')
+save('swCORR.mat','SWcorr')
+save('swLS.mat','SWls')
