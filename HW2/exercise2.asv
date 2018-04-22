@@ -25,10 +25,8 @@ Hds2=(1/Npoints)*abs(Hds).^2;
 % Hds=fft(h_ds, Npoints);
 % Hds2=abs(Hds).^2;
 D_f=fftshift(Hds2);
-figure, plot((f/(2*pi))-0.5, D_f)
-ylabel('|H_{ds}|^2')
-xlim([-0.5 0.5])
-xlabel('Normalized frequency (over Tp)')
+figure, plot(f/(2*pi), D_f)
+title('Doppler spectrum')
 %normalize the power of h0.
 Md=1-C^2;
 
@@ -38,7 +36,6 @@ pvec=abs(roots(a_ds));
 pmax=max(pvec);
 Neq=ceil(-1/log(pmax));
 transient=5*Tp*Neq;
-%transient=length(h_ds)*Tp;
 
 h_nsamples=Nsamples+transient;
 w_samples=ceil(h_nsamples/Tp);
@@ -46,7 +43,7 @@ w_samples=ceil(h_nsamples/Tp);
 w=wgn(w_samples,1,0,'complex');
 
 h_full=filter(b_ds, a_ds, w);
-figure, stem(impz(b_ds,a_ds),'.'), ylabel('|h_{ds}|'), xlabel('nT_p'), xlim([0 150])
+figure, plot(impz(b_ds,a_ds)), ylabel('|h_{ds}|')
 
 %interpolation to Tq
 t = 1:length(h_full);
@@ -95,13 +92,13 @@ th=ricepdf(x,v_th,s_th );
 figure
 %plot(x,est,'r'), hold on, plot(x,th,'b')
 Nbins=17;
-histogram(mag_h, Nbins,'Normalization','pdf','DisplayStyle','stairs'), hold on, plot(x,th,'r-.'),% hold on, plot(x,est,'k'),
-% plot(x,est,'r-.'), hold on, plot(x,th,'k--'),
-% legend('ML estimate','theoretical pdf')
+%histogram(mag_h, Nbins,'Normalization','pdf','DisplayStyle','stairs'), hold on, plot(x,th,'r-.')%, hold on, plot(x,est,'k'),
+plot(x,est,'r-.'), hold on, plot(x,th,'k--'),
+legend('ML estimate','theoretical pdf')
 title('Estimate of the pdf of h_0')
 ylabel('f_x(a)')
 xlabel('a')
-legend('Histogram','theoretical pdf','Estimated pdf')
+%legend('Histogram','theoretical pdf','Estimated pdf')
 
 %% SPECTRUM ESTIMATION
 
@@ -121,7 +118,7 @@ figure,
 freq1=[-Nsamples/2+1:Nsamples/2];
 freq2=[-Npoints/2+1:Npoints/2];
 % freq2=[-1/Tp:1/Tp:1/Tp];
-plot(freq1, 10*log10(Welch_centered)) , hold on, plot(freq2, 10*log10(Md*D_f),'r')
+plot(freq1, 10*log10(Welch_centered)) , hold on, plot(freq2, 10*log10(sqrt(Md)*D_f),'r')
 
 ylim([-45 -10])
 %ylim([-55 -15])

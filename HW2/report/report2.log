@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  19 APR 2018 16:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  22 APR 2018 14:47
 entering extended mode
 **./report2.tex
 (report2.tex
@@ -181,6 +181,63 @@ Package: booktabs 2005/04/14 v1.61803 publication quality tables
 \@lastruleclass=\count104
 \@thisrulewidth=\dimen128
 )
+("C:\Program Files\MiKTeX 2.9\tex\latex\bbold\bbold.sty"
+Package: bbold 1994/04/06 Bbold symbol package
+LaTeX Font Info:    Redeclaring math alphabet \mathbb on input line 42.
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\mathtools\mathtools.sty"
+Package: mathtools 2018/01/08 v1.21 mathematical typesetting tools
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\calc.sty"
+Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count105
+\calc@Bcount=\count106
+\calc@Adimen=\dimen129
+\calc@Bdimen=\dimen130
+\calc@Askip=\skip48
+\calc@Bskip=\skip49
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count107
+\calc@Cskip=\skip50
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\mathtools\mhsetup.sty"
+Package: mhsetup 2017/03/31 v1.3 programming setup (MH)
+)
+LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
+\g_MT_multlinerow_int=\count108
+\l_MT_multwidth_dim=\dimen131
+\origjot=\skip51
+\l_MT_shortvdotswithinadjustabove_dim=\dimen132
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen133
+\l_MT_above_intertext_sep=\dimen134
+\l_MT_below_intertext_sep=\dimen135
+\l_MT_above_shortintertext_sep=\dimen136
+\l_MT_below_shortintertext_sep=\dimen137
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\jknappen\mathrsfs.sty"
+Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
+\symrsfs=\mathgroup6
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\enumitem\enumitem.sty"
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip52
+\enit@outerparindent=\dimen138
+\enit@toks=\toks22
+\enit@inbox=\box28
+\enitdp@description=\count109
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\array.sty"
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen139
+\extrarowheight=\dimen140
+\NC@list=\toks23
+\extratabsurround=\skip53
+\backup@length=\skip54
+)
 
 LaTeX Warning: Unused global option(s):
     [11.5pt].
@@ -188,31 +245,31 @@ LaTeX Warning: Unused global option(s):
 (report2.aux)
 \openout1 = `report2.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
  ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count105
-\scratchdimen=\dimen129
-\scratchbox=\box28
-\nofMPsegments=\count106
-\nofMParguments=\count107
-\everyMPshowfont=\toks22
-\MPscratchCnt=\count108
-\MPscratchDim=\dimen130
-\MPnumerator=\count109
-\makeMPintoPDFobject=\count110
-\everyMPtoPDFconversion=\toks23
+\scratchcounter=\count110
+\scratchdimen=\dimen141
+\scratchbox=\box29
+\nofMPsegments=\count111
+\nofMParguments=\count112
+\everyMPshowfont=\toks24
+\MPscratchCnt=\count113
+\MPscratchDim=\dimen142
+\MPnumerator=\count114
+\makeMPintoPDFobject=\count115
+\everyMPtoPDFconversion=\toks25
 ) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -265,85 +322,168 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 23.
+LaTeX Font Info:    Try loading font information for U+msa on input line 28.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 23.
+LaTeX Font Info:    Try loading font information for U+msb on input line 28.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 28.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\jknappen\ursfs.fd"
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 ) [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
 <figs/systemID.png, id=17, 426.99525pt x 195.73125pt>
 File: figs/systemID.png Graphic file (type png)
 <use figs/systemID.png>
-Package pdftex.def Info: figs/systemID.png  used on input line 53. on input lin
-e 53.
+Package pdftex.def Info: figs/systemID.png  used on input line 58. on input lin
+e 58.
 Package pdftex.def Info: Requested size: 284.52756pt x 130.43141pt on input lin
-e 53.
- [2 <./figs/systemID.png>]
-<figs/corrN5L31.png, id=23, 526.96875pt x 395.22656pt>
-File: figs/corrN5L31.png Graphic file (type png)
-<use figs/corrN5L31.png>
-Package pdftex.def Info: figs/corrN5L31.png  used on input line 107. on input l
-ine 107.
-Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
-e 107.
-<figs/lsN5L31.png, id=24, 526.96875pt x 395.22656pt>
-File: figs/lsN5L31.png Graphic file (type png)
-<use figs/lsN5L31.png>
-Package pdftex.def Info: figs/lsN5L31.png  used on input line 108. on input lin
-e 108.
-Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
-e 108.
-<figs/L-N-choice.png, id=25, 1445.4pt x 704.6325pt>
+e 58.
+ [2 <./figs/systemID.png>] [3]
+<figs/L-N-choice.png, id=34, 1445.4pt x 704.6325pt>
 File: figs/L-N-choice.png Graphic file (type png)
 <use figs/L-N-choice.png>
-Package pdftex.def Info: figs/L-N-choice.png  used on input line 116. on input 
-line 116.
+Package pdftex.def Info: figs/L-N-choice.png  used on input line 112. on input 
+line 112.
 Package pdftex.def Info: Requested size: 345.0pt x 168.17984pt on input line 11
-6.
-<figs/estimate-pdf.png, id=26, 1445.4pt x 704.6325pt>
-File: figs/estimate-pdf.png Graphic file (type png)
-<use figs/estimate-pdf.png>
-Package pdftex.def Info: figs/estimate-pdf.png  used on input line 125. on inpu
-t line 125.
-Package pdftex.def Info: Requested size: 345.0pt x 168.17984pt on input line 12
-5.
- [3] [4 <./figs/corrN5L31.png (PNG copy)> <./figs/lsN5L31.png (PNG copy)> <./fi
-gs/L-N-choice.png (PNG copy)>] [5 <./figs/estimate-pdf.png (PNG copy)>] (report
-2.aux) ) 
+2.
+<figs/corrN5L31.png, id=35, 526.96875pt x 395.22656pt>
+File: figs/corrN5L31.png Graphic file (type png)
+<use figs/corrN5L31.png>
+Package pdftex.def Info: figs/corrN5L31.png  used on input line 149. on input l
+ine 149.
+Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
+e 149.
+<figs/lsN5L31.png, id=36, 526.96875pt x 395.22656pt>
+File: figs/lsN5L31.png Graphic file (type png)
+<use figs/lsN5L31.png>
+Package pdftex.def Info: figs/lsN5L31.png  used on input line 150. on input lin
+e 150.
+Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
+e 150.
+<figs/ch-sim.png, id=37, 581.7735pt x 168.02776pt>
+File: figs/ch-sim.png Graphic file (type png)
+<use figs/ch-sim.png>
+Package pdftex.def Info: figs/ch-sim.png  used on input line 163. on input line
+ 163.
+Package pdftex.def Info: Requested size: 284.52756pt x 82.17792pt on input line
+ 163.
+ [4 <./figs/L-N-choice.png (PNG copy)>]
+LaTeX Font Info:    Try loading font information for U+bbold on input line 180.
+
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\jknappen\ubbold.fd"
+File: ubbold.fd 1996/01/01 Blackboard Bold Font Definition File (jk)
+) [5 <./figs/corrN5L31.png (PNG copy)> <./figs/lsN5L31.png (PNG copy)>]
+
+LaTeX Warning: Citation `ananas' on page 6 undefined on input line 187.
+
+<figs/hds.png, id=46, 526.96875pt x 395.22656pt>
+File: figs/hds.png Graphic file (type png)
+<use figs/hds.png>
+Package pdftex.def Info: figs/hds.png  used on input line 191. on input line 19
+1.
+Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
+e 191.
+<figs/dpspec.png, id=47, 526.96875pt x 395.22656pt>
+File: figs/dpspec.png Graphic file (type png)
+<use figs/dpspec.png>
+Package pdftex.def Info: figs/dpspec.png  used on input line 192. on input line
+ 192.
+Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
+e 192.
+[6 <./figs/ch-sim.png> <./figs/hds.png (PNG copy)> <./figs/dpspec.png (PNG copy
+)>]
+<figs/imp-resp.png, id=52, 526.96875pt x 395.22656pt>
+File: figs/imp-resp.png Graphic file (type png)
+<use figs/imp-resp.png>
+Package pdftex.def Info: figs/imp-resp.png  used on input line 202. on input li
+ne 202.
+Package pdftex.def Info: Requested size: 284.52756pt x 213.40709pt on input lin
+e 202.
+
+
+LaTeX Warning: Reference `fig:histML' on page 7 undefined on input line 210.
+
+
+LaTeX Warning: Citation `rice' on page 7 undefined on input line 210.
+
+<figs/hist-pdf.png, id=53, 526.96875pt x 395.22656pt>
+File: figs/hist-pdf.png Graphic file (type png)
+<use figs/hist-pdf.png>
+Package pdftex.def Info: figs/hist-pdf.png  used on input line 214. on input li
+ne 214.
+Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
+e 214.
+<figs/ML-est.png, id=54, 526.96875pt x 395.22656pt>
+File: figs/ML-est.png Graphic file (type png)
+<use figs/ML-est.png>
+Package pdftex.def Info: figs/ML-est.png  used on input line 215. on input line
+ 215.
+Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
+e 215.
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--224
+
+ []
+
+[7 <./figs/imp-resp.png (PNG copy)>]
+<figs/PSD-est.png, id=59, 526.96875pt x 395.22656pt>
+File: figs/PSD-est.png Graphic file (type png)
+<use figs/PSD-est.png>
+Package pdftex.def Info: figs/PSD-est.png  used on input line 228. on input lin
+e 228.
+Package pdftex.def Info: Requested size: 284.52756pt x 213.40709pt on input lin
+e 228.
+ [8 <./figs/hist-pdf.png (PNG copy)> <./figs/ML-est.png (PNG copy)> <./figs/PSD
+-est.png (PNG copy)>] [9] (report2.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 3044 strings out of 493312
- 39990 string characters out of 3138900
- 109489 words of memory out of 3000000
- 6511 multiletter control sequences out of 15000+200000
- 18041 words of font info for 56 fonts, out of 3000000 for 9000
+ 4013 strings out of 493312
+ 56809 string characters out of 3138900
+ 129379 words of memory out of 3000000
+ 7433 multiletter control sequences out of 15000+200000
+ 22665 words of font info for 69 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,8n,25p,1158b,266s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\d
-pi600\ecbx1200.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jkn
-appen\ec\dpi600\ecti1000.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\
-ljfour\jknappen\ec\dpi600\ecrm1000.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9
-\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk> <C:\Users\jacop\AppData\Local\
-MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\jacop\AppD
-ata\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1728.pk><C:/Program
- Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Program Files/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
-fonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
-cmmib10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.p
-fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Pro
-gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Fil
-es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on report2.pdf (5 pages, 328296 bytes).
+ 41i,10n,25p,1769b,277s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\
+ecbx1000.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\public\bb
+old\dpi600\bbold10.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour
+\jknappen\ec\dpi600\ecrm0800.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts
+\pk\ljfour\jknappen\ec\dpi600\ecrm0600.pk> <C:\Users\jacop\AppData\Local\MiKTeX
+\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm0700.pk> <C:\Users\jacop\AppData\Lo
+cal\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk> <C:\Users\jacop\
+AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1000.pk> <C:\Us
+ers\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1000.
+pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600
+\ecbx1440.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen
+\ec\dpi600\ecrm1200.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfou
+r\jknappen\ec\dpi600\ecrm1728.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmbsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+mex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pf
+b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
+fonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+mr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on report2.pdf (9 pages, 500660 bytes).
 PDF statistics:
- 253 PDF objects out of 1000 (max. 8388607)
+ 352 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,14 +1,14 @@
 clc; close all; clear global; clearvars;
 
 %% COMPUTE r(k)
-L=127;
-Ncurrent=7;
+L=31;
+Ncurrent=5;
 
 %additive noise
 sigdB=-8;
 sigmaw=10^(sigdB/10);
 
-load('Noise_try.mat','w')
+load('Noise_good2.mat','w')
 
 
 %PN sequence
@@ -67,37 +67,38 @@ end
 %estimate of sigmaw
 delta_dCORR=d_true-d_hatCORR;
 Epsilon_minCORR=sum(delta_dCORR(L:2*L-1).^2);
-sw_hatCORR_dB=10*log10(Epsilon_minCORR/L);
 %sw_hatCORR_dB=10*log10((var(h0_corr)+var(h1_corr))/(2*L));
+
+%Epsilon_minCORR=(1/(2*L))*();
 
 
 %% LS
 %the receiver knows only x(k) and the output d_true
 
-[h0_ls, h1_ls, r0_ls, r1_ls] = LSest(x, r_even, r_odd, Ncurrent);
-
-%total estimated impulse response
-h_ls=zeros(Ncurrent,1);
-for i=1:length(h0_ls)
-    h_ls(2*i-1)=h0_ls(i);
-end
-for i=1:length(h1_ls)
-    h_ls(2*i)=h1_ls(i);
-end
-figure, stem(0:Ncurrent-1, h_ls), hold on,
-stem(0:length(h)-1,h,'r*'), title(['LS method N=' int2str(Ncurrent),', L=' int2str(L)]), xlabel('nT_y'), ylim([-0.5 1.2]), xlim([-2 20])
-legend('h_{est-LS}','h_{analytic}')
-
-%estimate of sigmaw
-d_hatLS=zeros(length(d_true),1);
-%P/S converter
-for i=1:2*L
-    d_hatLS(2*i-1)=r0_ls(i);
-    d_hatLS(2*i)=r1_ls(i); 
-end
-delta_dLS=d_true-d_hatLS;
-Epsilon_minLS=sum(delta_dLS(L:2*L-1).^2);
-sw_hatLS_dB=10*log10(Epsilon_minLS/L);
-
+% [h0_ls, h1_ls, r0_ls, r1_ls,Emin0, Emin1] = LSest(x, r_even, r_odd, Ncurrent);
+% 
+% %total estimated impulse response
+% h_ls=zeros(Ncurrent,1);
+% for i=1:length(h0_ls)
+%     h_ls(2*i-1)=h0_ls(i);
+% end
+% for i=1:length(h1_ls)
+%     h_ls(2*i)=h1_ls(i);
+% end
+% figure, stem(0:Ncurrent-1, h_ls), hold on,
+% stem(0:length(h)-1,h,'r*'), title(['LS method N=' int2str(Ncurrent),', L=' int2str(L)]), xlabel('nT_y'), ylim([-0.5 1.2]), xlim([-2 20])
+% legend('h_{est-LS}','h_{analytic}')
+% 
+% %estimate of sigmaw
+% % d_hatLS=zeros(length(d_true),1);
+% % %P/S converter
+% % for i=1:2*L
+% %     d_hatLS(2*i-1)=r0_ls(i);
+% %     d_hatLS(2*i)=r1_ls(i); 
+% % end
+% % delta_dLS=d_true-d_hatLS;
+% % Epsilon_minLS=sum(delta_dLS(L:2*L-1).^2);
+% % sw_hatLS_dB=10*log10(Epsilon_minLS/L);
+% 
 % Emin=(1/2)*(Emin0+Emin1);
 % sw_hatLS_dB=10*log10(Emin/L);
