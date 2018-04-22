@@ -61,7 +61,7 @@ The correlation method is based on the schema represented in figure \ref{fig:sys
 	\end{center}
 \end{figure} 
 
-\noindent The impulse response to be estimated is approximately equal to the correlation between the input sequence and the output of the unknown system (after the addition of the noise). I formulas:
+\noindent The impulse response to be estimated is approximately equal to the correlation between the input sequence and the output of the unknown system (after the addition of the noise). The formula is:
 \begin{equation} \label{eq:corr}
 \hat{r}_{rx}(m)= \frac{1}{L} \sum_{k=L-1}^{2L-2}r(k)p^*(k-m)
 \end{equation}
@@ -184,7 +184,7 @@ p_{|\bar{h}_0|}(a)=2(1+K)ae^{-K-(1+K)a^2}I_0[2a\sqrt{K(1+K)}] \mathbb{1}(a)
 \subsection*{Simulation}
 
 
-We start by assuming $T_c=1$. Following the schema in figure \ref{fig:ch-sim}, we generate a white noise with variance equal to 1 $\bar{w}_i(lT_p)$, defined of a sampling period $T_p$ bigger than $T_c$ such that $f_dT_p=0.1$ so $T_p=250$. This is necessary for the second step of the simulation, where we need to filter the white r.p. with an impulse response $h_{ds}$ given by the coefficients reported in \cite{ananas} to give it the shape of a classical Doppler spectrum (see figure \ref{fig:Ddoppler}). Indeed a convolution between $h_ds$ that has frequency content in the interval $[-f_d,f_d]$ and a process defined on $T_c$ would be practically non-feasible. It's important to recall that before filtering the coefficients must be normalized by the energy of the filter itself, to avoid unwanted modifications to the power of the r.p.. To go back to the original sampling time $T_c$ we used an interpolator filter for which we choose to use the spline interpolation method by a factor equal to $\frac{T_p}{T_c}=250$. 
+We start by assuming $T_c=1$. Following the schema in figure \ref{fig:ch-sim}, we generate a white noise with variance equal to 1 $\bar{w}_i(lT_p)$, defined of a sampling period $T_p$ bigger than $T_c$ such that $f_dT_p=0.1$ so $T_p=250$. This is necessary for the second step of the simulation, where we need to filter the white r.p. with an impulse response $h_{ds}$ given by the coefficients reported in \cite{ananas} to give it the shape of a classical Doppler spectrum (see figure \ref{fig:Ddoppler}). Indeed a convolution between $h_{ds}$ that has frequency content in the interval $[-f_d,f_d]$ and a process defined on $T_c$ would be practically non-feasible. It's important to recall that before filtering the coefficients must be normalized by the energy of the filter itself, to avoid unwanted modifications to the power of the r.p.. To go back to the original sampling time $T_c$ we used an interpolator filter for which we choose to use the spline interpolation method by a factor equal to $\frac{T_p}{T_c}=250$. 
 
 \begin{figure}[ht]
 	\begin{center}   
@@ -207,7 +207,7 @@ We start by assuming $T_c=1$. Following the schema in figure \ref{fig:ch-sim}, w
 
 \subsection*{Estimation of the pdf}
 
-For the estimation of the pdf we used a vector of 80000 samples, removing an initial transient as described above. The resulting distribution should be a Rice distribution with parameter $K=1.5849$ in linear scale. In figure \ref{fig:histML} on the left we can see the results of an estimation with a histogram with 17 bins over the 80000 samples, plotted along the theoretical curve of the distribution. The estimate is enough accurate and follows quite well the asymptotic distribution. To give more quantitative results we also tried an estimate of the parameter $K$ using a Matlab function for the estimation of Rice distributions that uses a simple moment-matching approach \cite{rice}. The result on the same 80000 samples as in the histogram proves that the realization is very close to the theoretical result because the vale of $K$ obtained is $\hat{K}=1.5838$ that is almost equal to the real one as we can see again from figure \ref{fig:histest} on the right.
+For the estimation of the pdf we used a vector of 80000 samples, removing an initial transient as described above. The resulting distribution should be a Rice distribution with parameter $K=1.5849$ in linear scale. In figure \ref{fig:histest} on the left we can see the results of an estimation with a histogram with 17 bins over the 80000 samples, plotted along the theoretical curve of the distribution. The estimate is enough accurate and follows quite well the asymptotic distribution. To give more quantitative results we also tried an estimate of the parameter $K$ using a Matlab function for the estimation of Rice distributions that uses a simple moment-matching approach \cite{rice}. The result on the same 80000 samples as in the histogram proves that the realization is very close to the theoretical result because the vale of $K$ obtained is $\hat{K}=1.5838$ that is almost equal to the real one as we can see again from figure \ref{fig:histest} on the right.
 
 \begin{figure}[ht]
 	\begin{center}    
@@ -249,6 +249,18 @@ where ${\mathcal{P}}_{PER}^{(s)}(f)$ is the periodogram computed for $h_0^{(s)}$
 	Nevio Benvenuto, Giovanni Cherubini,
 	\textit{Algorithms for Communication Systems and their Applications}. 
 	Wiley, 2002.
+	
+	\bibitem{ananas}
+	A. Anastasopoulos and K. M. Chugg, 
+	\textit{"An efficient method for simulation of frequency selective isotropic Rayleigh fading,"}
+	1997 IEEE 47th Vehicular Technology Conference. Technology in Motion, Phoenix, AZ, 1997, pp. 2084-2088 vol.3.
+	
+	\bibitem{rice}
+	Ged Ridgway,
+	\textit{Rice/Rician distribution,}\\
+	https://it.mathworks.com/matlabcentral/fileexchange/14237-rice-rician-distribution
+	
+	
 \end{thebibliography}
 
 \end{document}
