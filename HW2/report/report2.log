@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  23 APR 2018 11:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  23 APR 2018 16:21
 entering extended mode
 **./report2.tex
 (report2.tex
@@ -354,50 +354,49 @@ Package pdftex.def Info: figs/L-N-choice.png  used on input line 112. on input
 line 112.
 Package pdftex.def Info: Requested size: 345.0pt x 168.17984pt on input line 11
 2.
-<figs/corrN5L31.png, id=35, 526.96875pt x 395.22656pt>
+ [4 <./figs/L-N-choice.png (PNG copy)>]
+<figs/corrN5L31.png, id=38, 526.96875pt x 395.22656pt>
 File: figs/corrN5L31.png Graphic file (type png)
 <use figs/corrN5L31.png>
 Package pdftex.def Info: figs/corrN5L31.png  used on input line 149. on input l
 ine 149.
 Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
 e 149.
-<figs/lsN5L31.png, id=36, 526.96875pt x 395.22656pt>
+<figs/lsN5L31.png, id=39, 526.96875pt x 395.22656pt>
 File: figs/lsN5L31.png Graphic file (type png)
 <use figs/lsN5L31.png>
 Package pdftex.def Info: figs/lsN5L31.png  used on input line 150. on input lin
 e 150.
 Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
 e 150.
-<figs/ch-sim.png, id=37, 581.7735pt x 168.02776pt>
+<figs/ch-sim.png, id=40, 581.7735pt x 168.02776pt>
 File: figs/ch-sim.png Graphic file (type png)
 <use figs/ch-sim.png>
 Package pdftex.def Info: figs/ch-sim.png  used on input line 163. on input line
  163.
 Package pdftex.def Info: Requested size: 284.52756pt x 82.17792pt on input line
  163.
- [4 <./figs/L-N-choice.png (PNG copy)>]
 LaTeX Font Info:    Try loading font information for U+bbold on input line 180.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\jknappen\ubbold.fd"
 File: ubbold.fd 1996/01/01 Blackboard Bold Font Definition File (jk)
 ) [5 <./figs/corrN5L31.png (PNG copy)> <./figs/lsN5L31.png (PNG copy)>]
-<figs/hds.png, id=46, 526.96875pt x 395.22656pt>
+<figs/hds.png, id=45, 526.96875pt x 395.22656pt>
 File: figs/hds.png Graphic file (type png)
 <use figs/hds.png>
 Package pdftex.def Info: figs/hds.png  used on input line 191. on input line 19
 1.
 Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
 e 191.
-<figs/dpspec.png, id=47, 526.96875pt x 395.22656pt>
+<figs/dpspec.png, id=46, 526.96875pt x 395.22656pt>
 File: figs/dpspec.png Graphic file (type png)
 <use figs/dpspec.png>
 Package pdftex.def Info: figs/dpspec.png  used on input line 192. on input line
  192.
 Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
 e 192.
- [6 <./figs/ch-sim.png> <./figs/hds.png (PNG copy)> <./figs/dpspec.png (PNG cop
-y)>]
+ [6 <./figs/ch-sim.png>]
 <figs/imp-resp.png, id=51, 526.96875pt x 395.22656pt>
 File: figs/imp-resp.png Graphic file (type png)
 <use figs/imp-resp.png>
@@ -405,14 +404,17 @@ Package pdftex.def Info: figs/imp-resp.png  used on input line 202. on input li
 ne 202.
 Package pdftex.def Info: Requested size: 284.52756pt x 213.40709pt on input lin
 e 202.
-<figs/hist-pdf.png, id=52, 526.96875pt x 395.22656pt>
+
+[7 <./figs/hds.png (PNG copy)> <./figs/dpspec.png (PNG copy)> <./figs/imp-resp.
+png (PNG copy)>]
+<figs/hist-pdf.png, id=56, 526.96875pt x 395.22656pt>
 File: figs/hist-pdf.png Graphic file (type png)
 <use figs/hist-pdf.png>
 Package pdftex.def Info: figs/hist-pdf.png  used on input line 214. on input li
 ne 214.
 Package pdftex.def Info: Requested size: 170.71652pt x 128.03702pt on input lin
 e 214.
-<figs/ML-est.png, id=53, 526.96875pt x 395.22656pt>
+<figs/ML-est.png, id=57, 526.96875pt x 395.22656pt>
 File: figs/ML-est.png Graphic file (type png)
 <use figs/ML-est.png>
 Package pdftex.def Info: figs/ML-est.png  used on input line 215. on input line
@@ -424,7 +426,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 223--224
 
  []
 
-[7 <./figs/imp-resp.png (PNG copy)>]
 <figs/PSD-est.png, id=58, 526.96875pt x 395.22656pt>
 File: figs/PSD-est.png Graphic file (type png)
 <use figs/PSD-est.png>
@@ -432,14 +433,13 @@ Package pdftex.def Info: figs/PSD-est.png  used on input line 228. on input lin
 e 228.
 Package pdftex.def Info: Requested size: 284.52756pt x 213.40709pt on input lin
 e 228.
- [8 <./figs/hist-pdf.png (PNG copy)> <./figs/ML-est.png (PNG copy)> <./figs/PSD
--est.png (PNG copy)>]
+[8 <./figs/hist-pdf.png (PNG copy)> <./figs/ML-est.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 260--263
 \T1/cmr/m/n/10 https://it.mathworks.com/matlabcentral/fileexchange/14237-rice-r
 ician-
  []
 
-[9] (report2.aux) ) 
+[9 <./figs/PSD-est.png (PNG copy)>] (report2.aux) ) 
 Here is how much of TeX's memory you used:
  4010 strings out of 493312
  56775 string characters out of 3138900
@@ -447,32 +447,33 @@ Here is how much of TeX's memory you used:
  7431 multiletter control sequences out of 15000+200000
  21889 words of font info for 68 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,10n,25p,1769b,277s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\pu
-blic\bbold\dpi600\bbold10.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk
-\ljfour\jknappen\ec\dpi600\ecrm0800.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.
-9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm0600.pk> <C:\Users\jacop\AppData\Local
-\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm0700.pk> <C:\Users\jacop\App
-Data\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk> <C:\Users
-\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1000.pk>
- <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ec
-rm1000.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec
-\dpi600\ecbx1440.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\j
-knappen\ec\dpi600\ecrm1200.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\p
-k\ljfour\jknappen\ec\dpi600\ecrm1728.pk><C:/Program Files/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmbsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
-mi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb>
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Progr
-am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Program Files/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
-10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on report2.pdf (9 pages, 503304 bytes).
+ 41i,10n,25p,1898b,277s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\jacop\AppData\Loc
+al\MiKTeX\2.9\fonts\pk\ljfour\public\bbold\dpi600\bbold10.pk> <C:\Users\jacop\A
+ppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm0800.pk> <C:\Use
+rs\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm0600.p
+k> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\
+ecrm0700.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\
+ec\dpi600\ecbx1200.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour
+\jknappen\ec\dpi600\ecti1000.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts
+\pk\ljfour\jknappen\ec\dpi600\ecrm1000.pk> <C:\Users\jacop\AppData\Local\MiKTeX
+\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk> <C:\Users\jacop\AppData\Lo
+cal\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\jacop\
+AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1728.pk><C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib
+10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C
+:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program 
+Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmsy7.pfb>
+Output written on report2.pdf (9 pages, 503842 bytes).
 PDF statistics:
  356 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

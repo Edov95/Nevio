@@ -1,8 +1,8 @@
 clc; close all; clear global; clearvars;
 
 %% COMPUTE r(k)
-L=127;
-Ncurrent=7;
+L=31;
+Ncurrent=9;
 
 %additive noise
 sigdB=-8;

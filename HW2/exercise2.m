@@ -94,13 +94,13 @@ th=ricepdf(x,v_th,s_th );
 figure
 %plot(x,est,'r'), hold on, plot(x,th,'b')
 Nbins=17;
-histogram(mag_h, Nbins,'Normalization','pdf','DisplayStyle','stairs'), hold on, plot(x,th,'r-.'),% hold on, plot(x,est,'k'),
-% plot(x,est,'r-.'), hold on, plot(x,th,'k--'),
-% legend('ML estimate','theoretical pdf')
+%histogram(mag_h, Nbins,'Normalization','pdf','DisplayStyle','stairs'), hold on, plot(x,th,'r-.'),% hold on, plot(x,est,'k'),
+plot(x,est,'r-.'), hold on, plot(x,th,'k--'),
+legend('pdf with K_{est}','theoretical pdf')
 title('Estimate of the pdf of h_0')
 ylabel('f_x(a)')
 xlabel('a')
-legend('Histogram','theoretical pdf','Estimated pdf')
+%legend('Histogram','theoretical pdf','Estimated pdf')
 
 %% SPECTRUM ESTIMATION
 
