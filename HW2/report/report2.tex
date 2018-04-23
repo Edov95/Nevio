@@ -240,11 +240,12 @@ The Welch periodogram is computed as
 \mathcal{P}_{WE}(f) = \frac{1}{N_s}\sum_{s=0}^{N_s-1}{\mathcal{P}}_{PER}^{(s)}(f)
 \end{equation}
 
-where ${\mathcal{P}}_{PER}^{(s)}(f)$ is the periodogram computed for $h_0^{(s)}$ using a window of length $D$. We chose an Hamming window. The result of the estimate can be seen in figure \ref{fig:PSD}, plotted along the theoretical curve obtained by considering a classical Doppler spectrum shape scaled by the power of $h_0$. Note that as we normalized the power of $h_0$ at the beginning, we don't need the normalization now to plot the results. The estimate seems to be pretty accurate, aside from some variance in the central region of the curve we are able to clearly see the side peaks of the classical Doppler spectrum.
+where ${\mathcal{P}}_{PER}^{(s)}(f)$ is the periodogram computed for $h_0^{(s)}$ using a window of length $D$. We chose an Hamming window. The result of the estimate can be seen in figure \ref{fig:PSD}, plotted along the theoretical curve obtained by considering a classical Doppler spectrum shape scaled by the power of $h_0$ with an added peak at frequency 0 due to the transform of the autocorrelation of the constant component $C$. Note that as we normalized the power of $h_0$ at the beginning, we don't need the normalization now to plot the results. The estimate seems to be pretty accurate, aside from some variance in the central region of the curve and from the amplitude of the peak due to the LOS component C that is underestimated. Nevertheless the shape of the PSD can be correctly guessed as we clearly see the Doppler spectrum effect.
 
 
 
 \begin{thebibliography}{15}
+	
 	\bibitem{nevio<3}
 	Nevio Benvenuto, Giovanni Cherubini,
 	\textit{Algorithms for Communication Systems and their Applications}. 
@@ -252,8 +253,8 @@ where ${\mathcal{P}}_{PER}^{(s)}(f)$ is the periodogram computed for $h_0^{(s)}$
 	
 	\bibitem{ananas}
 	A. Anastasopoulos and K. M. Chugg, 
-	\textit{"An efficient method for simulation of frequency selective isotropic Rayleigh fading,"}
-	1997 IEEE 47th Vehicular Technology Conference. Technology in Motion, Phoenix, AZ, 1997, pp. 2084-2088 vol.3.
+	\textit{An efficient method for simulation of frequency selective isotropic Rayleigh fading},
+	IEEE 47th Vehicular Technology Conference. Technology in Motion, Phoenix, AZ, pp. 2084-2088 vol.3., 1997.
 	
 	\bibitem{rice}
 	Ged Ridgway,

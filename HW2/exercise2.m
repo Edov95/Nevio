@@ -6,7 +6,6 @@ fd=(40*10^-5)/Tc;
 Tp=1/10*(1/fd); 
 Nsamples=80000;
 hplot_samples=7500;
-
 KdB=2;
 K=10^(KdB/10); 
 C=sqrt(K/(K+1)); 
@@ -19,7 +18,7 @@ b_ds=[1.3651e-4, 8.1905e-4, 2.0476e-3, 2.7302e-3, 2.0476e-3, 9.0939e-4, 6.7852e-
 h_ds=impz(b_ds, a_ds);
 E_hds=sum(h_ds.^2);
 b_ds=b_ds/sqrt(E_hds);
-Npoints=Nsamples*1/Tp;
+Npoints=Nsamples/Tp;
 [Hds, f]=freqz(b_ds,a_ds,Npoints,'whole');
 Hds2=(1/Npoints)*abs(Hds).^2;
 % Hds=fft(h_ds, Npoints);
@@ -121,9 +120,12 @@ figure,
 freq1=[-Nsamples/2+1:Nsamples/2];
 freq2=[-Npoints/2+1:Npoints/2];
 % freq2=[-1/Tp:1/Tp:1/Tp];
-plot(freq1, 10*log10(Welch_centered)) , hold on, plot(freq2, 10*log10(Md*D_f),'r')
+peak=10*log10(C^2);
+analytic=10*log10(Md*D_f);
+analytic(length(analytic)/2)=peak;
+plot(freq1, 10*log10(Welch_centered)) , hold on, plot(freq2, analytic,'r')
 
-ylim([-45 -10])
+ylim([-40 0])
 %ylim([-55 -15])
 xlim([-5*Nsamples*fd 5*Nsamples*fd])
 xticks([-160 -128 -96 -64 -32 0 32 64 96 128 160])
