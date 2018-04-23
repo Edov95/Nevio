@@ -24,13 +24,14 @@ for n=1:length(Lvect)
         a1=-0.9635;
         a2=0.4642;
         h=impz(1, [1 a1 a2]);
-        
+        %h=h(1:Ncurrent);
         h_even=h(1:2:end);
         h_odd=h(2:2:end);
 %         if (Ncurrent<L)
 %             h_even=h_even(1:ceil(Ncurrent/2));
 %             h_even=h_even(1:floor(Ncurrent/2));
 %         end
+ 
         wcut=w(1:2*length(x));
         %to save the previous results using the same noise
         w_even=wcut(1:2:end);
