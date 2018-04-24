@@ -11,9 +11,14 @@ K=10^(KdB/10);
 C=sqrt(K/(K+1)); 
 
 %setup of the doppler filter coefficients (page 317)
-a_ds=[1, -4.4153, 8.6283, -9.4592, 6.1051, -1.3542, -3.3622, 7.2390, -7.9361, 5.1221, -1.8401, 2.8706e-1];
-b_ds=[1.3651e-4, 8.1905e-4, 2.0476e-3, 2.7302e-3, 2.0476e-3, 9.0939e-4, 6.7852e-4, 1.3550e-3, 1.8076e-3, 1.3550e-3, 5.3726e-4, 6.1818e-5, -7.1294e-5, ...
-    -9.5058e-5, -7.1294e-5, -2.5505e-5, 1.3321e-5, 4.5186e-5, 6.0248e-5, 4.5186e-5, 1.8074e-5, 3.0124e-6];
+a_ds=[1, -4.4153, 8.6283, -9.4592, 6.1051, ... 
+    -1.3542, -3.3622, 7.2390, -7.9361, 5.1221,...
+    -1.8401, 2.8706e-1];
+b_ds=[1.3651e-4, 8.1905e-4, 2.0476e-3, 2.7302e-3, ...
+2.0476e-3, 9.0939e-4, 6.7852e-4, 1.3550e-3, 1.8076e-3, ...
+1.3550e-3, 5.3726e-4, 6.1818e-5, -7.1294e-5, ...
+    -9.5058e-5, -7.1294e-5, -2.5505e-5, 1.3321e-5, ...
+    4.5186e-5, 6.0248e-5, 4.5186e-5, 1.8074e-5, 3.0124e-6];
 % The energy of the doppler filter needs to be normalized to 1
 h_ds=impz(b_ds, a_ds);
 E_hds=sum(h_ds.^2);
@@ -45,7 +50,8 @@ w_samples=ceil(h_nsamples/Tp);
 w=wgn(w_samples,1,0,'complex');
 
 h_full=filter(b_ds, a_ds, w);
-figure, stem(impz(b_ds,a_ds),'.'), ylabel('|h_{ds}|'), xlabel('nT_p'), xlim([0 150])
+figure, stem(impz(b_ds,a_ds),'.'), ylabel('|h_{ds}|'), ...
+xlabel('nT_p'), xlim([0 150])
 
 %interpolation to Tq
 t = 1:length(h_full);
@@ -94,7 +100,8 @@ th=ricepdf(x,v_th,s_th );
 figure
 %plot(x,est,'r'), hold on, plot(x,th,'b')
 Nbins=17;
-%histogram(mag_h, Nbins,'Normalization','pdf','DisplayStyle','stairs'), hold on, plot(x,th,'r-.'),% hold on, plot(x,est,'k'),
+histogram(mag_h, Nbins,'Normalization','pdf','DisplayStyle','stairs'), ...
+hold on, plot(x,th,'r-.'),% hold on, plot(x,est,'k'),
 plot(x,est,'r-.'), hold on, plot(x,th,'k--'),
 legend('pdf with K_{est}','theoretical pdf')
 title('Estimate of the pdf of h_0')
@@ -129,7 +136,8 @@ ylim([-40 0])
 %ylim([-55 -15])
 xlim([-5*Nsamples*fd 5*Nsamples*fd])
 xticks([-160 -128 -96 -64 -32 0 32 64 96 128 160])
-xticklabels({'-5f_d','-4f_d','-3f_d','-2f_d','-f_d','0','f_d','2f_d','3f_d','4f_d','5f_d'});
+xticklabels({'-5f_d','-4f_d','-3f_d','-2f_d','-f_d',...
+    '0','f_d','2f_d','3f_d','4f_d','5f_d'});
 ylabel('PSD [dB]')
 xlabel('f')
 legend('Estimate','Theoretical curve')

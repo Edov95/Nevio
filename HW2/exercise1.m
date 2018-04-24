@@ -55,7 +55,10 @@ for i=1:length(h1_corr)
     h_corr(2*i)=h1_corr(i);
 end
 figure, stem(0:Ncurrent-1,h_corr), hold on,
-stem(0:length(h)-1,h,'r*'), title(['Correlation method N=' int2str(Ncurrent),', L=' int2str(L)]), xlabel('nT_y'), ylim([-0.5 1.2]), xlim([-2 20])
+stem(0:length(h)-1,h,'r*'), ...
+    title(['Correlation method N=' int2str(Ncurrent),', ...
+           L=' int2str(L)]), xlabel('nT_y'), ... 
+           ylim([-0.5 1.2]), xlim([-2 20])
 legend('h_{est-CORR}','h_{analytic}')
 
 d_hatCORR=zeros(length(x),1);
@@ -85,7 +88,8 @@ for i=1:length(h1_ls)
     h_ls(2*i)=h1_ls(i);
 end
 figure, stem(0:Ncurrent-1, h_ls), hold on,
-stem(0:length(h)-1,h,'r*'), title(['LS method N=' int2str(Ncurrent),', L=' int2str(L)]), xlabel('nT_y'), ylim([-0.5 1.2]), xlim([-2 20])
+stem(0:length(h)-1,h,'r*'), title(['LS method N=' int2str(Ncurrent),',
+        L=' int2str(L)]), xlabel('nT_y'), ylim([-0.5 1.2]), xlim([-2 20])
 legend('h_{est-LS}','h_{analytic}')
 
 %estimate of sigmaw

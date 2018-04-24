@@ -49,7 +49,8 @@ for n=1:length(Lvect)
         %we approximate the filter h with an FIR filter so the taps of h_0, h_1
         %become the coefficients b_i of the frequency response
         
-        [h0_corr, h1_corr, r0_corr, r1_corr] = corrEst(x, r_even,r_odd, Ncurrent);
+        [h0_corr, h1_corr, r0_corr, r1_corr] = 
+        corrEst(x, r_even,r_odd, Ncurrent);
         
         %total estimated impulse response
         h_corr=zeros(Ncurrent,1);
@@ -59,8 +60,7 @@ for n=1:length(Lvect)
         for i=1:length(h1_corr)
             h_corr(2*i)=h1_corr(i);
         end
-        % figure, stem(0:Ncurrent-1,h_corr), hold on,
-        % stem(0:Ncurrent-1,h,'r*'), title('h_{analytic} vs h_{estimate-CORR}'), xlabel('nT_y'), ylim([-0.5 1.2]), xlim([-2 20])
+        xlabel('nT_y'), ylim([-0.5 1.2]), xlim([-2 20])
         % legend('h_{est-CORR}','h_{analytic}')
         
         
@@ -80,7 +80,8 @@ for n=1:length(Lvect)
         %% LS
         %the receiver knows only x(k) and the output d_true
         
-        [h0_ls, h1_ls, r0_ls, r1_ls] = LSest(x, r_even,r_odd, Ncurrent);
+        [h0_ls, h1_ls, r0_ls, r1_ls] = 
+        LSest(x, r_even,r_odd, Ncurrent);
         
         %total estimated impulse response
         h_ls=zeros(Ncurrent,1);
