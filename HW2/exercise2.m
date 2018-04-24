@@ -115,8 +115,8 @@ xlabel('a')
 D=ceil(Nsamples/4);   %window length
 S=ceil(D/2);   %overlap
 
-w_welch=window(@bartlett,D);
-%w_welch=kaiser(D,5);
+ w_welch=window(@hamming,D);
+%w_welch=kaiser(D,2);
 
 Welch_P = welchPSD(h', w_welch, S);
 Welch_P=Welch_P/Nsamples;
@@ -130,7 +130,7 @@ freq2=[-Npoints/2+1:Npoints/2];
 peak=10*log10(C^2);
 analytic=10*log10(Md*D_f);
 analytic(length(analytic)/2)=peak;
-plot(freq1, 10*log10(Welch_centered)) , hold on, plot(freq2, analytic,'r')
+plot(freq1-1, 10*log10(Welch_centered)) , hold on, plot(freq2, analytic,'r--')
 
 ylim([-40 0])
 %ylim([-55 -15])
