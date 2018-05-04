@@ -13,13 +13,6 @@ t_0_tilde = 12;
 SNR_dB = 10;
 
 
-%% Add noise
-
-r_c_i = awgn(s_c_i, SNR_dB);
-r_c_q = awgn(s_c_q, SNR_dB);
-
-% eyediagram(r_c_i,4);
-
 %% Reciver filter
 
 % Costruzione del filtro g_M
@@ -31,25 +24,26 @@ r_c_q = awgn(s_c_q, SNR_dB);
 % MATCHED filter find on 
 %   https://it.mathworks.com/matlabcentral/answers/4502-matched-filter
 
-b_i = r_c_i(end:-1:1);
-b_q = r_c_q(end:-1:1);
+g_m = q_c(end:-1:1);
+figure, stem(g_m,'.')
 
-r_r_i = filter(b_i, 1, r_c_i);
-r_r_q = filter(b_q, 1, r_c_q);
+r_r = filter(g_m, 1, r_c);
 
-eyediagram(r_r_i, 5);
-eyediagram(r_r_q, 5);
+eyediagram(r_r, 4,4);
 
 
 %% Sampling
 
-t_0 = t_0_tilde * T / 4;
+t_0_bar = 3;
 
-r_r_i = r_r_i(t_0:end);
-r_r_q = r_r_q(t_0:end);
+r_r = r_r(3:end);
 
-x_i = downsample(r_r_i,4*T);
-x_q = downsample(r_r_q,4*T);
+x = downsample(r_r, 4);
+% r_r_i = r_r_i(t_0:end);
+% r_r_q = r_r_q(t_0:end);
+% 
+% x_i = downsample(r_r_i,4*T);
+% x_q = downsample(r_r_q,4*T);
 
 %% Filtering through C
 

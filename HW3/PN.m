@@ -1,6 +1,6 @@
-function [pn] = PN(L)
+function [pn] = PN(r)
 
-r = log2(L+1);
+L = pow2(r) - 1;
 pn = zeros(L,1);
 
 pn(1:r) = ones(1,r).';
