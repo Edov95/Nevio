@@ -9,8 +9,6 @@ q_c_num   = [0 0 0 0 0 0.7424];
 q_c_denom = [1 -0.67];
 q_c = impz(q_c_num, q_c_denom);
 
-figure, stem(q_c,'.')
-
 %% Generation of the input signal
 
 pn = PN(r); % Si potrebbe fare un load di una cosa già calcolata
