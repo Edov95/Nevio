@@ -30,7 +30,7 @@ s_r = filter(g_m, 1, s_c);
 % transient = length(q_c) - 1;
 % s_r_eye = s_r(transient+1:end);
 % eyediagram(s_r_eye, 4)
-scatterplot(r_r);
+%scatterplot(r_r);
 
 
 %% Sampling
@@ -40,7 +40,7 @@ t_0_bar = find(h==max(h));
 r_cut = r_r(t_0_bar:end);
 
 x = downsample(r_cut, 4);
-scatterplot(x);
+%scatterplot(x);
 
 [Q_c f]= freqz(q_c_num, q_c_denom, 'whole');
 

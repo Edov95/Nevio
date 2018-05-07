@@ -94,7 +94,7 @@ for k = 0:length(x) - 1 + D
     detected(k+1) = threshold_detector(y(k+1));
     
 end
-scatterplot(y);
+%scatterplot(y);
 decisions = detected(D+1:end);
 [Pe errors] = SER(a(1:length(decisions)), decisions);
 %[pbit, errors] = BER(a(1:length(decisions)), decisions);
