@@ -11,27 +11,15 @@ load("common.mat");
 
 % Costruzione del filtro g_M
 % Per l'esercizio a è un "semplice" matched filter
-
-%scatterplot(r_c);
-
-%g_m = conj(q_c(end:-1:1));
 g_m = conj(flipud(q_c));
 
+% Calculate the h impulse response
 h = conv(q_c, g_m);
-figure, stem(h)
-title('h_i'), xlabel('nT/4')
 
-figure, stem(q_c), xlabel('nT/4'), title('q_c')
-figure, stem(g_m), xlabel('nT/4'), title('g_M')
+r_r = filter(g_m, 1, r_c(:,1));
 
-r_r = filter(g_m, 1, r_c);
-% r_r=filter(h , 1, awgn(a_prime, SNR_dB, 'measured'));
-s_r = filter(g_m, 1, s_c);
-% transient = length(q_c) - 1;
-% s_r_eye = s_r(transient+1:end);
-% eyediagram(s_r_eye, 4)
-%scatterplot(r_r);
-
+% For debuggig pourpose
+% s_r = filter(g_m, 1, s_c);
 
 %% Sampling
 
@@ -40,14 +28,38 @@ t_0_bar = find(h==max(h));
 r_cut = r_r(t_0_bar:end);
 
 x = downsample(r_cut, 4);
-%scatterplot(x);
 
-[Q_c f]= freqz(q_c_num, q_c_denom, 'whole');
+%% Filtering thorugh C and equalization
+
+r_gm = xcorr(g_m, g_m);
+r_w = N0 .* r_gm;
+
+D = 2;
+    
+c = WienerC_DFE(h, r_w, sigma_a, 4, 0, D);
+
+psi = conv(c, h);
+
+decisions = equalization(x, c, 4, 0, D);
+
+[Pe errors] = SER(a(1:length(decisions)), decisions);
+% [pbit, errors] = BER(a(1:length(decisions)), decisions);
 
 %% plots
-figure
-plot(f/(2*pi), 10*log10(abs(Q_c))), 
-title('Frequency response Q_c')
+if plot_figure == true
+    
+    [Q_c f] = freqz(q_c_num, q_c_denom, 'whole');
+    
+    figure, stem(h)
+    title('h_i'), xlabel('nT/4')
+
+    figure, stem(q_c), xlabel('nT/4'), title('q_c')
+    figure, stem(g_m), xlabel('nT/4'), title('g_M')
+    
+    figure
+    plot(f/(2*pi), 10*log10(abs(Q_c))), 
+    title('Frequency response Q_c')
+end
 
 
 
