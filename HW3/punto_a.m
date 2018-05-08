@@ -7,6 +7,7 @@ end
 
 load("common.mat");
 
+
 %% Receiver filter
 
 % Costruzione del filtro g_M
@@ -15,43 +16,46 @@ g_m = conj(flipud(q_c));
 
 % Calculate the h impulse response
 h = conv(q_c, g_m);
+h = downsample(h,4);
+%h = h(h~=0);
 
-r_r = filter(g_m, 1, r_c(:,1));
+r_r = filter(g_m, 1, r_c);
 
 % For debuggig pourpose
 % s_r = filter(g_m, 1, s_c);
 
 %% Sampling
 
-t_0_bar = find(h==max(h));
-
+%t_0 = find(h==max(h));
+t_0_bar = length(g_m);
 r_cut = r_r(t_0_bar:end);
 
 x = downsample(r_cut, 4);
-
+scatterplot(x)
 %% Filtering thorugh C and equalization
 
 r_gm = xcorr(g_m, g_m);
-r_w = N0 .* r_gm;
-
+r_w = N0 .* downsample(r_gm, 4);
 D = 2;
+M1 = 5;
+M2 = 0;
     
-c = WienerC_DFE(h, r_w, sigma_a, 4, 0, D);
+c = WienerC_DFE(h, r_w, sigma_a, M1, M2, D);
 
 psi = conv(c, h);
 
-decisions = equalization(x, c, 4, 0, D);
+decisions = equalization_LE(x, c, M1, D);
 
-[Pe errors] = SER(a(1:length(decisions)), decisions);
+[Pe, errors] = SER(a(1:length(decisions)), decisions);
 % [pbit, errors] = BER(a(1:length(decisions)), decisions);
 
 %% plots
 if plot_figure == true
     
-    [Q_c f] = freqz(q_c_num, q_c_denom, 'whole');
+    [Q_c, f] = freqz(q_c_num, q_c_denom, 'whole');
     
     figure, stem(h)
-    title('h_i'), xlabel('nT/4')
+    title('h_i'), xlabel('nT')
 
     figure, stem(q_c), xlabel('nT/4'), title('q_c')
     figure, stem(g_m), xlabel('nT/4'), title('g_M')

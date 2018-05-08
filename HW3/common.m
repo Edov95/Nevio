@@ -1,12 +1,13 @@
 clc; clear all; close all;
 
 %% Configuration parameters
-
+load('Noise','w');
 verbose = false;
 plot_figure = false;
 
 r = 20;
-SNR_dB = [8 9 10 11 12 13 14];
+%SNR_dB = [8 9 10 11 12 13 14];
+SNR_dB = 10;
 SNR_lin = 10.^(SNR_dB./10);
 sigma_a = 2;
 
@@ -41,11 +42,13 @@ s_c = filter(q_c_num, q_c_denom, a_prime);
 
 %% Add noise
 
-r_c = zeros(length(s_c), length(SNR_dB));
+r_c = zeros(length(s_c), 1);
 
-for i = 1:length(SNR_dB)
-    r_c(:,i) = awgn(s_c, SNR_dB(i), 'measured');
-end
+% for i = 1:length(SNR_dB)
+%     r_c(:,i) = awgn(s_c, SNR_dB(i), 'measured');
+% end
+
+r_c = s_c + w(1:length(s_c),3);
 
 %% Save the workspace
 

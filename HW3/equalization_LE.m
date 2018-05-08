@@ -1,16 +1,5 @@
-function [decisions] = equalization(x, c, M1, M2, D)
-%EQUALIZATION Summary of this function goes here
-%   Detailed explanation goes here
-%EQUALIZATION
-
-% y = filter(c_opt, 1, x)/max(psi);
-% scatterplot(y)
-
-% %% Decision point
-% 
-% for k=1:length(y) - D
-% a_hat(k) = threshold_detector(y(k+D));
-% end
+function [decisions] = equalization_LE(x, c, M1, D)
+%EQUALIZATION for LE 
 
 y = zeros(length(x) + D , 1); % output of ff filter
 detected = zeros(length(x) + D, 1); % output of td
@@ -30,18 +19,9 @@ for k = 0:length(x) - 1 + D
     else
         xconv = flipud(x(k - M1 + 1 + 1:k + 1));
     end 
-
-    
-    if (k <= 0)
-        a_old = [flipud(detected(1:k)); zeros(0 - k, 1)];
-    else
-        a_old = flipud(detected(k - 0 + 1:k));
-    end
-
     y(k+1) = c.'*xconv;
     detected(k + 1) = threshold_detector(y(k + 1));
 end
-
+scatterplot(y);
 decisions = detected(D + 1:end);
 end
-
