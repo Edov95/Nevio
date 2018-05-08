@@ -24,6 +24,9 @@ sccprj/
 # Octave session info
 octave-workspace
 
+# Matlab .mat files
+*.mat
+
 
 #LATEX ignored files
 *.aux
