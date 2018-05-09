@@ -36,7 +36,7 @@ scatterplot(x)
 %% Filtering through C and equalization
 
 r_gm = xcorr(g_m, g_m);
-r_w = N0 .* r_gm;
+r_w = N0 .* downsample(r_gm, 4);
 
 
 % M1_span = [2:20];
@@ -63,7 +63,7 @@ end
 
 psi = conv(c, h);
 
-b = - psi(end-M2+1:end);
+b = - psi(end - M2 + 1:end);
 
 decisions = equalization_DFE(x, c, b, M1, M2, D);
 

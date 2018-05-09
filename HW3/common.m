@@ -1,6 +1,9 @@
 clc; clear all; close all;
 
 %% Configuration parameters
+if ~exist("Noise.mat", 'file')
+    noise_seq;
+end
 load('Noise','w');
 verbose = false;
 plot_figure = false;
@@ -20,7 +23,7 @@ q_c = impz(q_c_num, q_c_denom);
 q_c = [0; 0; 0; 0; 0; q_c( q_c >= max(q_c)*10^(-2) )]; 
 E_qc = sum(q_c.^2);
 
-N0 =  (sigma_a * E_qc) ./ SNR_lin;
+N0 =  (sigma_a * E_qc * 4) ./ SNR_lin;
 
 %% Generation of the input signal
 
