@@ -1,4 +1,6 @@
-clc; clear all; close all;
+% clc;
+clear all;
+close all;
 
 %% Load common variable
 if ~exist("common.mat", 'file')
@@ -6,6 +8,9 @@ if ~exist("common.mat", 'file')
 end
 
 load("common.mat");
+Pe = zeros(length(SNR_dB),1);
+errors = zeros(length(SNR_dB),1);
+r_r = zeros(length(s_c), length(SNR_dB));
 
 %% Receiver filter
 
@@ -16,22 +21,27 @@ g_m = conj(flipud(q_c));
 % Calculate the h impulse response
 h = conv(q_c, g_m);
 h = downsample(h,4);
+h = h(h ~= 0);
 
 N1 = floor(length(h)/2);
 N2 = N1;
 
-r_r = filter(g_m, 1, r_c(:,1));
+%h = h(h~=0);
+for i=1:length(SNR_dB)
+    r_r(:,i) = filter(g_m, 1, r_c(:,i));
+end
 
 % For debuggig pourpose
-% s_r = filter(g_m, 1, s_c);
+s_r = filter(g_m, 1, s_c);
 
 %% Sampling
 
 t_0_bar = length(g_m);
-r_cut = r_r(t_0_bar:end);
-
-x = downsample(r_cut, 4);
-scatterplot(x)
+x_no_noise = downsample(s_r(t_0_bar:end), 4);
+x = zeros(length(x_no_noise), length(SNR_dB));
+for i=1:length(SNR_dB)
+    x(:,i) = downsample(r_r(t_0_bar:end, i), 4);
+end
 
 %% Filtering through C and equalization
 
@@ -62,12 +72,12 @@ end
 % end
 
 psi = conv(c, h);
+psi = psi/max(psi);
 
 b = - psi(end - M2 + 1:end);
 
-decisions = equalization_DFE(x, c, b, M1, M2, D);
-
-[Pe, errors] = SER(a(1:length(decisions)), decisions);
-
-
-
+for i=1:length(SNR_dB)
+    decisions = equalization_DFE(x(:,i), c, b, M1, M2, D);
+    
+    [Pe(i), errors(i)] = SER(a(1:length(decisions)), decisions);
+end

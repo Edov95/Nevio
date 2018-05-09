@@ -9,8 +9,8 @@ verbose = false;
 plot_figure = false;
 
 r = 20;
-%SNR_dB = [8 9 10 11 12 13 14];
-SNR_dB = 10;
+SNR_dB = [8 9 10 11 12 13 14];
+%SNR_dB = 10;
 SNR_lin = 10.^(SNR_dB./10);
 sigma_a = 2;
 
@@ -23,7 +23,7 @@ q_c = impz(q_c_num, q_c_denom);
 q_c = [0; 0; 0; 0; 0; q_c( q_c >= max(q_c)*10^(-2) )]; 
 E_qc = sum(q_c.^2);
 
-N0 =  (sigma_a * E_qc * 4) ./ SNR_lin;
+N0 =  (sigma_a * E_qc) ./(4 * SNR_lin);
 
 %% Generation of the input signal
 
@@ -45,13 +45,13 @@ s_c = filter(q_c_num, q_c_denom, a_prime);
 
 %% Add noise
 
-r_c = zeros(length(s_c), 1);
+r_c = zeros(length(s_c), length(SNR_dB));
 
-% for i = 1:length(SNR_dB)
-%     r_c(:,i) = awgn(s_c, SNR_dB(i), 'measured');
-% end
+for i = 1:length(SNR_dB)
+    r_c(:,i) = s_c + w(1:length(s_c),i);
+end
 
-r_c = s_c + w(1:length(s_c),3);
+%r_c = s_c + w(1:length(s_c),1);
 
 %% Save the workspace
 

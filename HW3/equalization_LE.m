@@ -1,4 +1,4 @@
-function [decisions] = equalization_LE(x, c, M1, D)
+function [decisions] = equalization_LE(x, c, M1, D, norm_fact)
 %EQUALIZATION for LE 
 
 y = zeros(length(x) + D , 1); % output of ff filter
@@ -19,7 +19,7 @@ for k = 0:length(x) - 1 + D
     else
         xconv = flipud(x(k - M1 + 1 + 1:k + 1));
     end 
-    y(k+1) = c.'*xconv;
+    y(k+1) = c.'*xconv / norm_fact;
     detected(k + 1) = threshold_detector(y(k + 1));
 end
 scatterplot(y);

@@ -15,9 +15,9 @@ sigma_a = 2;
 SNR_lin = 10.^(SNR_dB./10);
 w = zeros(3*10^6, 7);
 for i=1:length(SNR_dB)
-    sigma=(sigma_a*E_qc*4)/SNR_lin(i);
-    sigmaw=10*log10(sigma);
-    w(:,i) = wgn(3*10^6,1,sigmaw,'complex');
+    sigma_w_lin=(sigma_a*E_qc)/SNR_lin(i);
+    sigma_w_dB=10*log10(sigma_w_lin);
+    w(:,i) = wgn(3*10^6, 1, sigma_w_dB, 'complex');
 end
 
 save('Noise','w')
