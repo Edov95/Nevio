@@ -31,36 +31,30 @@ figure, stem(s_r(1:100)), title('s_r'), xlabel('nT/4')
 qg_up = conv(q_c, g_AA);
 figure, stem(qg_up), title('convolution of g_AA and q_c'), xlabel('nT/4')
 t0_bar = find(qg_up==max(qg_up));
-x_prime = downsample(r_r(t0_bar:end), 2);
-figure, stem(x_prime(1:100)), title('xprime'), xlabel('nT/2')
-x_NN_prime=downsample(s_r(t0_bar:end), 2);
-figure, stem(x_NN_prime(1:100)), title('xprime without noise'), xlabel('nT/2')
-
-g_m = flipud(qg_up);
-
-x = filter(g_m,1,x_prime);
+x = downsample(r_r(t0_bar:end), 2);
 figure, stem(x(1:100)), title('x'), xlabel('nT/2')
-x_NN=filter(g_m,1,x_NN_prime);
+x_NN=downsample(s_r(t0_bar:end), 2);
 figure, stem(x_NN(1:100)), title('x without noise'), xlabel('nT/2')
+
 %scatterplot(x_NN)
-h = downsample(conv(qg_up,g_m),2);
+h = downsample(qg_up,2);
 figure, stem(h), title('h'), xlabel('nT/2')
 h = h.';
-r_g = xcorr(conv(g_AA,g_m));
-figure, stem(r_g), title('r_g'), xlabel('nT/2')
+r_gAA = xcorr(g_AA);
+figure, stem(r_gAA), title('r_g'), xlabel('nT/2')
 N0 = (sigma_a * E_qc)/(4*SNR_lin(3));
-r_w = N0 * downsample(r_g, 2);
+r_w = N0 * downsample(r_gAA, 2);
 r_w = r_w.';
 figure, stem(r_w), title('r_g'), xlabel('nT/2')
 
-N1 = 14;
-N2 = 18;
+N1 = floor(length(h)/2);
+N2 = N1;
 
 M1 = 8;
-D = 4;
+D = 2;
 M2 = N2 + M1 - 1 - D;
 
-[c, Jmin]= WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
+[c, Jmin]= WienerC_frac(h, r_w, sigma_a, M1, M2, D);
 figure, stem(c), title('c'), xlabel('nT/2')
 psi = conv(c, h);
 figure, stem(psi), title('psi'), xlabel('nT')
@@ -71,8 +65,5 @@ decisions = downsample(decisions(2:end),2);
 
 %detection
 [Pe_c, errors] = SER(a(1:end-4), decisions);
-
-
-
 
 

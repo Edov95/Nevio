@@ -1,6 +1,5 @@
  function [c_opt, Jmin] = WienerC_DFE(h, r_w, sigma_a, M1, M2, D)
-    %% WINER SOLUTION FOR THE FILTER c (L.E. + D.F.E. CASE)
-
+ 
     N1 = floor(length(h)/2);
     N2 = N1;
     padding = 60;
@@ -23,9 +22,12 @@
                 * conj(hpad((padding + 1 - (row - col)):( N1 + N2 + ...
                 padding + 1 - (row - col))));
             
-            ssum = (hpad((N1+padding+1+1+D-col):(N1+padding+1+M2+D-col))).' * ...
-            conj((hpad((N1+padding+1+1+D-row):(N1+padding+1+M2+D-row))));
-
+            if M2==0
+                ssum=0;
+            else
+                ssum = (hpad((N1+padding+1+1+D-col):(N1+padding+1+M2+D-col))).' * ...
+                    conj((hpad((N1+padding+1+1+D-row):(N1+padding+1+M2+D-row))));
+            end
             
             R(row + 1, col + 1) = sigma_a * (fsum - ssum) + r_w_pad(padding + 1 ...
                 + row - col + (floor(length(r_w) / 2 ))); 
