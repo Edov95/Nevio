@@ -8,7 +8,7 @@ if ~exist("common.mat", 'file')
 end
 
 load("common.mat");
-Pe_DFE = zeros(length(SNR_dB),1);
+Pe_viterbi = zeros(length(SNR_dB),1);
 errors = zeros(length(SNR_dB),1);
 r_r = zeros(length(s_c), length(SNR_dB));
 
@@ -90,35 +90,18 @@ M2 = N2 + M1 - 1 - D;
 
 c =zeros(M1, length(SNR_dB));
 b = zeros(M2,1);
+
 for i=1:length(SNR_dB)
     
     c(:,i) = WienerC_DFE(h, r_w(:,i), sigma_a, M1, M2, D);
     
     psi(:,i) = conv(c(:,i), h);
     %psi(:,i) = psi(:,i)/max(psi(:,i));
-    b(:,i) = -psi(find(psi==max(psi))+1:end,i); 
-    decisions = equalization_DFE(x(:,i), c(:,i), b(:,i), D);
+    b(:,i) = -psi(find(psi==max(psi))+1:end,i);
+    y = equalization_LE(x(:,i), c(:,i), D, max(psi(:,i)));
+    decisions = viterbi(y, h, 0, N2, N1, N2);
     
-    [Pe_DFE(i), errors(i)] = SER(a(1:length(decisions)), decisions);
+    [Pe_viterbi(i), errors(i)] = SER(a(3:length(decisions)), decisions);
 end
-save('P_e_DFE.mat','Pe_DFE')
 
-%% plots
-if plot_figure == true
-    
-    [Q_c, f] = freqz(q_c_num, q_c_denom, 'whole');
-    
-    %figure, stem(h)
-    %title('h_i'), xlabel('nT')
-    
-    %figure, stem(q_c), xlabel('nT/4'), title('q_c')
-    figure, stem(g_m), xlabel('nT/4'), title('g_M')
-    
-    figure
-    plot(f/(2*pi), 10*log10(abs(Q_c))), xlim([0 0.5])
-    title('Frequency response Q_c')
-    
-    figure, stem([-4:8], abs(psi(:,3))), xlabel('nT'), title('|\Psi|, D=0, M1=5')
-    figure, stem([0:length(c(:,3))-1], abs(c(:,3))), xlabel('nT'), title('|c|')
-    figure, stem([0:length(b(:,3))-1], abs(b(:,3))), xlabel('nT'), title('|b|')
-end
+save('viterbi.mat', 'Pe_viterbi');

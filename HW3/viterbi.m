@@ -30,7 +30,7 @@ hi = hi(1+N1-L1 : end-N2+L2);   % Discard initial and final samples of hi
 
 tStart = tic;   % Use a variable to avoid conflict with parallel calls to tic/toc
 survSeq = zeros(Ns, Kd);
-detectedSymb = zeros(1, length(packet));
+detectedSymb = zeros(1, length(r_c));
 cost = zeros(Ns, 1); % Define Gamma(-1), i.e. the cost, for each state
 
 
@@ -130,7 +130,7 @@ detectedSymb(length(r_c)+2 : length(r_c)+Kd) = survSeq(decided_index, 1:Kd-1);
 % Decided using the min cost from the last iteration
 detectedSymb = detectedSymb(Kd+1 : end);
 detected = detectedSymb;
-detected = detected(2:length(r_c)+1); % Discard first symbol (time k=-1)
+detected = detected(2:end); % Discard first symbol (time k=-1)
 
 
 end
