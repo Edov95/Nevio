@@ -12,6 +12,6 @@ for k=0:length(y)-1
     end
 detected(k + 1) = threshold_detector(y(k + 1) + b.'*a_past);
 end
-scatterplot(y)
+%scatterplot(y)
 decisions = detected(D + 1:end);
 end

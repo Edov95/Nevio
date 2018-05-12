@@ -86,6 +86,7 @@ end
 
 M1 = 5;
 D = 0;
+%M1 = 5; D = 4;
 M2 = N2 + M1 - 1 - D;
 
 c =zeros(M1, length(SNR_dB));

@@ -39,8 +39,10 @@ figure, stem(x_NN_prime(1:100)), title('xprime without noise'), xlabel('nT/2')
 g_m = flipud(qg_up);
 
 x = filter(g_m,1,x_prime);
+x = x(length(g_m):end);
 figure, stem(x(1:100)), title('x'), xlabel('nT/2')
 x_NN=filter(g_m,1,x_NN_prime);
+x = x(length(g_m):end);
 figure, stem(x_NN(1:100)), title('x without noise'), xlabel('nT/2')
 %scatterplot(x_NN)
 h = downsample(conv(qg_up,g_m),2);
@@ -56,13 +58,13 @@ figure, stem(r_w), title('r_g'), xlabel('nT/2')
 N1 = 14;
 N2 = 18;
 
-M1 = 8;
-D = 4;
+M1 = 9;
+D = 1;
 M2 = N2 + M1 - 1 - D;
 
 [c, Jmin]= WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
 figure, stem(c), title('c'), xlabel('nT/2')
-psi = conv(c, h);
+psi = filter(c,1, h);
 figure, stem(psi), title('psi'), xlabel('nT')
 b = -psi(find(psi==max(psi))+1:end); 
 figure, stem(b), title('b'), xlabel('nT')
@@ -70,7 +72,7 @@ decisions = equalization_DFE(x, c, b, D);
 decisions = downsample(decisions(2:end),2);
 
 %detection
-[Pe_c, errors] = SER(a(1:end-4), decisions);
+[Pe_c, errors] = SER(a(1:length(decisions)), decisions);
 
 
 

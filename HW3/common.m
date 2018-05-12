@@ -6,7 +6,7 @@ if ~exist("Noise.mat", 'file')
 end
 load('Noise','w','sigma_w');
 verbose = false;
-plot_figure = false;
+plot_figure = true;
 
 r = 20;
 SNR_dB = [8 9 10 11 12 13 14];
@@ -26,7 +26,7 @@ N0 = sigma_w./4;
 
 %% Generation of the input signal
 
-pn = PN(r); 
+pn = [PN(r)]; 
 
 pn(pn == 0) = -1;
 

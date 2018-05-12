@@ -46,8 +46,9 @@ for i=1:length(SNR_dB)
     r_w(:,i) = downsample(r_w_up(:,i), 4);
 end
 
-D = 4;
+D = 2;
 M1 = 5;
+%M1 = 5; D = 4;
 
 c =zeros(M1, length(SNR_dB));
 for i=1:length(SNR_dB)
