@@ -47,14 +47,14 @@ r_w = N0 * downsample(r_gAA, 2);
 r_w = r_w.';
 figure, stem(r_w), title('r_g'), xlabel('nT/2')
 
-N1 = floor(length(h)/2);
-N2 = N1;
+N1 = 7;
+N2 = 9;
 
 M1 = 8;
 D = 2;
 M2 = N2 + M1 - 1 - D;
 
-[c, Jmin]= WienerC_frac(h, r_w, sigma_a, M1, M2, D);
+[c, Jmin]= WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
 figure, stem(c), title('c'), xlabel('nT/2')
 psi = conv(c, h);
 figure, stem(psi), title('psi'), xlabel('nT')
@@ -64,6 +64,6 @@ decisions = equalization_DFE(x, c, b, D);
 decisions = downsample(decisions(2:end),2);
 
 %detection
-[Pe_c, errors] = SER(a(1:end-4), decisions);
+[Pe_d, errors] = SER(a(1:end-4), decisions);
 
 
