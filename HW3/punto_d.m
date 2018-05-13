@@ -27,7 +27,7 @@ Hd = dfilt.dffir(g_AA);
 N1 = 7;
 N2 = 9;
 
-M1 = 5;
+M1 = 9;
 D = 1;
 M2 = N2 + M1 - 1 - D;
 
@@ -62,24 +62,24 @@ b(:,i) = [-psi(find(psi==max(psi))+1:end,i); 0];
 %figure, stem(b), title('b'), xlabel('nT')
 %scatterplot(x_NN)
 
-% decisions = equalization_DFE(x(:,i), c(:,i), b(:,i), D);
-% decisions = downsample(decisions(2:end),2);
+decisions = equalization_DFE(x(:,i), c(:,i), b(:,i), D);
+decisions = downsample(decisions(2:end),2);
 
-y_up = filter(c(:,i),1,x(:,i));
-y = downsample(y_up,2);
-%y = y(1:length(a)+D);
-detected = zeros(length(y), 1); 
-for k=0:length(y)-1
-     if (k <= M2)
-        a_past = [flipud(detected(1:k)); zeros(M2 - k, 1)];
-    else
-        a_past = flipud(detected(k-M2+1:k));
-    end
-detected(k + 1) = threshold_detector(y(k + 1) + b(:,i).'*a_past);
-end
+% y_up = filter(c(:,i),1,x(:,i));
+% y = downsample(y_up,2);
+% %y = y(1:length(a)+D);
+% detected = zeros(length(y), 1); 
+% for k=0:length(y)-1
+%      if (k <= M2)
+%         a_past = [flipud(detected(1:k)); zeros(M2 - k, 1)];
+%     else
+%         a_past = flipud(detected(k-M2+1:k));
+%     end
+% detected(k + 1) = threshold_detector(y(k + 1) + b(:,i).'*a_past);
+% end
 
 %detection
-[Pe_d(i), errors(i)] = SER(a(1:length(detected)), detected);
+[Pe_d(i), errors(i)] = SER(a(1:length(decisions)), decisions);
 
 end
 

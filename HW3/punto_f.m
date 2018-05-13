@@ -8,7 +8,7 @@ if ~exist("common.mat", 'file')
 end
 
 load("common.mat");
-Pe_viterbi = zeros(length(SNR_dB),1);
+Pe_FBA = zeros(length(SNR_dB),1);
 errors = zeros(length(SNR_dB),1);
 r_r = zeros(length(s_c), length(SNR_dB));
 
@@ -85,7 +85,7 @@ end
 % end
 
 M1 = 5;
-D = 0;
+D = 2;
 M2 = N2 + M1 - 1 - D;
 
 c =zeros(M1, length(SNR_dB));
@@ -94,15 +94,15 @@ b = zeros(M2,1);
 for i=1:length(SNR_dB)
     
     [c(:,i) Jmin(i)]= WienerC_DFE(h, r_w(:,i), sigma_a, M1, M2, D);
-    
     psi(:,i) = conv(c(:,i), h);
     %psi(:,i) = psi(:,i)/max(psi(:,i));
     b(:,i) = -psi(find(psi==max(psi))+1:end,i);
     y = equalization_LE(x(:,i), c(:,i), D, max(psi(:,i)));
-    var_w(i) = 10^(Jmin(i)/10) - (abs(1-max(psi(:,i)))^2)*sigma_a;
-    %decisions = viterbi(y, h, 0, N2, N1, N2);
-    decisions = VBA(y, psi(:,i), 0, M2-4, 2, M2);
-    [Pe_viterbi(i), errors(i)] = SER(a(3:length(decisions)), decisions);
+    %var_w(i) = 10^(Jmin(i)/10) - (abs(1-max(psi(:,i)))^2)*sigma_a;
+    indexD = find(psi(:,i)==max(psi(:,i)));
+    L1 = 2; L2 = 2;
+    decisions = FBA(y, psi(indexD-L1:indexD+L2,i), L1, L2);
+    [Pe_FBA(i), errors(i)] = SER(a(3:end-2), decisions);
 end
 
-save('viterbi.mat', 'Pe_viterbi');
+save('fba.mat', 'Pe_FBA');
