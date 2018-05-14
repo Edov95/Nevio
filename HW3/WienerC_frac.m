@@ -1,6 +1,6 @@
  function [c_opt, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2)
  
-    padding = 60;
+    padding = 100;
     hpad = padarray(h, padding);
 
     % Padding the noise correlation 
@@ -18,7 +18,7 @@
             
             f=zeros(length(h),1);
             for n=0:length(h)-1
-                f(n+1) = hpad(N1 + padding + 1 + 2 * n - col)*conj(hpad(N1 + padding + 1 + 2 * n - row));
+                f(n+1) = hpad(padding + 1 + 2 * n - col)*conj(hpad(padding + 1 + 2 * n - row));
             end
             fsum = sum(f);
             
@@ -36,7 +36,7 @@
                 + row - col + (floor(length(r_w) / 2 )));
         end
     end
-    
+    R = R + 0.5*eye(M1);
     c_opt = R \ p;
 
     temp2 = zeros(M1, 1);
@@ -44,5 +44,5 @@
         temp2(l + 1) = c_opt(l + 1) * hpad(N1 + padding + 1 +2*D-l); 
     end
     
-    Jmin = 10*log10(sigma_a * (1 - sum(temp2)));
+    Jmin = 10*log10(abs(sigma_a * (1 - sum(temp2))));
 end
