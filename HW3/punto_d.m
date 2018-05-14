@@ -1,4 +1,4 @@
-clc; clear all; close all;
+clear all; close all;
 
 %% Load common variable
 if ~exist("common.mat", 'file')
@@ -36,8 +36,8 @@ dens  = 20;              % Density Factor
 % Calculate the coefficients using the FIRPM function.
 g_AA  = firpm(N, Fo, Ao, W, {dens});
 Hd = dfilt.dffir(g_AA);
-
-r_r = filter(g_AA , 1, r_c(:,7));
+select=7;
+r_r = filter(g_AA , 1, r_c(:,select));
 figure, stem(r_r(1:100)), title('r_r'), xlabel('nT/4')
 s_r=filter(g_AA, 1, s_c);
 figure, stem(s_r(1:100)), title('s_r'), xlabel('nT/4')
@@ -57,7 +57,7 @@ figure, stem(h), title('h'), xlabel('nT/2')
 
 r_g = xcorr(g_AA);
 figure, stem(r_g), title('r_g'), xlabel('nT/2')
-N0 = (sigma_a * E_qc)/(4*SNR_lin(7));
+N0 = (sigma_a * E_qc)/(4*SNR_lin(select));
 r_w = N0 * downsample(r_g, 2);
 figure, stem(r_w), title('r_w'), xlabel('nT/2')
 
@@ -78,7 +78,7 @@ figure, stem(b), title('b'), xlabel('nT')
 decisions = equalization_pointC(x, c, b, D);
 
 %detection
-[Pe_c, errors] = SER(a(1:length(decisions)), decisions);
+[Pe_c, errors] = SER(a(1:length(decisions)), decisions)
 
 
 %% plots

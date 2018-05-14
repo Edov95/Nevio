@@ -7,11 +7,11 @@
     r_w_pad = padarray(r_w, padding);
     
     p  = zeros(M1 ,1);
-
+    
     for i = 0 : M1-1
         p(i + 1) = sigma_a * conj(hpad(N1 + padding + 1 + 2*D - i));
     end
-
+    
     R = zeros(M1);
     for row = 0:(M1-1)
         for col = 0:(M1-1)
@@ -22,20 +22,18 @@
             end
             fsum = sum(f);
             
-            if M2==0
-                ssum=0;
-            else
-                s=zeros(M2,1);
-                for j=1:M2
-                    s(j) = hpad(N1 + padding + 1 + 2*(j+D) -col)*conj(hpad(N1 + padding + 1+2*(j+D) -row ));
-                end
-                ssum = sum(s);
+            s=zeros(M2,1);
+            for j=1:M2
+                s(j) = hpad(N1 + padding + 1 + 2*(j+D) -col)*conj(hpad(N1 + padding + 1+2*(j+D) -row ));
             end
+            ssum = sum(s);
+            
             
             R(row + 1, col + 1) = sigma_a * (fsum - ssum) + r_w_pad(padding + 1 ...
                 + row - col + (floor(length(r_w) / 2 )));
         end
     end
+    %to avoid ill conditioning
     R = R + 0.5*eye(M1);
     c_opt = R \ p;
 
