@@ -97,9 +97,10 @@ for i=1:length(SNR_dB)
     psi(:,i) = conv(c(:,i), h);
     %psi(:,i) = psi(:,i)/max(psi(:,i));
     b(:,i) = -psi(find(psi==max(psi))+1:end,i);
-    y = equalization_LE(x(:,i), c(:,i), D, max(psi(:,i)));
+    y = conv(x,c);
+    y = y ./ max(psi(:,i));
     %var_w(i) = 10^(Jmin(i)/10) - (abs(1-max(psi(:,i)))^2)*sigma_a;
-    indexD = find(psi(:,i)==max(psi(:,i)));
+    indexD = find(psi(:,i) == max(psi(:,i)));
     L1 = 2; L2 = 2;
     decisions = FBA(y, psi(indexD-L1:indexD+L2,i), L1, L2);
     [Pe_FBA(i), errors(i)] = SER(a(3:end-2), decisions);

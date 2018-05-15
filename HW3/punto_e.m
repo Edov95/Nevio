@@ -51,42 +51,10 @@ for i=1:length(SNR_dB)
     r_w(:,i) = downsample(r_w_up(:,i), 4);
 end
 
-% M1_span = [2:20];
-% D_span = [2:20];
-% 
-% % M1_span = 4;
-% % D_span = 2;
-% 
-% Jvec = zeros(19);
-% for k=1:length(M1_span)
-%     for l=1:length(D_span)
-%         M1 = M1_span(k);
-%         D = D_span(l);
-%         M2 = N2 + M1 - 1 - D;
-%         [c, Jmin] = WienerC_DFE(h, r_w, sigma_a, M1, M2, D);
-%         Jvec(k,l) = Jmin;
-%     end
-% end
-% 
-% for i=1:length(D_span)
-%    figure,
-%    plot(2:20, Jvec(:,i))
-% end
-
-% psi = conv(c, h);
-% psi = psi/max(psi);
-% 
-% b = - psi(end - M2 + 1:end);
-% 
-% for i=1:length(SNR_dB)
-%     decisions = equalization_DFE(x(:,i), c, b, M1, M2, D);
-%     
-%     [Pe(i), errors(i)] = SER(a(1:length(decisions)), decisions);
-% end
-
 M1 = 5;
-D = 0;
+D = 2;
 M2 = N2 + M1 - 1 - D;
+
 
 c =zeros(M1, length(SNR_dB));
 b = zeros(M2,1);
@@ -98,11 +66,13 @@ for i=1:length(SNR_dB)
     psi(:,i) = conv(c(:,i), h);
     %psi(:,i) = psi(:,i)/max(psi(:,i));
     b(:,i) = -psi(find(psi==max(psi))+1:end,i);
-    y = equalization_LE(x(:,i), c(:,i), D, max(psi(:,i)));
-    var_w(i) = 10^(Jmin(i)/10) - (abs(1-max(psi(:,i)))^2)*sigma_a;
-    %decisions = viterbi(y, h, 0, N2, N1, N2);
-    decisions = VBA(y, psi(:,i), 0, M2-4, 2, M2);
-    [Pe_viterbi(i), errors(i)] = SER(a(3:length(decisions)), decisions);
+    y = conv(x(:,i),c(:,i));
+    y = y./max(psi(:,i));
+    %var_w(i) = 10^(Jmin(i)/10) - ( abs( 1 - max(psi(:,i) ))^2 ) * sigma_a;
+    a_conf  =  a(1+4-0 : end-M2+M2-2);
+    decisions = VBA(y, psi(:,i), 0, M2-2, 4, M2);
+    decisions = decisions(D+1:end);
+    [Pe_viterbi(i), errors(i)] = SER(a_conf(1:length(decisions)), decisions);
 end
 
 save('viterbi.mat', 'Pe_viterbi');
