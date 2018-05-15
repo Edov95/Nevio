@@ -8,9 +8,9 @@ for k=0:length(y)-1
      if (k <= M2)
         a_past = [flipud(detected(1:k)); zeros(M2 - k, 1)];
     else
-        a_past = flipud(detected(k-M2+1:k));
+        a_past = flipud(detected(k - M2 + 1: k));
     end
-detected(k + 1) = threshold_detector(y(k + 1) + b.'*a_past);
+detected(k + 1) = threshold_detector(y(k + 1) + b.' * a_past);
 end
 %scatterplot(y)
 decisions = detected(D + 1:end);

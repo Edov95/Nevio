@@ -36,7 +36,7 @@ dens  = 20;              % Density Factor
 % Calculate the coefficients using the FIRPM function.
 g_AA  = firpm(N, Fo, Ao, W, {dens});
 Hd = dfilt.dffir(g_AA);
-select=7;
+select=3;
 r_r = filter(g_AA , 1, r_c(:,select));
 figure, stem(r_r(1:100)), title('r_r'), xlabel('nT/4')
 s_r=filter(g_AA, 1, s_c);

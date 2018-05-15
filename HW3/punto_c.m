@@ -9,21 +9,6 @@ load("common.mat");
 
 %% AA filter
 
-% Fpass = 0.35;             % Passband Frequency
-% Fstop = 0.55;             % Stopband Frequency
-% Dpass = 0.057501127785;   % Passband Ripple
-% Dstop = 0.0031622776602;  % Stopband Attenuation
-% dens  = 20;               % Density Factor
-% 
-% % Calculate the order from the parameters using FIRPMORD.
-% [N, Fo, Ao, W] = firpmord([Fpass, Fstop], [1 0], [Dpass, Dstop]);
-% 
-% % Calculate the coefficients using the FIRPM function.
-% g_AA  = firpm(N, Fo, Ao, W, {dens});
-% figure, stem(g_AA), title('g_AA'), xlabel('nT/4')
-% Hd = dfilt.dffir(g_AA);
-
-
 Fpass = 0.2;             % Passband Frequency
 Fstop = 0.3;             % Stopband Frequency
 Dpass = 0.057501127785;  % Passband Ripple
@@ -37,7 +22,7 @@ dens  = 20;              % Density Factor
 g_AA  = firpm(N, Fo, Ao, W, {dens});
 Hd = dfilt.dffir(g_AA);
 
-select=7;
+select=3;
 r_r = filter(g_AA , 1, r_c(:,select));
 figure, stem(r_r(1:100)), title('r_r'), xlabel('nT/4')
 s_r=filter(g_AA, 1, s_c);

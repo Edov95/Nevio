@@ -26,7 +26,7 @@ for state = 1:Ns
         lastsymbols = [symb(statevec + 1), symb(j)]; % symbols, from the oldest to the newest
         u_mat(state, j) = lastsymbols * flipud(psiD);
     end    
-    states_symbols(state,:) = lastsymbols(1:4);
+    states_symbols(state,:) = lastsymbols(1:M); 
     % Update statevec
     statevec(statelength) = statevec(statelength) + 1;
     i = statelength;
@@ -93,15 +93,5 @@ for k = 1:K   % F_(-1) is the initial condition!
 end
 
 toc(tStart)
-%fprintf('done\n')
-
-%%%%%%%%%%%%%%%%%%
-% Pbit computation
-%%%%%%%%%%%%%%%%%%
-% [pbit, num_bit_errors] = BER(a, decisions);
-% 
-% num_errors = sum(a-decisions ~= 0);
-% %fprintf('P_err = %.g (%d errors)\n', num_errors / length(packet), num_errors)
-% fprintf('P_bit = %.g (%d errors)\n', pbit, num_bit_errors)
 
 end

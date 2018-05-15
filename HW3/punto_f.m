@@ -8,6 +8,7 @@ if ~exist("common.mat", 'file')
 end
 
 load("common.mat");
+SNR_dB = SNR_dB(3);
 Pe_FBA = zeros(length(SNR_dB),1);
 errors = zeros(length(SNR_dB),1);
 r_r = zeros(length(s_c), length(SNR_dB));
@@ -103,7 +104,7 @@ for i=1:length(SNR_dB)
     indexD = find(psi(:,i) == max(psi(:,i)));
     L1 = 2; L2 = 2;
     decisions = FBA(y, psi(indexD-L1:indexD+L2,i), L1, L2);
-    [Pe_FBA(i), errors(i)] = SER(a(3:end-2), decisions);
+    [Pe_FBA(i), errors(i)] = SER(a(1:end), decisions);
 end
 
 save('fba.mat', 'Pe_FBA');
