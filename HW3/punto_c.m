@@ -7,24 +7,23 @@ end
 
 load("common.mat");
 
-select = 7;
+select = 3;
 
 %% AA filter
 
-% Fpass = 0.35;             % Passband Frequency
-% Fstop = 0.55;             % Stopband Frequency
-% Dpass = 0.057501127785;   % Passband Ripple
-% Dstop = 0.0031622776602;  % Stopband Attenuation
-% dens  = 20;               % Density Factor
+
+% Fpass = 0.645;            % Passband Frequency
+% Fstop = 0.75;            % Stopband Frequency
+% Dpass = 0.057501127785;  % Passband Ripple
+% Dstop = 0.01;            % Stopband Attenuation
+% dens  = 20;              % Density Factor
 % 
 % % Calculate the order from the parameters using FIRPMORD.
 % [N, Fo, Ao, W] = firpmord([Fpass, Fstop], [1 0], [Dpass, Dstop]);
 % 
 % % Calculate the coefficients using the FIRPM function.
 % g_AA  = firpm(N, Fo, Ao, W, {dens});
-% figure, stem(g_AA), title('g_AA'), xlabel('nT/4')
 % Hd = dfilt.dffir(g_AA);
-
 
 Fpass = 0.2;             % Passband Frequency
 Fstop = 0.3;             % Stopband Frequency
@@ -90,7 +89,7 @@ N1 = floor(length(h)/2);
 N2 = N1;
 
 M1 = 5;
-D = 2;
+D = 4;
 M2 = N2 + M1 - 1 - D;
 
 [c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
@@ -108,4 +107,4 @@ figure, stem(b), title('b'), xlabel('nT')
 decisions = equalization_pointC(x, c, b, D);
 %decisions = downsample(decisions(1:end),2);
 %detection
-[Pe_c, errors] = SER(a(1:length(decisions)), decisions)
+[Pe_c, errors] = SER(a(4:length(decisions)), decisions)
