@@ -2,10 +2,11 @@
 load('P_e_LE.mat','Pe_LE')
 load('P_e_DFE.mat','Pe_DFE')
 load('Pe_AWGNsim.mat','Pe_AWGNsim')
+%load('Pe_c.mat','Pe_c')
 %load('Pe_d.mat','Pe_d')
 load('viterbi.mat','Pe_viterbi')
-load('fba.mat','Pe_FBA')
-Pe_c =[0.1881 0.1649 0.1425 0.1232 0.1056 0.0886 0.0746];
+%load('fba.mat','Pe_FBA')
+Pe_c = [0.0970 0.0674 0.0451 0.0272 0.0154 0.0076 0.0033];
 Pe_d=[0.0798 0.0569 0.0385 0.0245 0.0149 0.0079 0.0040];
 
 SNR=[8:14];

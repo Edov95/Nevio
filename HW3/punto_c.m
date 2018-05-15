@@ -1,4 +1,4 @@
-clc; clear all; close all;
+ clear all; close all;
 
 %% Load common variable
 if ~exist("common.mat", 'file')
@@ -7,7 +7,7 @@ end
 
 load("common.mat");
 
-select = 3;
+select = 7;
 
 %% AA filter
 

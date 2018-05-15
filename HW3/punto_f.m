@@ -8,18 +8,17 @@ if ~exist("common.mat", 'file')
 end
 
 load("common.mat");
-SNR_dB = SNR_dB(3);
+%SNR_dB = SNR_dB(3);
 Pe_FBA = zeros(length(SNR_dB),1);
 errors = zeros(length(SNR_dB),1);
 r_r = zeros(length(s_c), length(SNR_dB));
 
 %% Receiver filter
 
-% Costruzione del filtro g_M
-% Per l'esercizio a è un "semplice" matched filter
+% match filter
 g_m = conj(flipud(q_c));
 
-% Calculate the h impulse response
+% Computes the impulse response h
 h = conv(q_c, g_m);
 h = downsample(h,4);
 h = h(h ~= 0);
@@ -86,7 +85,7 @@ end
 % end
 
 M1 = 5;
-D = 2;
+D = 4;
 M2 = N2 + M1 - 1 - D;
 
 c =zeros(M1, length(SNR_dB));
@@ -98,13 +97,15 @@ for i=1:length(SNR_dB)
     psi(:,i) = conv(c(:,i), h);
     %psi(:,i) = psi(:,i)/max(psi(:,i));
     b(:,i) = -psi(find(psi==max(psi))+1:end,i);
-    y = conv(x,c);
+    y = conv(x(:,i),c(:,i));
     y = y ./ max(psi(:,i));
     %var_w(i) = 10^(Jmin(i)/10) - (abs(1-max(psi(:,i)))^2)*sigma_a;
-    indexD = find(psi(:,i) == max(psi(:,i)));
-    L1 = 2; L2 = 2;
-    decisions = FBA(y, psi(indexD-L1:indexD+L2,i), L1, L2);
-    [Pe_FBA(i), errors(i)] = SER(a(1:end), decisions);
+    %indexD = find(psi(:,i) == max(psi(:,i)));
+    L1 = 0; L2 = 4;
+    psi_pad = [psi(:,i); 0; 0];
+    indexD = find(psi_pad == max(psi_pad));
+    decisions = FBA(y, psi_pad(indexD:end), L1, L2);
+    [Pe_FBA(i), errors(i)] = SER(a(1:end-4), decisions(5:end));
 end
 
 save('fba.mat', 'Pe_FBA');
