@@ -63,7 +63,8 @@ for i=1:length(SNR_dB)
     [Pe_LE(i), errors(i)] = SER(a(1:length(decisions)), decisions);
 end
 
-save('P_e_LE.mat','Pe_LE')
+%save('P_e_LE.mat','Pe_LE')
+
 %% plots
 if plot_figure == true
     
@@ -75,17 +76,19 @@ if plot_figure == true
 %     figure, plot(real(r_c(1:50,3))), title('r_c'),ylim([-3 3])
 %     figure, plot(real(x(1:50,3))), title('x'),ylim([-3 3])
     
-%     figure, stem(h)
-%     title('h_i'), xlabel('nT')
+    figure, stem(h)
+    title('h_i'), xlabel('nT')
     
-    figure, stem(q_c), xlabel('nT/4'), title('q_c')
-    %figure, stem(g_m), xlabel('nT/4'), title('g_M')
+    figure, stem([0:length(q_c)-1], q_c), xlabel('nT/4'), title('q_c')
+    figure, stem(g_m), xlabel('nT/4'), title('g_M')
     
     figure
-    plot(f/(2*pi), 10*log10(abs(Q_c))), xlim([0 0.5])
+    plot(f/(0.5*pi), 10*log10(abs(Q_c))), xlim([0 2])
     title('Frequency response Q_c')
+    xlabel('Normalized frequency, T=1')
+    ylabel('Q_c [dB]')
     
-    figure, stem([-4:8], abs(psi(:,3))), xlabel('nT'), title('|\Psi|, D=4, M1=5')
+    figure, stem([-4:8], abs(psi(:,3))), xlabel('nT'), title('|\Psi|, D=2, M1=5')
     figure, stem([0:length(c(:,3))-1], abs(c(:,3))), xlabel('nT'), title('|c|')
 end
 

@@ -102,7 +102,7 @@ for i=1:length(SNR_dB)
     
     [Pe_DFE(i), errors(i)] = SER(a(1:length(decisions)), decisions);
 end
-save('P_e_DFE.mat','Pe_DFE')
+%save('P_e_DFE.mat','Pe_DFE')
 
 %% plots
 if plot_figure == true
@@ -113,13 +113,13 @@ if plot_figure == true
     %title('h_i'), xlabel('nT')
     
     %figure, stem(q_c), xlabel('nT/4'), title('q_c')
-    figure, stem(g_m), xlabel('nT/4'), title('g_M')
+    figure, stem([0:length(g_m)-1],g_m), xlabel('nT/4'), title('g_M')
     
     figure
     plot(f/(2*pi), 10*log10(abs(Q_c))), xlim([0 0.5])
     title('Frequency response Q_c')
     
-    figure, stem([-4:8], abs(psi(:,3))), xlabel('nT'), title('|\Psi|, D=0, M1=5')
-    figure, stem([0:length(c(:,3))-1], abs(c(:,3))), xlabel('nT'), title('|c|')
-    figure, stem([0:length(b(:,3))-1], abs(b(:,3))), xlabel('nT'), title('|b|')
+    figure, stem([-2:6],abs(psi(:,3))), xlabel('nT'), title('|\Psi|, D=4, M1=5')
+    figure, stem([0:length(c(:,3))-1], abs(c(:,3))), xlabel('nT'), title('|c|'), xlim([0 6])
+    figure, stem([0:length(b(:,3))-1], abs(b(:,3))), xlabel('nT'), title('|b|'), xlim([-1 6])
 end

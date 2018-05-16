@@ -34,7 +34,7 @@
         end
     end
     %to avoid ill conditioning
-    R = R + 0.5*eye(M1);
+    R = R + 0.1*eye(M1);
     c_opt = R \ p;
 
     temp2 = zeros(M1, 1);

@@ -7,23 +7,9 @@ end
 
 load("common.mat");
 
-select = 7;
+select = 3;
 
 %% AA filter
-
-
-% Fpass = 0.645;            % Passband Frequency
-% Fstop = 0.75;            % Stopband Frequency
-% Dpass = 0.057501127785;  % Passband Ripple
-% Dstop = 0.01;            % Stopband Attenuation
-% dens  = 20;              % Density Factor
-% 
-% % Calculate the order from the parameters using FIRPMORD.
-% [N, Fo, Ao, W] = firpmord([Fpass, Fstop], [1 0], [Dpass, Dstop]);
-% 
-% % Calculate the coefficients using the FIRPM function.
-% g_AA  = firpm(N, Fo, Ao, W, {dens});
-% Hd = dfilt.dffir(g_AA);
 
 Fpass = 0.2;             % Passband Frequency
 Fstop = 0.3;             % Stopband Frequency
@@ -59,7 +45,8 @@ figure, stem(x_NN_prime(1:100)), title('xprime without noise'), xlabel('nT/2')
 figure, stem(x_prime(1:100)), title('xprime'), xlabel('nT/2')
 
 qg = downsample(qg_up(1:end), 2);
-g_m = conj(flipud(qg));
+K = 1/sum(qg.^2);
+g_m = K*conj(flipud(qg));
 
 figure, stem(g_m), title('g_m'), xlabel('nT/2')
 
@@ -78,7 +65,7 @@ figure, stem(x_NN(1:100)), title('x without noise'), xlabel('nT/2')
 
 %% Equalization and symbol detection
 
-r_g = xcorr(conv(g_AA, g_m));
+r_g = xcorr(conv(g_AA, flipud(qg_up)));
 N0 = (sigma_a * E_qc) / (4 * SNR_lin(select));
 r_w = N0 * downsample(r_g, 2);
 
@@ -98,13 +85,11 @@ psi = conv(h,c);
 figure, stem(c), title('c'), xlabel('nT/2')
 figure, stem(psi), title('psi'), xlabel('nT/2')
 
-psi_down = downsample(psi(2:end),2); % The b filter act at T
+psi_down = downsample(psi(2:end),2); % The b filter acts at T
 b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
-
-% b = -psi(find(psi == max(psi)) + 1:end); 
 
 figure, stem(b), title('b'), xlabel('nT')
 decisions = equalization_pointC(x, c, b, D);
-%decisions = downsample(decisions(1:end),2);
+
 %detection
 [Pe_c, errors] = SER(a(4:length(decisions)), decisions)

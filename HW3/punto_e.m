@@ -14,11 +14,10 @@ r_r = zeros(length(s_c), length(SNR_dB));
 
 %% Receiver filter
 
-% Costruzione del filtro g_M
-% Per l'esercizio a è un "semplice" matched filter
+% match filter
 g_m = conj(flipud(q_c));
 
-% Calculate the h impulse response
+% Compute the impulse response h
 h = conv(q_c, g_m);
 h = downsample(h,4);
 h = h(h ~= 0);
@@ -75,4 +74,4 @@ for i=1:length(SNR_dB)
     [Pe_viterbi(i), errors(i)] = SER(a_conf(1:length(decisions)), decisions);
 end
 
-save('viterbi.mat', 'Pe_viterbi');
+%save('viterbi.mat', 'Pe_viterbi');

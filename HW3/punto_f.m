@@ -1,6 +1,6 @@
 clc;
 clear all;
-close all;
+%close all;
 format long g
 %% Load common variable
 if ~exist("common.mat", 'file')
@@ -8,7 +8,7 @@ if ~exist("common.mat", 'file')
 end
 
 load("common.mat");
-%SNR_dB = SNR_dB(3);
+
 Pe_FBA = zeros(length(SNR_dB),1);
 errors = zeros(length(SNR_dB),1);
 r_r = zeros(length(s_c), length(SNR_dB));
@@ -51,41 +51,7 @@ for i=1:length(SNR_dB)
     r_w(:,i) = downsample(r_w_up(:,i), 4);
 end
 
-% M1_span = [2:20];
-% D_span = [2:20];
-% 
-% % M1_span = 4;
-% % D_span = 2;
-% 
-% Jvec = zeros(19);
-% for k=1:length(M1_span)
-%     for l=1:length(D_span)
-%         M1 = M1_span(k);
-%         D = D_span(l);
-%         M2 = N2 + M1 - 1 - D;
-%         [c, Jmin] = WienerC_DFE(h, r_w, sigma_a, M1, M2, D);
-%         Jvec(k,l) = Jmin;
-%     end
-% end
-% 
-% for i=1:length(D_span)
-%    figure,
-%    plot(2:20, Jvec(:,i))
-% end
-
-% psi = conv(c, h);
-% psi = psi/max(psi);
-% 
-% b = - psi(end - M2 + 1:end);
-% 
-% for i=1:length(SNR_dB)
-%     decisions = equalization_DFE(x(:,i), c, b, M1, M2, D);
-%     
-%     [Pe(i), errors(i)] = SER(a(1:length(decisions)), decisions);
-% end
-
-M1 = 5;
-D = 4;
+M1 = 5; D = 4;
 M2 = N2 + M1 - 1 - D;
 
 c =zeros(M1, length(SNR_dB));
@@ -100,7 +66,7 @@ for i=1:length(SNR_dB)
     y = conv(x(:,i),c(:,i));
     y = y ./ max(psi(:,i));
     %var_w(i) = 10^(Jmin(i)/10) - (abs(1-max(psi(:,i)))^2)*sigma_a;
-    %indexD = find(psi(:,i) == max(psi(:,i)));
+    indexD = find(psi(:,i) == max(psi(:,i)));
     L1 = 0; L2 = 4;
     psi_pad = [psi(:,i); 0; 0];
     indexD = find(psi_pad == max(psi_pad));
@@ -108,4 +74,4 @@ for i=1:length(SNR_dB)
     [Pe_FBA(i), errors(i)] = SER(a(1:end-4), decisions(5:end));
 end
 
-save('fba.mat', 'Pe_FBA');
+%save('fba.mat', 'Pe_FBA');
