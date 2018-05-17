@@ -7,12 +7,12 @@ end
 
 load("common.mat");
 
-select = 7;
+select = 3;
 
 %% AA filter
 
-Fpass = 0.45;            % Passband Frequency
-Fstop = 0.55;            % Stopband Frequency
+Fpass = 0.2;             % Passband Frequency
+Fstop = 0.3;             % Stopband Frequency
 Dpass = 0.057501127785;  % Passband Ripple
 Dstop = 0.01;            % Stopband Attenuation
 dens  = 20;              % Density Factor
@@ -22,9 +22,9 @@ dens  = 20;              % Density Factor
 
 % Calculate the coefficients using the FIRPM function.
 g_AA  = firpm(N, Fo, Ao, W, {dens});
-[Hd f]= freqz(g_AA,1,'whole');
+Hd = dfilt.dffir(g_AA);
 
-figure, plot(f/(pi),10*log10(abs(Hd))), xlim([0 2])
+select=3;
 
 r_r = filter(g_AA , 1, r_c(:,select));
 figure, stem(r_r(1:100)), title('r_r'), xlabel('nT/4')
@@ -49,11 +49,11 @@ N0 = (sigma_a * E_qc)/(4*SNR_lin(select));
 r_w = N0 * downsample(r_g, 2);
 figure, stem(r_w), title('r_w'), xlabel('nT/2')
 
-N1 = 10;
+N1 = 11;
 N2 = 12;
 
-M1 = 9;
-D = 4;
+M1 = 5;
+D = 2;
 M2 = N2 + M1 - 1 - D;
 
 [c, Jmin]= WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
@@ -66,20 +66,20 @@ figure, stem(b), title('b'), xlabel('nT')
 decisions = equalization_pointC(x, c, b, D);
 
 %detection
-[Pe_c, errors] = SER(a(1:length(decisions)), decisions)
+[Pe_c, errors] = SER(a(1:length(decisions)), decisions);
 
 
 %% plots
 
-% figure, stem(g_AA), title('g_AA'), xlabel('nT/4')
-% % figure, stem(r_c(1:100,3)), title('r_c'), xlabel('nT/4')
-% % figure, stem(r_r(1:100,3)), title('r_r'), xlabel('nT/4')
-% % figure, stem(s_r(1:100)), title('s_r'), xlabel('nT/4')
-% % figure, stem(qg_up), title('convolution of g_AA and q_c'), xlabel('nT/4')
-% % figure, stem(x(1:100,3)), title('x'), xlabel('nT/2')
-% % figure, stem(x_NN(1:100)), title('x without noise'), xlabel('nT/2')
-% figure, stem(h), title('h'), xlabel('nT/2')
-% % figure, stem(r_gAA), title('r_g'), xlabel('nT/2')
-% % figure, stem(r_w(:,3)), title('r_g'), xlabel('nT/2')
-% figure, stem(c), title('c'), xlabel('nT/2')
-% figure, stem(psi), title('psi'), xlabel('nT/2')
+figure, stem(g_AA), title('g_AA'), xlabel('nT/4')
+% figure, stem(r_c(1:100,3)), title('r_c'), xlabel('nT/4')
+% figure, stem(r_r(1:100,3)), title('r_r'), xlabel('nT/4')
+% figure, stem(s_r(1:100)), title('s_r'), xlabel('nT/4')
+% figure, stem(qg_up), title('convolution of g_AA and q_c'), xlabel('nT/4')
+% figure, stem(x(1:100,3)), title('x'), xlabel('nT/2')
+% figure, stem(x_NN(1:100)), title('x without noise'), xlabel('nT/2')
+figure, stem(h), title('h'), xlabel('nT/2')
+% figure, stem(r_gAA), title('r_g'), xlabel('nT/2')
+% figure, stem(r_w(:,3)), title('r_g'), xlabel('nT/2')
+figure, stem(c), title('c'), xlabel('nT/2')
+figure, stem(psi), title('psi'), xlabel('nT/2')

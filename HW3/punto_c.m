@@ -11,8 +11,8 @@ select = 3;
 
 %% AA filter
 
-Fpass = 0.2;             % Passband Frequency
-Fstop = 0.3;             % Stopband Frequency
+Fpass = 0.45;            % Passband Frequency
+Fstop = 0.55;            % Stopband Frequency
 Dpass = 0.057501127785;  % Passband Ripple
 Dstop = 0.01;            % Stopband Attenuation
 dens  = 20;              % Density Factor
@@ -47,8 +47,8 @@ figure, stem(x_NN_prime(1:100)), title('xprime without noise'), xlabel('nT/2')
 figure, stem(x_prime(1:100)), title('xprime'), xlabel('nT/2')
 
 qg = downsample(qg_up(1:end), 2);
-K = 1/sum(qg.^2);
-g_m = K*conj(flipud(qg));
+
+g_m = conj(flipud(qg));
 
 figure, stem(g_m), title('g_m'), xlabel('nT/2')
 
@@ -77,7 +77,7 @@ figure, stem(r_g), title('r_g'), xlabel('nT/2')
 N1 = floor(length(h)/2);
 N2 = N1;
 
-M1 = 5;
+M1 = 9;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 
@@ -94,4 +94,4 @@ figure, stem(b), title('b'), xlabel('nT')
 decisions = equalization_pointC(x, c, b, D);
 
 %detection
-[Pe_c, errors] = SER(a(4:length(decisions)), decisions)
+[Pe_c, errors] = SER(a(1:length(decisions)), decisions)
