@@ -8,6 +8,7 @@ if ~exist("common.mat", 'file')
 end
 
 load("common.mat");
+
 Pe_viterbi = zeros(length(SNR_dB),1);
 errors = zeros(length(SNR_dB),1);
 r_r = zeros(length(s_c), length(SNR_dB));
@@ -63,11 +64,8 @@ for i=1:length(SNR_dB)
     [c(:,i) Jmin(i)]= WienerC_DFE(h, r_w(:,i), sigma_a, M1, M2, D);
     
     psi(:,i) = conv(c(:,i), h);
-    %psi(:,i) = psi(:,i)/max(psi(:,i));
-    b(:,i) = -psi(find(psi==max(psi))+1:end,i);
     y = conv(x(:,i),c(:,i));
     y = y./max(psi(:,i));
-    %var_w(i) = 10^(Jmin(i)/10) - ( abs( 1 - max(psi(:,i) ))^2 ) * sigma_a;
     a_conf  =  a(1+4-0 : end-M2+M2-2);
     decisions = VBA(y, psi(:,i), 0, M2-2, 4, M2);
     decisions = decisions(D+1:end);

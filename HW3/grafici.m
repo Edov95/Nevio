@@ -6,7 +6,6 @@ load('Pe_AWGNsim.mat','Pe_AWGNsim')
 %load('Pe_d.mat','Pe_d')
 load('viterbi.mat','Pe_viterbi')
 load('fba.mat','Pe_FBA')
-%Pe_FBA = [0.0128 0.0050 0.0016 0.000394 -inf -inf -inf];
 Pe_c = [0.07011 0.04315 0.024578 0.01244 0.005542 0.002073 0.0007324];
 Pe_d=[0.0798 0.0569 0.0385 0.0245 0.0149 0.0079 0.0040];
 

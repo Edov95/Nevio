@@ -33,37 +33,37 @@ end
 
 for k = 1 : length(r_c)
 
-    costnew = - ones(Ns, 1);
+    nextcost = - ones(Ns, 1);
     pred = zeros(Ns, 1);
-    newstate = 0;
+    nextstate = 0;
     
     for state = 1 : Ns
         
         for j = 1 : M   
-            newstate = newstate + 1;
-            if newstate > Ns, newstate = 1; end
+            nextstate = nextstate + 1;
+            if nextstate > Ns, nextstate = 1; end
             u = U(state, j);
             newstate_cost = cost(state) + abs(r_c(k) - u)^2;
-            if costnew(newstate) == -1 ...     % not assigned yet, or...
-                    || costnew(newstate) > newstate_cost  % ...found path with lower cost
-                costnew(newstate) = newstate_cost;
-                pred(newstate) = state;
+            if nextcost(nextstate) == -1 ...    
+                    || nextcost(nextstate) > newstate_cost 
+                nextcost(nextstate) = newstate_cost;
+                pred(nextstate) = state;
             end
         end
     end
     
     temp = zeros(size(survSeq));
-    for newstate = 1:Ns
-        temp(newstate, 1:Kd) = ...
-            [survSeq(pred(newstate), 2:Kd), ... 
-            symb(mod(newstate-1, M)+1)];       
+    for nextstate = 1:Ns
+        temp(nextstate, 1:Kd) = ...
+            [survSeq(pred(nextstate), 2:Kd), ... 
+            symb(mod(nextstate-1, M)+1)];       
     end
-    [~, decided_index] = min(costnew);   
+    [~, decided_index] = min(nextcost);   
     detectedSymb(1+k) = survSeq(decided_index, 1); 
     survSeq = temp;
     
     % Update the cost to be used as cost at time k-1 in the next iteration
-    cost = costnew;
+    cost = nextcost;
 end
 
 toc(tStart)
