@@ -88,8 +88,10 @@ if plot_figure == true
     xlabel('Normalized frequency, T=1')
     ylabel('Q_c [dB]')
     
-    figure, stem([-4:8], abs(psi(:,3))), xlabel('nT'), title('|\Psi|, D=2, M1=5')
-    figure, stem([0:length(c(:,3))-1], abs(c(:,3))), xlabel('nT'), title('|c|')
+    figure, stem([-4:8], abs(psi(:,3))), xlabel('nT'), ...
+        title('|\Psi|, D=2, M1=5')
+    figure, stem([0:length(c(:,3))-1], abs(c(:,3))), xlabel('nT'), ...
+        title('|c|')
 end
 
 

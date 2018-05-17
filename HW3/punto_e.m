@@ -69,7 +69,7 @@ for i=1:length(SNR_dB)
     a_conf  =  a(1+4-0 : end-M2+M2-2);
     decisions = VBA(y, psi(:,i), 0, M2-2, 4, M2);
     decisions = decisions(D+1:end);
-    [Pe_viterbi(i), errors(i)] = SER(a_conf(1:length(decisions)), decisions);
+    [Pe_viterbi(i),errors(i)] = SER(a_conf(1:length(decisions)),decisions);
 end
 
 %save('viterbi.mat', 'Pe_viterbi');

@@ -18,19 +18,21 @@
             
             f=zeros(length(h),1);
             for n=0:length(h)-1
-                f(n+1) = hpad(padding + 1 + 2 * n - col)*conj(hpad(padding + 1 + 2 * n - row));
+                f(n+1) = hpad(padding + 1 + 2 * n - col)*conj(...
+                    hpad(padding + 1 + 2 * n - row));
             end
             fsum = sum(f);
             
             s=zeros(M2,1);
             for j=1:M2
-                s(j) = hpad(N1 + padding + 1 + 2*(j+D) -col)*conj(hpad(N1 + padding + 1+2*(j+D) -row ));
+                s(j) = hpad(N1 + padding + 1 + 2*(j+D) -col)*conj(...
+                    hpad(N1 + padding + 1+2*(j+D) -row ));
             end
             ssum = sum(s);
             
             
-            R(row + 1, col + 1) = sigma_a * (fsum - ssum) + r_w_pad(padding + 1 ...
-                + row - col + (floor(length(r_w) / 2 )));
+            R(row + 1, col + 1) = sigma_a * (fsum - ssum) + r_w_pad(...
+                padding + 1 + row - col + (floor(length(r_w) / 2 )));
         end
     end
     %to avoid ill conditioning

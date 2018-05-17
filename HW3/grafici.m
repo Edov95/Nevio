@@ -36,4 +36,5 @@ ylim([10^-4 10^-1])
 xlim([8 14])
 xlabel('SNR [dB]')
 ylabel('P_e')
-legend('MF+LE@T','MF+DFE@T','AAF+MF+DFE@T/2','AAF+DFE@T/2','VA','FBA','MF b-S','MF b-T');
+legend('MF+LE@T','MF+DFE@T','AAF+MF+DFE@T/2','AAF+DFE@T/2','VA','FBA', ... 
+    'MF b-S','MF b-T');

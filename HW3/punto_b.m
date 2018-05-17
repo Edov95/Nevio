@@ -119,7 +119,10 @@ if plot_figure == true
     plot(f/(2*pi), 10*log10(abs(Q_c))), xlim([0 0.5])
     title('Frequency response Q_c')
     
-    figure, stem([-2:6],abs(psi(:,3))), xlabel('nT'), title('|\Psi|, D=4, M1=5')
-    figure, stem([0:length(c(:,3))-1], abs(c(:,3))), xlabel('nT'), title('|c|'), xlim([0 6])
-    figure, stem([0:length(b(:,3))-1], abs(b(:,3))), xlabel('nT'), title('|b|'), xlim([-1 6])
+    figure, stem([-2:6],abs(psi(:,3))), xlabel('nT'), ...
+        title('|\Psi|, D=4, M1=5')
+    figure, stem([0:length(c(:,3))-1], abs(c(:,3))), xlabel('nT'), ...
+        title('|c|'), xlim([0 6])
+    figure, stem([0:length(b(:,3))-1], abs(b(:,3))), xlabel('nT'), ...
+        title('|b|'), xlim([-1 6])
 end

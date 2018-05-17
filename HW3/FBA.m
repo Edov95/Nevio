@@ -53,7 +53,8 @@ for k = K:-1:1
         % expression
         possible_state = mod(i-1, M^(L1 + L2 - 1))*M + 1;
         % the value of b is computed from b(k+1)
-        b(i, k) = max(b(possible_state:possible_state+M-1, k+1) + c(:, i, k+1));
+        b(i, k) = max(b(possible_state:possible_state+M-1, k+1) ...
+            + c(:, i, k+1));
     end
 end
 

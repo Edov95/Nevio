@@ -17,7 +17,8 @@ w = zeros(length_w, 7);
 sigma_w = zeros(length(SNR_dB),1);
 for i=1:length(SNR_dB)
     sigma_w(i) = (sigma_a * E_qc) / SNR_lin(i);
-    w(:,i) = sqrt(sigma_w(i))/sqrt(2).*(randn(length_w, 1) + 1i*randn(length_w, 1));
+    w(:,i) = sqrt(sigma_w(i))/sqrt(2).*(randn(length_w, 1) + ...
+        1i*randn(length_w, 1));
     %w(:,i) = wgn(length_w, 1, 10*log10(sigma_w(i)), 'complex');
 end
 
