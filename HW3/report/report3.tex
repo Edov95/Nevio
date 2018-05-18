@@ -161,7 +161,11 @@ Again the parameters to choose are the order of filter $c$, $M1$, and the delay 
 
 \section*{Point C}
 
-\section*{Point D}
+In the receiver at point C we use a different type of approach. Before sampling the received signal we use an anti-aliasing filter instead of a matched filter. This is not an optimal solution but can be useful in some situation where the channel is not known or varies in time. Also the downsampling is at $T/2$ instead of $T$ and this gives more degrees of freedom int the equalization and more robustness with respect to the choice of the timing phase. The anti-aliasing filter has to avoid overlapping in frequency when we downsample the signal at the output of the channel. Our signal has frequency content that is periodic of period $4/T$, and has the shape of the Fourier transform of filter $q_c$. Therefore its bandwidth is not limited and our anti-aliasing filter $g_{AA}$ will remove useful information. The sampling at $T/2$ causes the frequency content of the signal to be repeated every $2/T$, causing an overlap. To avoid this, the cutting frequency of $g_{AA}$ has to be around $1/T$. In figure \ref{fig:gAA} we show the magnitude of the frequency response $|G_{AA}|$.
+The sampling then has to start after an offset $\bar{t}_0$ equal to the peak of the overall impulse response $q_c*g_{AA}$ at time $T/4$ that in this case was equal to $21$. 
+In this kind of configuration we also add a matched filter after the sampling 
+
+\section*{Point D} 
 
 \section*{Point E}
 
