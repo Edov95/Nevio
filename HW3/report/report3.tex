@@ -133,7 +133,7 @@ The value of the cost function $J_{min}$ obtained using these the optimal filter
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
 \end{equation}
 
-Again the parameters to choose are the order of filter $c$, $M1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M2=N1+M1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M1=5$ and $D=4$, and consequently $M2=2$ because $N1=2$. In figure \ref{fig:B_c}, \ref{fig:B_psi} and \ref{fig:B_b} we plot the resulting filters $c$, $\psi$ and $b$ at sampling time $T$. 
+Again the parameters to choose are the order of filter $c$, $M1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M2=N2+M1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M1=5$ and $D=4$, and consequently $M2=2$ because $N2=2$. In figure \ref{fig:B_c}, \ref{fig:B_psi} and \ref{fig:B_b} we plot the resulting filters $c$, $\psi$ and $b$ at sampling time $T$. 
 
 \begin{figure}[ht]
 	\begin{center}   
@@ -169,7 +169,7 @@ g_M = \left\{ q_c * g_{AA} \right\}^* \left(t_0 + i \frac{T}{2}\right) \qquad i 
 \end{equation}
 And the inpulse response is depicted in figure \ref{fig:C_gm}. %Aggiungere la figura per la risposta inpoulsiva del filtro
 
-For find out the equalizer we still use the Wiener problem. Now the $c$ filter work at $T/2$ so we must take care about it and the equation used for cunstruct the Wiener problem aren't the same used for the points A and B. The equations \ref{eq:yk}, \ref{eq:wienerR} and \ref{eq:wienerp} became
+For find out the equalizer we still use the Wiener problem. Now the $c$ filter work at $T/2$ so we must take care about it and the equation used for the Wiener solution aren't the same used for the points A and B. The equations \ref{eq:yk}, \ref{eq:wienerR} and \ref{eq:wienerp} became
 \begin{equation} \label{eq:C_yk}
 y_k = \sum_{i=0}^{M_1-1}c_i \left(x_{2k-i}-\sum_{j=1}^{M2}h_{2(j+D)-i}a_{k-j-D} \right)
 \end{equation}
@@ -187,7 +187,7 @@ The value of the cost function $J_{min}$ obtained using these the optimal filter
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{2D-l}\right)
 \end{equation}
 
-Again the parameters to choose are the order of filter $c$, $M1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M2=N1+M1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M1=9$ and $D=4$, and consequently $M2=4$ because $N1=2$ (Siamo sicuri che sia N1 e non N2 come scritto nel codice ? a parte che sono uguali perché h è simmetrica, bisogna stare attenti che nel punto D non sia stato fatto lo stesso errore che li NON è simmetrica). In figure \ref{fig:C_c}, \ref{fig:C_psi} and \ref{fig:C_b} we plot the resulting filters $c$, $\psi$ at sampling time $T/2$ and $b$ at sampling time $T$.
+Again the parameters to choose are the order of filter $c$, $M1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M2=N1+M1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M1=9$ and $D=4$, and consequently $M2=4$ because $N2=2$ (Siamo sicuri che sia N1 e non N2 come scritto nel codice ? a parte che sono uguali perché h è simmetrica, bisogna stare attenti che nel punto D non sia stato fatto lo stesso errore che li NON è simmetrica). In figure \ref{fig:C_c}, \ref{fig:C_psi} and \ref{fig:C_b} we plot the resulting filters $c$, $\psi$ at sampling time $T/2$ and $b$ at sampling time $T$.
 
 \section*{Point D} 
 
@@ -208,21 +208,20 @@ Again the parameters to choose are the order of filter $c$, $M1$, and the delay 
 
 \begin{table}[htbp]
 	\begin{center}
-		\begin{tabular}{p{2.7cm}ccc}
+		\begin{tabular}{p{2.7cm}cccccc}
 			\toprule
 			
-			$nT_y$ & $h$ & $\hat{h}_{corr}$ & $\hat{h}_{ls}$\\
+			  & $N1$ & $N2$ & $M1$ & $M2$ & $D$ & $\bar{t}_0$ \\
 			\midrule
-			0 & 1.0000  & 1.0054 & 0.9991  \\
-			1 & 0.9635 & 0.9247 & 0.9613  \\
-			2 & 0.4641 & 0.5002 & 0.5062 \\
-			3 & -0.0001 & 0.0202 & 0.0255  \\
-			4 & -0.2155 & -0.2549 & -0.2253\\
+			A &  4  &  4  & 5 & 0  & 2 & 17 \\
+			B & 2 & 2 & 5 & 0  & 4 & 17 \\
+			C & 10 & 12 & 9 & 16 & 4 & 21 \\
+			D & 10 & 12 & 9 & 16 & 4 & 21 \\
 			\midrule
 			%& \multicolumn{3}{c}{} \\
-			& Real & Corr & LS \\
+			& Real & Corr & LS & & & \\
 		    \cmidrule(lr){2-4}
-		    $\sigma_w^2$ [dB] & -8 & -7.9776 & -8.0404  \\
+		    $\sigma_w^2$ [dB] & -8 & -7.9776 & -8.0404 & & &  \\
 			\bottomrule
 		\end{tabular}
 	\end{center}

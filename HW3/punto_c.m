@@ -22,9 +22,13 @@ dens  = 20;              % Density Factor
 
 % Calculate the coefficients using the FIRPM function.
 g_AA  = firpm(N, Fo, Ao, W, {dens});
-[Hd f]= freqz(g_AA,1,'whole');
+[Hd f1]= freqz(g_AA,1,'whole');
 
-figure, plot(f/(pi),10*log10(abs(Hd))), xlim([0 2])
+figure, plot(f1/(pi),20*log10(abs(Hd))), xlim([0 1]),
+title('|G_{AA}|')
+ylabel('|G_{AA}| [dB]')
+xlabel('n*2/T')
+grid on;
 
 r_r = filter(g_AA , 1, r_c(:,select));
 s_r = filter(g_AA, 1, s_c);
@@ -49,6 +53,12 @@ figure, stem(x_prime(1:100)), title('xprime'), xlabel('nT/2')
 qg = downsample(qg_up(1:end), 2);
 
 g_m = conj(flipud(qg));
+[Hgm f2] =  freqz(g_m,1,'whole');
+figure, plot(f2/(pi),20*log10(abs(Hgm))), xlim([0 1]),
+title('|G_M|')
+ylabel('|G_M| [dB]')
+xlabel('n*2/T')
+grid on;
 
 figure, stem(g_m), title('g_m'), xlabel('nT/2')
 
@@ -84,13 +94,15 @@ M2 = N2 + M1 - 1 - D;
 [c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
 psi = conv(h,c);
 
-figure, stem(c), title('c'), xlabel('nT/2')
-figure, stem(psi), title('psi'), xlabel('nT/2')
+figure, stem([0:length(c)-1],c), title('c'), xlabel('nT/2')
+xlim([0 length(c)])
+figure, stem([0:length(psi)-1],psi), title('psi'), xlabel('nT/2')
 
 psi_down = downsample(psi(2:end),2); % The b filter acts at T
 b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 
-figure, stem(b), title('b'), xlabel('nT')
+figure, stem([0:length(b)-1],b), title('b'), xlabel('nT')
+xlim([-1 length(b)-1])
 decisions = equalization_pointC(x, c, b, D);
 
 %detection
