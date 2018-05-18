@@ -21,7 +21,7 @@ g_m = conj(flipud(q_c));
 % Calculate the h impulse response
 h = conv(q_c, g_m);
 h = downsample(h,4);
-h = h(h ~= 0);
+%h = h(h ~= 0);
 
 N1 = floor(length(h)/2);
 N2 = N1;
@@ -30,7 +30,7 @@ for i=1:length(SNR_dB)
     r_r(:,i) = filter(g_m, 1, r_c(:,i));
 end
 
-% For debuggig pourpose
+% For debuggig purpose
 s_r = filter(g_m, 1, s_c);
 
 %% Sampling
@@ -119,7 +119,7 @@ if plot_figure == true
     plot(f/(2*pi), 10*log10(abs(Q_c))), xlim([0 0.5])
     title('Frequency response Q_c')
     
-    figure, stem([-2:6],abs(psi(:,3))), xlabel('nT'), ...
+    figure, stem([-4:8],abs(psi(:,3))), xlabel('nT'), ...
         title('|\Psi|, D=4, M1=5')
     figure, stem([0:length(c(:,3))-1], abs(c(:,3))), xlabel('nT'), ...
         title('|c|'), xlim([0 6])

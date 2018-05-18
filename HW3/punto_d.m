@@ -57,13 +57,13 @@ D = 4;
 M2 = N2 + M1 - 1 - D;
 
 [c, Jmin]= WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
-figure, stem([0:length(c)-1],c), title('c'), xlabel('nT/2')
+figure, stem([0:length(c)-1], abs(c)), title('|c|'), xlabel('nT/2')
 xlim([0 length(c)])
 psi = conv(h,c);
-figure, stem([0:length(psi)-1],psi), title('psi'), xlabel('nT/2')
+figure, stem([-14:16], abs(psi)), title('|\psi|, M_1=9, D=4'), xlabel('nT/2')
 psi_down = downsample(psi(2:end),2);
 b = -psi_down(find(psi_down==max(psi_down))+1:end); 
-figure, stem([0:length(b)-1],b), title('b'), xlabel('nT')
+figure, stem([0:length(b)-1],abs(b)), title('|b|'), xlabel('nT')
 xlim([-1 length(b)-1])
 decisions = equalization_pointC(x, c, b, D);
 

@@ -27,9 +27,7 @@
 
 \maketitle
 
-\section*{Problem}
-
-We have to implement six different versions of the receiver structure in a QPSK modulation scheme. First we present the setup of the transmitter and the channel as given, the we analyze the different configurations one by one and give a brief discussions of the resulting probabilities of symbol error obtained from simulation over different values of the SNR at the channel output, $\Gamma$. 
+We have to implement six different versions of the receiver structure in a QPSK modulation scheme. First we present the setup of the transmitter and the channel as given, then we analyze the different configurations one by one and give a brief discussions of the resulting probabilities of symbol error obtained from simulation over different values of the SNR at the channel output, $\Gamma$. 
 
 \section*{Transmitter and Channel}
 
@@ -68,7 +66,7 @@ In point A at the receiver we have a matched filter $g_{M}$ (see figure \ref{fig
 
 The output of the matched filter is then sampled at $T$ starting from an initial offset called \emph{timing phase} $t_0$. In our case the choice of $t_0$ is made easy by the presence of the matched filter, as we can just choose the value $\bar{t}_0$, multiple of $T/4$, that is the index of the peak of the correlation between $q_c$ and $g_M$, then $t_0$ will be equal to $\bar{t}_0 T/4$. Following this reasoning we chose $\bar{t}_0=17$, equal also to the length of $g_M$ (see figure \ref{fig:A_gm}).
 
-The signal is then passed to a linear equalizer (LE) derived by a particular case of a Decision Feedback Equalizer (DFE) where we only have the feedforward filter $c$ (see point B for the detailed analysis of the DFE). The signal at this point in the receiver system is called $x_k$ and is the result of the convolution of the input sequence $a_k$ with the overall impulse response $h_i = q_c * g_M$ that goes from $-N1$ to $N2$. We will call precursors the taps of $h$ that go from $-N1$ to $-1$ and postcursors the taps from $1$ to $N2$. To obtain the coefficients of $c$ we used the Wiener approach on the input random process and solved the Wiener-Hopf equation $\vt{c}_{opt}=\vt{R}^{-1}\vt{p}$ using the matrix $\vt{R}$ and vector $\vt{p}$ as in equations \ref{eq:wienerR} and \ref{eq:wienerp} with the parameter $M_2$ (the order of the feedback filter) set to $0$ because we have no feedback filter in this case. The free parameters that we have to choose are $M1$, the order of filter $c$ and $D$ the delay that it will introduce on the input sequence. We carried out this choice looking at the value of the cost function $J_{min}$ (see equation \ref{eq:jmin}) for each combination of the two parameters, preferring low values if possible to avoid increasing the complexity. The best choice in this case was $M1=5$ and $D=2$.
+The signal is then passed to a linear equalizer (LE) derived by a particular case of a Decision Feedback Equalizer (DFE) where we only have the feedforward filter $c$ (see point B for the detailed analysis of the DFE). The signal at this point in the receiver system is called $x_k$ and is the result of the convolution of the input sequence $a_k$ with the overall impulse response $h_i = q_c * g_M$ that goes from $-N_1$ to $N_2$. We will call precursors the taps of $h$ that go from $-N1$ to $-1$ and postcursors the taps from $1$ to $N_2$. To obtain the coefficients of $c$ we used the Wiener approach on the input random process and solved the Wiener-Hopf equation $\vt{c}_{opt}=\vt{R}^{-1}\vt{p}$ using the matrix $\vt{R}$ and vector $\vt{p}$ as in equations \ref{eq:wienerR} and \ref{eq:wienerp} with the parameter $M_2$ (the order of the feedback filter) set to $0$ because we have no feedback filter in this case. The free parameters that we have to choose are $M_1$, the order of filter $c$ and $D$ the delay that it will introduce on the input sequence. We carried out this choice looking at the value of the cost function $J_{min}$ (see equation \ref{eq:jmin}) for each combination of the two parameters, preferring low values if possible to avoid increasing the complexity. The best choice in this case was $M_1=5$ and $D=2$.
 In figure \ref{fig:A_c} we plot the impulse response $c_i$ at sampling time $T$ as obtained from the Wiener solution. 
 
 \begin{figure}[ht]
@@ -112,12 +110,12 @@ y_k &= x_{FF,k} + x_{FB,k} \\
 &= \sum_{i=0}^{M_1-1}c_ix_{k-i} + \sum_{j=1}^{M_2}b_ja_{k-D-j}
 \end{split} 
 \end{equation}
-where $M1$ is the order of the feedforward filter, $M2$ is the order of the feedback filter and $a_{k-D}$ are the already detected past symbols fed back through $b$. Defining postcursors and precursors as in point A, we have that we can apply the Wiener-Hopf equations on the process:
+where $M_1$ is the order of the feedforward filter, $M_2$ is the order of the feedback filter and $a_{k-D}$ are the already detected past symbols fed back through $b$. Defining postcursors and precursors as in point A, we have that we can apply the Wiener-Hopf equations on the process:
 \begin{equation} \label{eq:yk}
-y_k = \sum_{i=0}^{M_1-1}c_i \left(x_{k-i}-\sum_{j=1}^{M2}h_{j+D-i}a_{k-j-D} \right)
+y_k = \sum_{i=0}^{M_1-1}c_i \left(x_{k-i}-\sum_{j=1}^{M_2}h_{j+D-i}a_{k-j-D} \right)
 \end{equation}
 
-The result can be easily computed as $c_{opt} = \vt{R}^{-1}\vt{p}$ once we find the atocorrelation matrix $\vt{R}$ and the correlation vector $\vt{p}$, expressed as \cite{nevio<3}:
+The result can be easily computed as $c_{opt} = \vt{R}^{-1}\vt{p}$ once we find the autocorrelation matrix $\vt{R}$ and the correlation vector $\vt{p}$, expressed as \cite{nevio<3}:
 
 \begin{equation} \label{eq:wienerR}
 \mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{j=-N_1}^{N_2}h_jh^*_{j-(p-q)}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{j+d-p} \right) + r_{\tilde{w}}(p-q)
@@ -126,14 +124,14 @@ The result can be easily computed as $c_{opt} = \vt{R}^{-1}\vt{p}$ once we find 
 \mathbf{[p]}_p = \sigma_a^2 h^*_{D-p} \quad\quad\quad\quad\quad\quad p = 0,1,\dots,M_1-1
 \end{equation}
 
-where for a QPSK scheme $\sigma_a^2=2$ because it is the sum of two orthogonal components each with power $1$. The values of $r_{\tilde{w}}$ are the result of the autocorrelation of the noise after being filtered by $g_M$, so being the noise white we have $r_{\tilde{w}}(n)=N_0r_{g_M}(nT)$. At this point we can define the overall impulse response up to the threshold detector $\psi = h*c_{opt}$ and derive the optimal coefficients for filter $b$ as $b_i=-\psi_{i+D}$ for $i=1,\dots,M2$.
+where for a QPSK scheme $\sigma_a^2=2$ because it is the sum of two orthogonal components each with power $1$. The values of $r_{\tilde{w}}$ are the result of the autocorrelation of the noise after being filtered by $g_M$, so being the noise white we have $r_{\tilde{w}}(n)=N_0r_{g_M}(nT)$. At this point we can define the overall impulse response up to the threshold detector $\psi = h*c_{opt}$ and derive the optimal coefficients for filter $b$ as $b_i=-\psi_{i+D}$ for $i=1,\dots,M_2$.
 
 The value of the cost function $J_{min}$ obtained using these the optimal filters is :
 \begin{equation} \label{eq:jmin}
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
 \end{equation}
 
-Again the parameters to choose are the order of filter $c$, $M1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M2=N2+M1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M1=5$ and $D=4$, and consequently $M2=2$ because $N2=2$. In figure \ref{fig:B_c}, \ref{fig:B_psi} and \ref{fig:B_b} we plot the resulting filters $c$, $\psi$ and $b$ at sampling time $T$. 
+Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M_1=5$ and $D=4$, and consequently $M_2=4$ because $N_2=4$. In figure \ref{fig:B_c}, \ref{fig:B_psi} and \ref{fig:B_b} we plot the resulting filters $c$, $\psi$ and $b$ at sampling time $T$. 
 
 \begin{figure}[ht]
 	\begin{center}   
@@ -161,17 +159,33 @@ Again the parameters to choose are the order of filter $c$, $M1$, and the delay 
 
 \section*{Point C}
 
-In the receiver at point C we use a different type of approach. Before sampling the received signal we use an anti-aliasing filter instead of a matched filter. This is not an optimal solution but can be useful in some situation where the channel is not known or varies in time. Also the downsampling is at $T/2$ instead of $T$ and this gives more degrees of freedom int the equalization and more robustness with respect to the choice of the timing phase. The anti-aliasing filter has to avoid overlapping in frequency when we downsample the signal at the output of the channel. Our signal has frequency content that is periodic of period $4/T$, and has the shape of the Fourier transform of filter $q_c$. Therefore its bandwidth is not limited and our anti-aliasing filter $g_{AA}$ will remove useful information. The sampling at $T/2$ causes the frequency content of the signal to be repeated every $2/T$, causing an overlap. To avoid this, the cutting frequency of $g_{AA}$ has to be around $1/T$. In figure \ref{fig:gAA} we show the magnitude of the frequency response $|G_{AA}|$.
-The sampling then has to start after an offset $\bar{t}_0$ equal to the peak of the overall impulse response $q_c*g_{AA}$ at time $T/4$ that in this case was equal to $21$. 
-In this kind of configuration we also add a digital matched filter after the sampling that is different from the previous points, now the matched filter is 
+In the receiver at point C we use a different type of approach. Before sampling the received signal we use an anti-aliasing filter instead of a matched filter. This is not an optimal solution but can be useful in some situation where the channel is not known or varies in time. Also the downsampling is at $T/2$ instead of $T$ and this gives more degrees of freedom int the equalization and more robustness with respect to the choice of the timing phase. The anti-aliasing filter has to avoid overlapping in frequency when we downsample the signal at the output of the channel. Our signal has frequency content that is periodic of period $4/T$, and has the shape of the Fourier transform of filter $q_c$. Therefore its bandwidth is not limited and our anti-aliasing filter $g_{AA}$ will remove useful information. The sampling at $T/2$ causes the frequency content of the signal to be repeated every $2/T$, causing an overlap. To avoid this, the cutting frequency of $g_{AA}$ has to be around $1/T$. In figure \ref{fig:C_gaa} we show the magnitude of the frequency response $|G_{AA}|$, where we chose the passband at $0.45 \cdot 2/T$ and the stopband at $0.55\cdot 2/T$.
+
+\begin{figure}[ht]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/GAA.png} 
+		\caption{Magnitude of the frequency response of the anti-aliasing filter in point C.}
+		\label{fig:C_gaa}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/GM_CD.png} 
+		\caption{Magnitude of the frequency response of the matched filter in point C.}
+		\label{fig:C_gm}
+	\end{center}
+\end{figure}
+
+The sampling then has to start after an offset $\bar{t}_0$ equal to the peak of the overall impulse response $q_c*g_{AA}$ at time $T/4$ that in this case was equal to $21$.  
+In this kind of configuration we also add a digital matched filter after the sampling that is different from the previous points, now the matched filter is given by flipping and taking the conjugate of the whole impulse response $q_c*g_{AA}$ at sampling time $T/2$:
 \begin{equation}
-g_M = \left\{ q_c * g_{AA} \right\}^* \left(t_0 + i \frac{T}{2}\right) \qquad i = 0, 1, \dots, N %Sistemare il supporto del filtro
+g_M = \left\{ q_c * g_{AA} \right\}^* \left(t_0 + i \frac{T}{2}\right) 
 \end{equation}
 And the inpulse response is depicted in figure \ref{fig:C_gm}. %Aggiungere la figura per la risposta inpoulsiva del filtro
-
-For find out the equalizer we still use the Wiener problem. Now the $c$ filter work at $T/2$ so we must take care about it and the equation used for the Wiener solution aren't the same used for the points A and B. The equations \ref{eq:yk}, \ref{eq:wienerR} and \ref{eq:wienerp} became
+In this case we use again a DFE. To derive the coefficients of the equalizer. Now the $c$ filter works at $T/2$ so the equations used for the Wiener solution aren't the same used for the points A and B. The equations \ref{eq:yk}, \ref{eq:wienerR} and \ref{eq:wienerp} become
 \begin{equation} \label{eq:C_yk}
-y_k = \sum_{i=0}^{M_1-1}c_i \left(x_{2k-i}-\sum_{j=1}^{M2}h_{2(j+D)-i}a_{k-j-D} \right)
+y_k = \sum_{i=0}^{M_1-1}c_i \left(x_{2k-i}-\sum_{j=1}^{M_2}h_{2(j+D)-i}a_{k-j-D} \right)
 \end{equation}
 \begin{equation} \label{eq:C_wienerR}
 \mathbf{[R]}_{p,q}  = \sigma_a^2 \left( \sum_{n=-\infty}^{\infty}h_{2n-q}h^*_{2n-p}-\sum_{j=1}^{M_2}h_{2(j+D)-q}h^*_{2(j+D)-p} \right) + r_{\tilde{w}}(p-q) \\
@@ -180,54 +194,125 @@ y_k = \sum_{i=0}^{M_1-1}c_i \left(x_{2k-i}-\sum_{j=1}^{M2}h_{2(j+D)-i}a_{k-j-D} 
 \mathbf{[p]}_p = \sigma_a^2 h^*_{2D-p} \quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
 \end{equation}
 
-where for a QPSK scheme $\sigma_a^2=2$ because it is the sum of two orthogonal components each with power $1$. The values of $r_{\tilde{w}}$ are the result of the autocorrelation of the noise after being filtered by $g_{AA}$ and $g_M$, so being the noise white we have $r_{\tilde{w}}(n)=N_0r_{g_M * g_{AA}}(nT/2)$. At this point we can define the overall impulse response up to the threshold detector $\psi = h*c_{opt}$ and derive the optimal coefficients for filter $b$ as $b_i=-\psi_{2(i+D)}$ for $i=1,\dots,M2$.
+where for a QPSK scheme $\sigma_a^2=2$ because it is the sum of two orthogonal components each with power $1$. The values of $r_{\tilde{w}}$ are the result of the autocorrelation of the noise after being filtered by $g_{AA}$ and $g_M$, so being the noise white we have $r_{\tilde{w}}(n)=N_0r_{g_M * g_{AA}}(nT/2)$. At this point we can define the overall impulse response up to the threshold detector $\psi = h*c_{opt}$ and derive the optimal coefficients for filter $b$ as $b_i=-\psi_{2(i+D)}$ for $i=1,\dots,M_2$ because filter $b$ works at $T$. 
 
 The value of the cost function $J_{min}$ obtained using these the optimal filters is :
 \begin{equation} \label{eq:C_jmin}
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{2D-l}\right)
 \end{equation}
 
-Again the parameters to choose are the order of filter $c$, $M1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M2=N1+M1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M1=9$ and $D=4$, and consequently $M2=4$ because $N2=2$ (Siamo sicuri che sia N1 e non N2 come scritto nel codice ? a parte che sono uguali perché h è simmetrica, bisogna stare attenti che nel punto D non sia stato fatto lo stesso errore che li NON è simmetrica). In figure \ref{fig:C_c}, \ref{fig:C_psi} and \ref{fig:C_b} we plot the resulting filters $c$, $\psi$ at sampling time $T/2$ and $b$ at sampling time $T$.
-
-\section*{Point D} 
-
-\section*{Point E}
-
-\section*{Point F}
-
-\section*{Simulation results}
+Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M_1=9$ and $D=4$, and consequently $M2=16$ because $N_2=12$  In figure \ref{fig:C_c}, \ref{fig:C_psi} and \ref{fig:C_b} we plot the resulting filters $c$, $\psi$ at sampling time $T/2$ and $b$ at sampling time $T$. In the fractionally spaced version of the DFE the aim is again to obtain an overall pulse $\psi$ that satisfies the Nyquist conditions at time $T$ so the samples at even multiples of $T/2$ are not used in the equalizer and are therefore a degree of freedom of the system.
 
 \begin{figure}[ht]
 	\begin{center}   
-		\includegraphics[width=\textwidth]{figs/SNR_Pe.png} 
-		\caption{Results of the simulation over values of the SNR at the channel output from 8 dB to 14 dB.}
-		\label{fig:B_b}
+		\includegraphics[width=\textwidth]{figs/C_c.png} 
+		\caption{Magnitude of the impulse response of the filter $c$ (feedforward filter) for the receiver in point C.}
+		\label{fig:C_c}
 	\end{center}
 \end{figure}
 
+\begin{figure}[ht]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/C_psi.png} 
+		\caption{Magnitude of the impulse response of the system $\psi$ in point C.}
+		\label{fig:C_psi}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/C_b.png} 
+		\caption{Magnitude of the impulse response of the filter $b$ (feedback filter) in point C.}
+		\label{fig:C_b}
+	\end{center}
+\end{figure}
+
+\section*{Point D} 
+
+
+
+
+
+
+
+
+
+\begin{figure}[ht]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/D_c.png} 
+		\caption{Magnitude of the impulse response of the filter $c$ (feedforward filter) for the receiver in point D.}
+		\label{fig:D_c}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/D_psi.png} 
+		\caption{Magnitude of the impulse response of the system $\psi$ in point D.}
+		\label{fig:D_psi}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/D_b.png} 
+		\caption{Magnitude of the impulse response of the filter $b$ (feedback filter) in point D.}
+		\label{fig:D_b}
+	\end{center}
+\end{figure}
+
+The following table sums up the final parameters for the 4 configurations A, B, C, D.
 
 \begin{table}[htbp]
 	\begin{center}
 		\begin{tabular}{p{2.7cm}cccccc}
 			\toprule
-			
-			  & $N1$ & $N2$ & $M1$ & $M2$ & $D$ & $\bar{t}_0$ \\
+			& \multicolumn{2}{c}{Length of $h$} & \multicolumn{4}{c}{Parameters} \\
+			\cmidrule(lr){2-3}
+			\cmidrule(lr){4-7}
+			Point & $N_1$ & $N_2$ & $M_1$ & $M_2$ & $D$ & $\bar{t}_0$ \\
 			\midrule
 			A &  4  &  4  & 5 & 0  & 2 & 17 \\
-			B & 2 & 2 & 5 & 0  & 4 & 17 \\
-			C & 10 & 12 & 9 & 16 & 4 & 21 \\
-			D & 10 & 12 & 9 & 16 & 4 & 21 \\
-			\midrule
-			%& \multicolumn{3}{c}{} \\
-			& Real & Corr & LS & & & \\
-		    \cmidrule(lr){2-4}
-		    $\sigma_w^2$ [dB] & -8 & -7.9776 & -8.0404 & & &  \\
+			B &  4  &  4  & 5 & 4  & 4 & 17 \\
+			C & 10  &  12 & 9 & 16 & 4 & 21 \\
+			D & 10  &  12 & 9 & 16 & 4 & 21 \\
 			\bottomrule
 		\end{tabular}
 	\end{center}
-	\label{tab:}
-	\caption{.}
+	\label{tab:sumup}
+	\caption{Choices for the various parameters in the different receiver implementations with respect to the length of $h$.}
 \end{table} 
+
+\section*{Point E}
+
+In this point we use the Viterbi algorithm (VA) to implement the Maximum Likelihood criterion for data detection. 
+For the execution of the algorithm we consider the signal $y_k$ at the output of filter $c$ in the schema at point B:
+\begin{equation}
+y_k = \psi_D a_{k-D} + \psi_{D+1} a_{k-D-1} + \dots +\psi_{D+M_2} a_{k-D-M_2} + w_k
+\end{equation}
+where $w_k$ includes the residual ISI and the noise. The useful signal $u_k$ can then be taken as $u_k=\psi_D a_{k-D} + \psi_{D+1} a_{k-D-1} + \dots +\psi_{D+M_2} a_{k-D-M_2}$ and if we call $y_k=z_k$ we have the usual setup for VA: $z_k = u_k+w_k$. We will have then that the number of states is $N_s=M^{M_2}$ where $M$ is 4, the cardinality of the QPSK constellation. In the specific case of point B $M_2=4$ so $N_s=256$. We define the state basing ourselves of the choice of $u_k$ so:
+\begin{equation}
+\begin{split}
+\vt{s}_k = \{a_{k-D}, a_{k-D-1}, a_{k-D-2}, \dots, a_{k-(M_2-1)}\} = \\
+= \{a_{k-D}, a_{k-D-1}, a_{k-D-2}, a_{k-D-3}\}
+\end{split}
+\end{equation}
+
+\section*{Point F}
+
+\section*{Simulation results}
+
+
+
+\begin{figure}[ht]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/SNR_Pe.png} 
+		\caption{Results of the simulation over values of the SNR at the channel output from 8 dB to 14 dB.}
+		\label{fig:SNR}
+	\end{center}
+\end{figure}
+
+
  
 
 

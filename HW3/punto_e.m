@@ -21,7 +21,7 @@ g_m = conj(flipud(q_c));
 % Compute the impulse response h
 h = conv(q_c, g_m);
 h = downsample(h,4);
-h = h(h ~= 0);
+% h = h(h ~= 0);
 
 N1 = floor(length(h)/2);
 N2 = N1;
@@ -52,7 +52,7 @@ for i=1:length(SNR_dB)
 end
 
 M1 = 5;
-D = 2;
+D = 4;
 M2 = N2 + M1 - 1 - D;
 
 
@@ -66,8 +66,8 @@ for i=1:length(SNR_dB)
     psi(:,i) = conv(c(:,i), h);
     y = conv(x(:,i),c(:,i));
     y = y./max(psi(:,i));
-    a_conf  =  a(1+4-0 : end-M2+M2-2);
-    decisions = VBA(y, psi(:,i), 0, M2-2, 4, M2);
+    a_conf  =  a(1+8-0 : end-M2+M2-2);
+    decisions = VBA(y, psi(:,i), 0, M2-2, 8, M2);
     decisions = decisions(D+1:end);
     [Pe_viterbi(i),errors(i)] = SER(a_conf(1:length(decisions)),decisions);
 end
