@@ -113,7 +113,7 @@ y_k &= x_{FF,k} + x_{FB,k} \\
 \end{split} 
 \end{equation}
 where $M1$ is the order of the feedforward filter, $M2$ is the order of the feedback filter and $a_{k-D}$ are the already detected past symbols fed back through $b$. Defining postcursors and precursors as in point A, we have that we can apply the Wiener-Hopf equations on the process:
-\begin{equation}
+\begin{equation} \label{eq:yk}
 y_k = \sum_{i=0}^{M_1-1}c_i \left(x_{k-i}-\sum_{j=1}^{M2}h_{j+D-i}a_{k-j-D} \right)
 \end{equation}
 
@@ -123,7 +123,7 @@ The result can be easily computed as $c_{opt} = \vt{R}^{-1}\vt{p}$ once we find 
 \mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{j=-N_1}^{N_2}h_jh^*_{j-(p-q)}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{j+d-p} \right) + r_{\tilde{w}}(p-q)
 \end{equation}
 \begin{equation} \label{eq:wienerp}
-\mathbf{[p]}_p = \sigma_a^2 h^*_{D-p} \quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
+\mathbf{[p]}_p = \sigma_a^2 h^*_{D-p} \quad\quad\quad\quad\quad\quad p = 0,1,\dots,M_1-1
 \end{equation}
 
 where for a QPSK scheme $\sigma_a^2=2$ because it is the sum of two orthogonal components each with power $1$. The values of $r_{\tilde{w}}$ are the result of the autocorrelation of the noise after being filtered by $g_M$, so being the noise white we have $r_{\tilde{w}}(n)=N_0r_{g_M}(nT)$. At this point we can define the overall impulse response up to the threshold detector $\psi = h*c_{opt}$ and derive the optimal coefficients for filter $b$ as $b_i=-\psi_{i+D}$ for $i=1,\dots,M2$.
@@ -163,7 +163,31 @@ Again the parameters to choose are the order of filter $c$, $M1$, and the delay 
 
 In the receiver at point C we use a different type of approach. Before sampling the received signal we use an anti-aliasing filter instead of a matched filter. This is not an optimal solution but can be useful in some situation where the channel is not known or varies in time. Also the downsampling is at $T/2$ instead of $T$ and this gives more degrees of freedom int the equalization and more robustness with respect to the choice of the timing phase. The anti-aliasing filter has to avoid overlapping in frequency when we downsample the signal at the output of the channel. Our signal has frequency content that is periodic of period $4/T$, and has the shape of the Fourier transform of filter $q_c$. Therefore its bandwidth is not limited and our anti-aliasing filter $g_{AA}$ will remove useful information. The sampling at $T/2$ causes the frequency content of the signal to be repeated every $2/T$, causing an overlap. To avoid this, the cutting frequency of $g_{AA}$ has to be around $1/T$. In figure \ref{fig:gAA} we show the magnitude of the frequency response $|G_{AA}|$.
 The sampling then has to start after an offset $\bar{t}_0$ equal to the peak of the overall impulse response $q_c*g_{AA}$ at time $T/4$ that in this case was equal to $21$. 
-In this kind of configuration we also add a matched filter after the sampling 
+In this kind of configuration we also add a digital matched filter after the sampling that is different from the previous points, now the matched filter is 
+\begin{equation}
+g_M = \left\{ q_c * g_{AA} \right\}^* \left(t_0 + i \frac{T}{2}\right) \qquad i = 0, 1, \dots, N %Sistemare il supporto del filtro
+\end{equation}
+And the inpulse response is depicted in figure \ref{fig:C_gm}. %Aggiungere la figura per la risposta inpoulsiva del filtro
+
+For find out the equalizer we still use the Wiener problem. Now the $c$ filter work at $T/2$ so we must take care about it and the equation used for cunstruct the Wiener problem aren't the same used for the points A and B. The equations \ref{eq:yk}, \ref{eq:wienerR} and \ref{eq:wienerp} became
+\begin{equation} \label{eq:C_yk}
+y_k = \sum_{i=0}^{M_1-1}c_i \left(x_{2k-i}-\sum_{j=1}^{M2}h_{2(j+D)-i}a_{k-j-D} \right)
+\end{equation}
+\begin{equation} \label{eq:C_wienerR}
+\mathbf{[R]}_{p,q}  = \sigma_a^2 \left( \sum_{n=-\infty}^{\infty}h_{2n-q}h^*_{2n-p}-\sum_{j=1}^{M_2}h_{2(j+D)-q}h^*_{2(j+D)-p} \right) + r_{\tilde{w}}(p-q) \\
+\end{equation}
+\begin{equation} \label{eq:C_wienerp}
+\mathbf{[p]}_p = \sigma_a^2 h^*_{2D-p} \quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
+\end{equation}
+
+where for a QPSK scheme $\sigma_a^2=2$ because it is the sum of two orthogonal components each with power $1$. The values of $r_{\tilde{w}}$ are the result of the autocorrelation of the noise after being filtered by $g_{AA}$ and $g_M$, so being the noise white we have $r_{\tilde{w}}(n)=N_0r_{g_M * g_{AA}}(nT/2)$. At this point we can define the overall impulse response up to the threshold detector $\psi = h*c_{opt}$ and derive the optimal coefficients for filter $b$ as $b_i=-\psi_{2(i+D)}$ for $i=1,\dots,M2$.
+
+The value of the cost function $J_{min}$ obtained using these the optimal filters is :
+\begin{equation} \label{eq:C_jmin}
+J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{2D-l}\right)
+\end{equation}
+
+Again the parameters to choose are the order of filter $c$, $M1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M2=N1+M1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M1=9$ and $D=4$, and consequently $M2=4$ because $N1=2$ (Siamo sicuri che sia N1 e non N2 come scritto nel codice ? a parte che sono uguali perché h è simmetrica, bisogna stare attenti che nel punto D non sia stato fatto lo stesso errore che li NON è simmetrica). In figure \ref{fig:C_c}, \ref{fig:C_psi} and \ref{fig:C_b} we plot the resulting filters $c$, $\psi$ at sampling time $T/2$ and $b$ at sampling time $T$.
 
 \section*{Point D} 
 
