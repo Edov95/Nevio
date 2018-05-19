@@ -22,7 +22,7 @@ dens  = 20;              % Density Factor
 
 % Calculate the coefficients using the FIRPM function.
 g_AA  = firpm(N, Fo, Ao, W, {dens});
-[Hd f1]= freqz(g_AA,1,'whole');
+[Hd f1]= freqz(g_AA,1);
 
 figure, plot(f1/(pi),20*log10(abs(Hd))), xlim([0 1]),
 title('|G_{AA}|')
@@ -54,7 +54,7 @@ qg = downsample(qg_up(1:end), 2);
 
 g_m = conj(flipud(qg));
 [Hgm f2] =  freqz(g_m,1,'whole');
-figure, plot(f2/(pi),20*log10(abs(Hgm))), xlim([0 1]),
+figure, plot(f2/(2*pi),20*log10(abs(Hgm))), xlim([0 1]),
 title('|G_M|')
 ylabel('|G_M| [dB]')
 xlabel('n*2/T')

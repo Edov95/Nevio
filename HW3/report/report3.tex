@@ -201,7 +201,7 @@ The value of the cost function $J_{min}$ obtained using these the optimal filter
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{2D-l}\right)
 \end{equation}
 
-Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M_1=9$ and $D=4$, and consequently $M2=16$ because $N_2=12$  In figure \ref{fig:C_c}, \ref{fig:C_psi} and \ref{fig:C_b} we plot the resulting filters $c$, $\psi$ at sampling time $T/2$ and $b$ at sampling time $T$. In the fractionally spaced version of the DFE the aim is again to obtain an overall pulse $\psi$ that satisfies the Nyquist conditions at time $T$ so the samples at even multiples of $T/2$ are not used in the equalizer and are therefore a degree of freedom of the system.
+Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M_1=9$ and $D=4$, and consequently $M2=23$ because $N_1=N_2=19$  In figure \ref{fig:C_c}, \ref{fig:C_psi} and \ref{fig:C_b} we plot the resulting filters $c$, $\psi$ at sampling time $T/2$ and $b$ at sampling time $T$. In the fractionally spaced version of the DFE the aim is again to obtain an overall pulse $\psi$ that satisfies the Nyquist conditions at time $T$ so the samples at even multiples of $T/2$ are not used in the equalizer and are therefore a degree of freedom of the system.
 
 \begin{figure}[ht]
 	\begin{center}   
@@ -229,13 +229,7 @@ Again the parameters to choose are the order of filter $c$, $M_1$, and the delay
 
 \section*{Point D} 
 
-
-
-
-
-
-
-
+In this configuration the setup is similar to point C but without the matched filter after the downsampling at $T/2$. This means that all the burden of equalization and reduction of the noise is on filter $c$. The parameter $\bar{t}_0$ is 21 as before, because the impulse response of the anti-aliasing filter and of $q_c$ have not changed. The equations for the derivation of the DFE filters with a Wiener approach are \ref{eq:C_wienerR} and \ref{eq:C_wienerp} and the parameters, chosen again by minimizing the value of $J_{min}$ are $M_1=9$, $D=4$ and consequently $M_2=N_2+M_1-D-1=16$ because this time $h$ is not symmetric and $N_2=12$. In figure \ref{fig:D_c}, \ref{fig:D_psi} and \ref{fig:D_b} we show the magnitude of the coefficients of filter $c$, $\psi$ and $b$.
 
 \begin{figure}[ht]
 	\begin{center}   
@@ -274,7 +268,7 @@ The following table sums up the final parameters for the 4 configurations A, B, 
 			\midrule
 			A &  4  &  4  & 5 & 0  & 2 & 17 \\
 			B &  4  &  4  & 5 & 4  & 4 & 17 \\
-			C & 10  &  12 & 9 & 16 & 4 & 21 \\
+			C & 19  &  19 & 9 & 23 & 4 & 21 \\
 			D & 10  &  12 & 9 & 16 & 4 & 21 \\
 			\bottomrule
 		\end{tabular}
@@ -300,8 +294,32 @@ where $w_k$ includes the residual ISI and the noise. The useful signal $u_k$ can
 
 \section*{Point F}
 
+Here we apply the forward-backward algorithm to implement the MAP criterion for detection. Actually, we use an approximation of the algorithm called max-log MAP that is computationally more simple. The state definition we used is the same as in point E, due to the fact that the system is the same up to the decision point:
+\begin{equation}
+u_k=\psi_D a_{k-D} + \psi_{D+1} a_{k-D-1} + \dots +\psi_{D+M_2} a_{k-D-M_2}
+\end{equation}
+and
+\begin{equation}
+\begin{split}
+\vt{s}_k = \{a_{k-D}, a_{k-D-1}, a_{k-D-2}, \dots, a_{k-(M_2-1)}\} = \\
+= \{a_{k-D}, a_{k-D-1}, a_{k-D-2}, a_{k-D-3}\}
+\end{split}
+\end{equation}
+Again the number of states is $N_s=M^{M_2}$.
+
+
+
+
 \section*{Simulation results}
 
+The simulation of the six different receivers has been carried out using as input the result of applying a QPSK bitmap on a PN sequence with $r=20$ and length $L=2^r-1$. The length of the resulting input in terms of symbols is $524287$, because each symbol requires 2 bits to be determined. The obtained symbols are assumed to be distributed approximately as random. Given that we have to estimate the probability of error over 7 different values of the SNR (from 8 dB to 14 dB), for a range of values going from $10^{-1}$ to $10^{-4}$ we need to be sure that our estimate is not affected by a high variance. The estimator we chose is:
+\begin{equation}
+\hat{P}_e = \frac{\#_{wrong}}{\#_{tx}}
+\end{equation}
+where $\#_{wrong}$ is the number of erroneously detected symbols and $\#_{tx}$ is the total number of transmitted symbols. As $\#_{tx}$ increases the estimator becomes approximately a Gaussian random variable, unbiased and with variance: $\frac{P_e (1-P_e)}{\#_{tx}}$. This confirms that our estimate is reliable because the resulting variance will be very small, according to the empirical rule for which if we want to estimate a $P_e$ of $10^{-k}$, we need to measure it transmitting at least $30\cdot 10^{k}$ symbols. Indeed in our case the smallest $P_e$ we need to estimate is $10^{-4}$ and so the required number of symbols would be $30\cdot 10^{4}= 300000$ that is much less than our $\#_{tx}=524287$.
+
+The results obtained are showed in figure \ref{fig:SNR}. In green we plotted the values of the $P-e$ according to the matched filter bound, as in the theoretical formula and from simulation\footnote{To simulate the matched filter bound we gave as input of a threshold detector the QPSK symbols $a_k$ disturbed only by noise, so neglecting the effect os ISI as we would have with an ideal non dispersive channel.}. In blue we have the LE (solid) and DFE (dashed) of points A and B. Their performance is very good, as we could guess by seeing the result of the overall pulse $\psi$ (see figure \ref{fig:A_psi} and \ref{fig:B_psi}, the ISI is almost completely canceled in both cases).
+In case of receivers C and D (black dashed and black solid lines) the performances are worse, because the anti aliasing filter cuts a components of the useful signal and causes a permanent loss of information. Nevertheless the result is acceptable and could be considered as an alternative in those cases where a matched filter is not available or impracticable.
 
 
 \begin{figure}[ht]
