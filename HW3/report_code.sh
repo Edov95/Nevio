@@ -25,7 +25,7 @@ echo "\documentclass[a4paper,11.5pt]{article}
 
 \title{Digital Communications - HW3 - MATLAB Code}
 \author{Jacopo Pegoraro, Edoardo Vanin}
-\date{24/04/2018}
+\date{21/05/2018}
 
 \begin{document}
 

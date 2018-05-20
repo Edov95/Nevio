@@ -60,7 +60,7 @@ M2 = N2 + M1 - 1 - D;
 figure, stem([0:length(c)-1], abs(c)), title('|c|'), xlabel('nT/2')
 xlim([0 length(c)])
 psi = conv(h,c);
-figure, stem([-14:16], abs(psi)), title('|\psi|, M_1=9, D=4'), xlabel('nT/2')
+%figure, stem([-14:16], abs(psi)), title('|\psi|, M_1=9, D=4'), xlabel('nT/2')
 psi_down = downsample(psi(2:end),2);
 b = -psi_down(find(psi_down==max(psi_down))+1:end); 
 figure, stem([0:length(b)-1],abs(b)), title('|b|'), xlabel('nT')

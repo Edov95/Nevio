@@ -42,7 +42,6 @@ for k = 1:K
 end
 c(:,:,K+1) = 0;
 
-
 % backward metric 
 b = zeros(Ns, K+1);   %matrix
 
@@ -57,8 +56,6 @@ for k = K:-1:1
             + c(:, i, k+1));
     end
 end
-
-
 
 % forward metric, state metric, log-likelihood function 
 % f_old is set to -1
@@ -85,5 +82,4 @@ for k = 1:K
 end
 
 toc(tStart)
-
 end

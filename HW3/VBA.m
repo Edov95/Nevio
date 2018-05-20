@@ -1,16 +1,16 @@
-function [detected] = VBA(r_c, hi, L1, L2, N1, N2)
+function [detected] = VBA(r_c, psiD, L1, L2, N1, N2)
 
 M = 4;
-symb = [1+1i, 1-1i, -1+1i, -1-1i]; % All possible transmitted symbols (QPSK)
+symb = [1+1i, 1-1i, -1+1i, -1-1i]; 
 Kd = 28; 
-Ns = M ^ (L1+L2); % Number of states
-r_c  =  r_c(1+N1-L1 : end-N2+L2);   % Discard initial and final samples of r
-hi = hi(1+N1-L1 : end-N2+L2);   % Discard initial and final samples of hi
+Ns = M ^ (L1+L2); 
+r_c  =  r_c(1+N1-L1 : end-N2+L2);   
+psiD = psiD(1+N1-L1 : end-N2+L2);   
 
 tStart = tic; 
 
-survSeq = zeros(Ns, Kd);
-detectedSymb = zeros(1, length(r_c));
+survivor_seq = zeros(Ns, Kd);
+detected_symbol = zeros(1, length(r_c));
 cost = zeros(Ns, 1); 
 
 statelength = L1 + L2; 
@@ -20,7 +20,7 @@ U = zeros(Ns, M);
 for state = 1:Ns
     for j = 1:M
         lastsymbols = [symb(statevec + 1), symb(j)]; 
-        U(state, j) = lastsymbols * flipud(hi);
+        U(state, j) = lastsymbols * flipud(psiD);
     end
     statevec(statelength) = statevec(statelength) + 1;
     i = statelength;
@@ -52,25 +52,24 @@ for k = 1 : length(r_c)
         end
     end
     
-    temp = zeros(size(survSeq));
+    temp = zeros(size(survivor_seq));
     for nextstate = 1:Ns
         temp(nextstate, 1:Kd) = ...
-            [survSeq(pred(nextstate), 2:Kd), ... 
+            [survivor_seq(pred(nextstate), 2:Kd), ... 
             symb(mod(nextstate-1, M)+1)];       
     end
     [~, decided_index] = min(nextcost);   
-    detectedSymb(1+k) = survSeq(decided_index, 1); 
-    survSeq = temp;
+    detected_symbol(1+k) = survivor_seq(decided_index, 1); 
+    survivor_seq = temp;
     
-    % Update the cost to be used as cost at time k-1 in the next iteration
     cost = nextcost;
 end
 
 toc(tStart)
 
-detectedSymb(length(r_c)+2 : length(r_c)+Kd) = survSeq(decided_index, 1:Kd-1);
+detected_symbol(length(r_c)+2 : length(r_c)+Kd) = survivor_seq(decided_index, 1:Kd-1);
 
-detectedSymb = detectedSymb(Kd+1 : end);
-detected = detectedSymb;
+detected_symbol = detected_symbol(Kd+1 : end);
+detected = detected_symbol;
 detected = detected(2:end); 
 end

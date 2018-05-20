@@ -27,7 +27,9 @@ g_AA  = firpm(N, Fo, Ao, W, {dens});
 figure, plot(f1/(pi),20*log10(abs(Hd))), xlim([0 1]),
 title('|G_{AA}|')
 ylabel('|G_{AA}| [dB]')
-xlabel('n*2/T')
+xlabel('f')
+xticks([0 0.25 0.5 0.75 1])
+xticklabels({'0','1/2T','1/T','3/2T','2/T'});
 grid on;
 
 r_r = filter(g_AA , 1, r_c(:,select));
@@ -57,10 +59,12 @@ g_m = conj(flipud(qg));
 figure, plot(f2/(2*pi),20*log10(abs(Hgm))), xlim([0 1]),
 title('|G_M|')
 ylabel('|G_M| [dB]')
-xlabel('n*2/T')
+xlabel('f')
+xticks([0 0.25 0.5 0.75 1])
+xticklabels({'0','1/2T','1/T','3/2T','2/T'});
 grid on;
 
-figure, stem(g_m), title('g_m'), xlabel('nT/2')
+figure, stem([0:length(g_m)-1],abs(g_m)), title('g_m'), xlabel('nT/2')
 
 x = filter(g_m, 1, x_prime);
 x = x(13:end);
@@ -87,7 +91,7 @@ figure, stem(r_g), title('r_g'), xlabel('nT/2')
 N1 = floor(length(h)/2);
 N2 = N1;
 
-M1 = 9;
+M1 = 5;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 
@@ -96,7 +100,7 @@ psi = conv(h,c);
 
 figure, stem([0:length(c)-1], abs(c)), title('|c|'), xlabel('nT/2')
 xlim([0 length(c)])
-figure, stem([-23:23],abs(psi)), title('|\psi|, M_1=9, D=4'), xlabel('nT/2')
+%figure, stem([-23:23],abs(psi)), title('|\psi|, M_1=9, D=4'), xlabel('nT/2')
 
 psi_down = downsample(psi(2:end),2); % The b filter acts at T
 b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 

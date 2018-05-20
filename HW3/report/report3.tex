@@ -64,7 +64,7 @@ In point A at the receiver we have a matched filter $g_{M}$ (see figure \ref{fig
 	\end{center}
 \end{figure} 
 
-The output of the matched filter is then sampled at $T$ starting from an initial offset called \emph{timing phase} $t_0$. In our case the choice of $t_0$ is made easy by the presence of the matched filter, as we can just choose the value $\bar{t}_0$, multiple of $T/4$, that is the index of the peak of the correlation between $q_c$ and $g_M$, then $t_0$ will be equal to $\bar{t}_0 T/4$. Following this reasoning we chose $\bar{t}_0=17$, equal also to the length of $g_M$ (see figure \ref{fig:A_gm}).
+The output of the matched filter is then sampled at $T$ starting from an initial offset called \emph{timing phase} $t_0$. In our case the choice of $t_0$ is made easy by the presence of the matched filter, as we can just choose the value $\bar{t}_0$, multiple of $T/4$, that is the index of the peak of the correlation between $q_c$ and $g_M$, then $t_0$ will be equal to $\bar{t}_0 T/4$. Following this reasoning we chose $\bar{t}_0=16$ (17 with Matlab indexing), equal also to the index of the last sample of $g_M$ (see figure \ref{fig:A_gm}).
 
 The signal is then passed to a linear equalizer (LE) derived by a particular case of a Decision Feedback Equalizer (DFE) where we only have the feedforward filter $c$ (see point B for the detailed analysis of the DFE). The signal at this point in the receiver system is called $x_k$ and is the result of the convolution of the input sequence $a_k$ with the overall impulse response $h_i = q_c * g_M$ that goes from $-N_1$ to $N_2$. We will call precursors the taps of $h$ that go from $-N1$ to $-1$ and postcursors the taps from $1$ to $N_2$. To obtain the coefficients of $c$ we used the Wiener approach on the input random process and solved the Wiener-Hopf equation $\vt{c}_{opt}=\vt{R}^{-1}\vt{p}$ using the matrix $\vt{R}$ and vector $\vt{p}$ as in equations \ref{eq:wienerR} and \ref{eq:wienerp} with the parameter $M_2$ (the order of the feedback filter) set to $0$ because we have no feedback filter in this case. The free parameters that we have to choose are $M_1$, the order of filter $c$ and $D$ the delay that it will introduce on the input sequence. We carried out this choice looking at the value of the cost function $J_{min}$ (see equation \ref{eq:jmin}) for each combination of the two parameters, preferring low values if possible to avoid increasing the complexity. The best choice in this case was $M_1=5$ and $D=2$.
 In figure \ref{fig:A_c} we plot the impulse response $c_i$ at sampling time $T$ as obtained from the Wiener solution. 
@@ -88,12 +88,12 @@ The aim of filtering with $c$ is to obtain an overall impulse response of the sy
 	\end{center}
 \end{figure}
 
-The detected symbols $a_{k-D}$ are chosen using a threshold detector that analyzes the sign of the imaginary and real part of the input complex value. Not that the same detector is also used at point B, C and D.
+The detected symbols $a_{k-D}$ are chosen using a threshold detector that analyzes the sign of the imaginary and real part of the input complex value. The same detector is also used at point B, C and D.
 
 
 \section*{Point B}
 
-For point B the system is the same as in point A up to the equalizer, so the choice of $\bar{t}_0=17$ is the same. The matched filter is the same as in point A, see figure \ref{fig:B_gm}. However in this case we equalize with a DFE, that is made of two filters called feedforward and feedback filter denoted by $c$ and $b$. The feedforward filter has the role of equalizing only the precursors of the overall impulse response, while the ISI due to postcursors will be canceled by filter $b$ positioned on a feedback loop between the output of the threshold detector and its input. 
+For point B the system is the same as in point A up to the equalizer, so the choice of $\bar{t}_0=16$ (17 with Matlab indexing) is the same. The matched filter is the same as in point A, see figure \ref{fig:B_gm}. However in this case we equalize with a DFE, that is made of two filters called feedforward and feedback filter denoted by $c$ and $b$. The feedforward filter has the role of equalizing only the precursors of the overall impulse response, while the ISI due to postcursors will be canceled by filter $b$ positioned on a feedback loop between the output of the threshold detector and its input. 
 
 \begin{figure}[ht]
 	\begin{center}   
@@ -159,7 +159,7 @@ Again the parameters to choose are the order of filter $c$, $M_1$, and the delay
 
 \section*{Point C}
 
-In the receiver at point C we use a different type of approach. Before sampling the received signal we use an anti-aliasing filter instead of a matched filter. This is not an optimal solution but can be useful in some situation where the channel is not known or varies in time. Also the downsampling is at $T/2$ instead of $T$ and this gives more degrees of freedom int the equalization and more robustness with respect to the choice of the timing phase. The anti-aliasing filter has to avoid overlapping in frequency when we downsample the signal at the output of the channel. Our signal has frequency content that is periodic of period $4/T$, and has the shape of the Fourier transform of filter $q_c$. Therefore its bandwidth is not limited and our anti-aliasing filter $g_{AA}$ will remove useful information. The sampling at $T/2$ causes the frequency content of the signal to be repeated every $2/T$, causing an overlap. To avoid this, the cutting frequency of $g_{AA}$ has to be around $1/T$. In figure \ref{fig:C_gaa} we show the magnitude of the frequency response $|G_{AA}|$, where we chose the passband at $0.45 \cdot 2/T$ and the stopband at $0.55\cdot 2/T$.
+In the receiver at point C we use a different type of approach. Before sampling the received signal we use an anti-aliasing filter instead of a matched filter. This is not an optimal solution but can be useful in some situation where the channel is not known or varies in time. Also the downsampling is at $T/2$ instead of $T$ and this gives more degrees of freedom in the equalization and more robustness with respect to the choice of the timing phase. The anti-aliasing filter has to avoid overlapping in frequency when we downsample the signal at the output of the channel. Our signal has frequency content that is periodic of period $4/T$, and has the shape of $|Q_c|^2$. Therefore its bandwidth is not limited and our anti-aliasing filter $g_{AA}$ will remove useful information because we cannot apply the Shannon theorem. The sampling at $T/2$ causes the frequency content of the signal to be repeated every $2/T$, causing an overlap. To avoid this, the cutting frequency of $g_{AA}$ has to be around $1/T$. In figure \ref{fig:C_gaa} we show the magnitude of the frequency response $|G_{AA}|$, where we chose the passband at $0.45 \cdot 2/T$ and the stopband at $0.55\cdot 2/T$.
 
 \begin{figure}[ht]
 	\begin{center}   
@@ -171,18 +171,19 @@ In the receiver at point C we use a different type of approach. Before sampling 
 
 \begin{figure}[ht]
 	\begin{center}   
-		\includegraphics[width=\textwidth]{figs/GM_CD.png} 
-		\caption{Magnitude of the frequency response of the matched filter in point C.}
+		\includegraphics[width=\textwidth]{figs/C_gm.png} 
+		\includegraphics[width=\textwidth]{figs/GM_CD.png}
+		\caption{Impulse and frequency response of the matched filter in point C.}
 		\label{fig:C_gm}
 	\end{center}
 \end{figure}
 
-The sampling then has to start after an offset $\bar{t}_0$ equal to the peak of the overall impulse response $q_c*g_{AA}$ at time $T/4$ that in this case was equal to $21$.  
+The sampling then has to start after an offset $\bar{t}_0$ equal to the peak of the overall impulse response $q_c*g_{AA}$ at time $T/4$ that in this case was equal to $20$ (21 with Matlab indexing).  
 In this kind of configuration we also add a digital matched filter after the sampling that is different from the previous points, now the matched filter is given by flipping and taking the conjugate of the whole impulse response $q_c*g_{AA}$ at sampling time $T/2$:
 \begin{equation}
 g_M = \left\{ q_c * g_{AA} \right\}^* \left(t_0 + i \frac{T}{2}\right) 
 \end{equation}
-And the inpulse response is depicted in figure \ref{fig:C_gm}. %Aggiungere la figura per la risposta inpoulsiva del filtro
+The impulse response and frequency response are depicted in figure \ref{fig:C_gm}. 
 In this case we use again a DFE. To derive the coefficients of the equalizer. Now the $c$ filter works at $T/2$ so the equations used for the Wiener solution aren't the same used for the points A and B. The equations \ref{eq:yk}, \ref{eq:wienerR} and \ref{eq:wienerp} become
 \begin{equation} \label{eq:C_yk}
 y_k = \sum_{i=0}^{M_1-1}c_i \left(x_{2k-i}-\sum_{j=1}^{M_2}h_{2(j+D)-i}a_{k-j-D} \right)
@@ -229,7 +230,7 @@ Again the parameters to choose are the order of filter $c$, $M_1$, and the delay
 
 \section*{Point D} 
 
-In this configuration the setup is similar to point C but without the matched filter after the downsampling at $T/2$. This means that all the burden of equalization and reduction of the noise is on filter $c$. The parameter $\bar{t}_0$ is 21 as before, because the impulse response of the anti-aliasing filter and of $q_c$ have not changed. The equations for the derivation of the DFE filters with a Wiener approach are \ref{eq:C_wienerR} and \ref{eq:C_wienerp} and the parameters, chosen again by minimizing the value of $J_{min}$ are $M_1=9$, $D=4$ and consequently $M_2=N_2+M_1-D-1=16$ because this time $h$ is not symmetric and $N_2=12$. In figure \ref{fig:D_c}, \ref{fig:D_psi} and \ref{fig:D_b} we show the magnitude of the coefficients of filter $c$, $\psi$ and $b$.
+In this configuration the setup is similar to point C but without the matched filter after the downsampling at $T/2$. This means that all the burden of equalization and reduction of the noise is on filter $c$. The parameter $\bar{t}_0$ is 20 as before (21 with Matlab indexing), because the impulse response of the anti-aliasing filter and of $q_c$ have not changed. The equations for the derivation of the DFE filters with a Wiener approach are \ref{eq:C_wienerR} and \ref{eq:C_wienerp} and the parameters, chosen again by minimizing the value of $J_{min}$ are $M_1=9$, $D=4$ and consequently $M_2=N_2+M_1-D-1=16$ because this time $h$ is not symmetric and $N_2=12$. In figure \ref{fig:D_c}, \ref{fig:D_psi} and \ref{fig:D_b} we show the magnitude of the coefficients of filter $c$, $\psi$ and $b$.
 
 \begin{figure}[ht]
 	\begin{center}   
@@ -266,10 +267,10 @@ The following table sums up the final parameters for the 4 configurations A, B, 
 			\cmidrule(lr){4-7}
 			Point & $N_1$ & $N_2$ & $M_1$ & $M_2$ & $D$ & $\bar{t}_0$ \\
 			\midrule
-			A &  4  &  4  & 5 & 0  & 2 & 17 \\
-			B &  4  &  4  & 5 & 4  & 4 & 17 \\
-			C & 19  &  19 & 9 & 23 & 4 & 21 \\
-			D & 10  &  12 & 9 & 16 & 4 & 21 \\
+			A &  4  &  4  & 5 & 0  & 2 & 16 \\
+			B &  4  &  4  & 5 & 4  & 4 & 16 \\
+			C & 19  &  19 & 9 & 23 & 4 & 20 \\
+			D & 10  &  12 & 9 & 16 & 4 & 20 \\
 			\bottomrule
 		\end{tabular}
 	\end{center}
@@ -312,14 +313,14 @@ Again the number of states is $N_s=M^{M_2}$.
 
 \section*{Simulation results}
 
-The simulation of the six different receivers has been carried out using as input the result of applying a QPSK bitmap on a PN sequence with $r=20$ and length $L=2^r-1$. The length of the resulting input in terms of symbols is $524287$, because each symbol requires 2 bits to be determined. The obtained symbols are assumed to be distributed approximately as random. Given that we have to estimate the probability of error over 7 different values of the SNR (from 8 dB to 14 dB), for a range of values going from $10^{-1}$ to $10^{-4}$ we need to be sure that our estimate is not affected by a high variance. The estimator we chose is:
+The simulation of the six different receivers has been carried out using as input the result of applying a QPSK bitmap on a PN sequence with $r=20$ and length $L=2^r-1$. The length of the resulting input in terms of symbols is $524287$, because each symbol requires 2 bits to be determined. The obtained symbols are assumed to be distributed approximately as random. Given that we have to estimate the probability of error over 7 different values of the SNR (from 8 dB to 14 dB) for a range of values going from $10^{-1}$ to $10^{-4}$, we need to be sure that our estimate is not affected by a high variance. The estimator we chose is:
 \begin{equation}
 \hat{P}_e = \frac{\#_{wrong}}{\#_{tx}}
 \end{equation}
 where $\#_{wrong}$ is the number of erroneously detected symbols and $\#_{tx}$ is the total number of transmitted symbols. As $\#_{tx}$ increases the estimator becomes approximately a Gaussian random variable, unbiased and with variance: $\frac{P_e (1-P_e)}{\#_{tx}}$. This confirms that our estimate is reliable because the resulting variance will be very small, according to the empirical rule for which if we want to estimate a $P_e$ of $10^{-k}$, we need to measure it transmitting at least $30\cdot 10^{k}$ symbols. Indeed in our case the smallest $P_e$ we need to estimate is $10^{-4}$ and so the required number of symbols would be $30\cdot 10^{4}= 300000$ that is much less than our $\#_{tx}=524287$.
 
-The results obtained are showed in figure \ref{fig:SNR}. In green we plotted the values of the $P-e$ according to the matched filter bound, as in the theoretical formula and from simulation\footnote{To simulate the matched filter bound we gave as input of a threshold detector the QPSK symbols $a_k$ disturbed only by noise, so neglecting the effect os ISI as we would have with an ideal non dispersive channel.}. In blue we have the LE (solid) and DFE (dashed) of points A and B. Their performance is very good, as we could guess by seeing the result of the overall pulse $\psi$ (see figure \ref{fig:A_psi} and \ref{fig:B_psi}, the ISI is almost completely canceled in both cases).
-In case of receivers C and D (black dashed and black solid lines) the performances are worse, because the anti aliasing filter cuts a components of the useful signal and causes a permanent loss of information. Nevertheless the result is acceptable and could be considered as an alternative in those cases where a matched filter is not available or impracticable.
+The results obtained are showed in figure \ref{fig:SNR}. In green we plotted the values of the $P_e$ according to the matched filter bound, as in the theoretical formula and from simulation\footnote{To simulate the matched filter bound we gave as input of a threshold detector the QPSK symbols $a_k$ disturbed only by noise, so neglecting the effect os ISI as we would have with an ideal non dispersive channel.}. In blue we have the LE (solid) and DFE (dashed) of points A and B. Their performance is very good, as we could guess by seeing the result of the overall pulse $\psi$ (see figure \ref{fig:A_psi} and \ref{fig:B_psi}, the ISI is almost completely canceled in both cases).
+In case of receivers C and D (black dashed and black solid lines) the performances are worse, because the anti aliasing filter cuts a component of the useful signal and causes a permanent loss of information. Nevertheless the result is acceptable and could be considered as an alternative in those cases where a matched filter is not available or impracticable. The best results are achieved as expected by the Viterbi and forward-backward algorithms, that yield values of the $P_e$ almost equal to those of the bound. These performances however come at the cost of a higher computational cost, indeed the 2 algorithms are significantly slower than the LE and DFE and require more memory.
 
 
 \begin{figure}[ht]
@@ -332,10 +333,6 @@ In case of receivers C and D (black dashed and black solid lines) the performanc
 
 
  
-
-
-
-
 \begin{thebibliography}{15}
 	
 	\bibitem{nevio<3}

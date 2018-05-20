@@ -76,7 +76,7 @@ if plot_figure == true
 %     figure, plot(real(r_c(1:50,3))), title('r_c'),ylim([-3 3])
 %     figure, plot(real(x(1:50,3))), title('x'),ylim([-3 3])
     
-    figure, stem(h)
+    figure, stem([0:length(h)-1],h)
     title('h_i'), xlabel('nT')
     
     figure, stem([0:length(q_c)-1], q_c), xlabel('nT/4'), title('q_c')
