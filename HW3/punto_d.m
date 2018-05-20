@@ -24,30 +24,30 @@ dens  = 20;              % Density Factor
 g_AA  = firpm(N, Fo, Ao, W, {dens});
 [Hd f]= freqz(g_AA,1,'whole');
 
-figure, plot(f/(pi),10*log10(abs(Hd))), xlim([0 2])
+% figure, plot(f/(pi),10*log10(abs(Hd))), xlim([0 2])
 
 r_r = filter(g_AA , 1, r_c(:,select));
-figure, stem(r_r(1:100)), title('r_r'), xlabel('nT/4')
+% figure, stem(r_r(1:100)), title('r_r'), xlabel('nT/4')
 s_r=filter(g_AA, 1, s_c);
-figure, stem(s_r(1:100)), title('s_r'), xlabel('nT/4')
+% figure, stem(s_r(1:100)), title('s_r'), xlabel('nT/4')
 qg_up = conv(q_c, g_AA);
 qg_up = qg_up.';
-figure, stem(qg_up), title('convolution of g_AA and q_c'), xlabel('nT/4')
+% figure, stem(qg_up), title('convolution of g_AA and q_c'), xlabel('nT/4')
 t0_bar = find(qg_up==max(qg_up));
 x = downsample(r_r(t0_bar:end), 2);
-figure, stem(x(1:100)), title('xprime'), xlabel('nT/2')
+% figure, stem(x(1:100)), title('xprime'), xlabel('nT/2')
 x_NN=downsample(s_r(t0_bar:end), 2);
-figure, stem(x_NN(1:100)), title('xprime without noise'), xlabel('nT/2')
+% figure, stem(x_NN(1:100)), title('xprime without noise'), xlabel('nT/2')
 
 %scatterplot(x_NN)
 h = downsample(qg_up,2);
-figure, stem(h), title('h'), xlabel('nT/2')
+% figure, stem(h), title('h'), xlabel('nT/2')
 
 r_g = xcorr(g_AA);
-figure, stem(r_g), title('r_g'), xlabel('nT/2')
+% figure, stem(r_g), title('r_g'), xlabel('nT/2')
 N0 = (sigma_a * E_qc)/(4*SNR_lin(select));
 r_w = N0 * downsample(r_g, 2);
-figure, stem(r_w), title('r_w'), xlabel('nT/2')
+% figure, stem(r_w), title('r_w'), xlabel('nT/2')
 
 N1 = 10;
 N2 = 12;
@@ -57,13 +57,13 @@ D = 4;
 M2 = N2 + M1 - 1 - D;
 
 [c, Jmin]= WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
-figure, stem([0:length(c)-1], abs(c)), title('|c|'), xlabel('nT/2')
-xlim([0 length(c)])
+% figure, stem([0:length(c)-1], abs(c)), title('|c|'), xlabel('nT/2')
+% xlim([0 length(c)])
 psi = conv(h,c);
-%figure, stem([-14:16], abs(psi)), title('|\psi|, M_1=9, D=4'), xlabel('nT/2')
+% figure, stem([-14:16], abs(psi)), title('|\psi|, M_1=9, D=4'), xlabel('nT/2')
 psi_down = downsample(psi(2:end),2);
 b = -psi_down(find(psi_down==max(psi_down))+1:end); 
-figure, stem([0:length(b)-1],abs(b)), title('|b|'), xlabel('nT')
+% figure, stem([0:length(b)-1],abs(b)), title('|b|'), xlabel('nT')
 xlim([-1 length(b)-1])
 decisions = equalization_pointC(x, c, b, D);
 

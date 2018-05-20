@@ -77,7 +77,7 @@ In figure \ref{fig:A_c} we plot the impulse response $c_i$ at sampling time $T$ 
 	\end{center}
 \end{figure}
 
-The aim of filtering with $c$ is to obtain an overall impulse response of the system that satisfies the Nyquist conditions for the absence of ISI at time $T$. This implies that in the ideal case $\psi=h*c$ is a delayed impulse centered on $D$ that is the delay. In our case the $\psi$ obtained is shown in figure \ref{fig:A_psi}. We can see the result is pretty good as all the precursors and postcursors are almost canceled by the equalizer. 
+The aim of filtering with $c$ is to obtain an overall impulse response of the system that satisfies the Nyquist conditions for the absence of ISI at time $T$. This implies that in the ideal case $\psi=h*c$ is a delayed impulse centered on $D$ that is the delay. In our case the $\psi$ obtained is shown in figure \ref{fig:A_psi}. We can see the result is pretty good as all the precursors and postcursors are almost canceled by the equalizer. Because the peak of $\psi$ is not perfectly equal to 1, for detection we used a normalized version of the sequence $y_k$ defined as $\tilde{y}_k=\frac{y_k}{\psi_D}=a_{k-D} + \frac{v_k}{\psi_D}$\footnote{This method was used in all the receiver implementations just before decision point.}
 
 
 \begin{figure}[ht]
@@ -157,6 +157,7 @@ Again the parameters to choose are the order of filter $c$, $M_1$, and the delay
 	\end{center}
 \end{figure}
 
+
 \section*{Point C}
 
 In the receiver at point C we use a different type of approach. Before sampling the received signal we use an anti-aliasing filter instead of a matched filter. This is not an optimal solution but can be useful in some situation where the channel is not known or varies in time. Also the downsampling is at $T/2$ instead of $T$ and this gives more degrees of freedom in the equalization and more robustness with respect to the choice of the timing phase. The anti-aliasing filter has to avoid overlapping in frequency when we downsample the signal at the output of the channel. Our signal has frequency content that is periodic of period $4/T$, and has the shape of $|Q_c|^2$. Therefore its bandwidth is not limited and our anti-aliasing filter $g_{AA}$ will remove useful information because we cannot apply the Shannon theorem. The sampling at $T/2$ causes the frequency content of the signal to be repeated every $2/T$, causing an overlap. To avoid this, the cutting frequency of $g_{AA}$ has to be around $1/T$. In figure \ref{fig:C_gaa} we show the magnitude of the frequency response $|G_{AA}|$, where we chose the passband at $0.45 \cdot 2/T$ and the stopband at $0.55\cdot 2/T$.
@@ -195,7 +196,9 @@ y_k = \sum_{i=0}^{M_1-1}c_i \left(x_{2k-i}-\sum_{j=1}^{M_2}h_{2(j+D)-i}a_{k-j-D}
 \mathbf{[p]}_p = \sigma_a^2 h^*_{2D-p} \quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
 \end{equation}
 
-where for a QPSK scheme $\sigma_a^2=2$ because it is the sum of two orthogonal components each with power $1$. The values of $r_{\tilde{w}}$ are the result of the autocorrelation of the noise after being filtered by $g_{AA}$ and $g_M$, so being the noise white we have $r_{\tilde{w}}(n)=N_0r_{g_M * g_{AA}}(nT/2)$. At this point we can define the overall impulse response up to the threshold detector $\psi = h*c_{opt}$ and derive the optimal coefficients for filter $b$ as $b_i=-\psi_{2(i+D)}$ for $i=1,\dots,M_2$ because filter $b$ works at $T$. 
+where for a QPSK scheme $\sigma_a^2=2$ because it is the sum of two orthogonal components each with power $1$. The values of $r_{\tilde{w}}$ are the result of the autocorrelation of the noise after being filtered by $g_{AA}$ and $g_M$, so being the noise white we have $r_{\tilde{w}}(n)=N_0r_{g_M * g_{AA}}(nT/2)$. It is important to note that the matrix $\vt{R}$ obtained is ill conditioned because of the reduced sampling time $T/2$. To solve this problem we added a small constant along the diagonal of $\vt{R}$ to increase its determinant while not altering too much the solution of the linear system.
+
+ At this point we can define the overall impulse response up to the threshold detector $\psi = h*c_{opt}$ and derive the optimal coefficients for filter $b$ as $b_i=-\psi_{2(i+D)}$ for $i=1,\dots,M_2$ because filter $b$ works at $T$. 
 
 The value of the cost function $J_{min}$ obtained using these the optimal filters is :
 \begin{equation} \label{eq:C_jmin}
@@ -320,7 +323,7 @@ The simulation of the six different receivers has been carried out using as inpu
 where $\#_{wrong}$ is the number of erroneously detected symbols and $\#_{tx}$ is the total number of transmitted symbols. As $\#_{tx}$ increases the estimator becomes approximately a Gaussian random variable, unbiased and with variance: $\frac{P_e (1-P_e)}{\#_{tx}}$. This confirms that our estimate is reliable because the resulting variance will be very small, according to the empirical rule for which if we want to estimate a $P_e$ of $10^{-k}$, we need to measure it transmitting at least $30\cdot 10^{k}$ symbols. Indeed in our case the smallest $P_e$ we need to estimate is $10^{-4}$ and so the required number of symbols would be $30\cdot 10^{4}= 300000$ that is much less than our $\#_{tx}=524287$.
 
 The results obtained are showed in figure \ref{fig:SNR}. In green we plotted the values of the $P_e$ according to the matched filter bound, as in the theoretical formula and from simulation\footnote{To simulate the matched filter bound we gave as input of a threshold detector the QPSK symbols $a_k$ disturbed only by noise, so neglecting the effect os ISI as we would have with an ideal non dispersive channel.}. In blue we have the LE (solid) and DFE (dashed) of points A and B. Their performance is very good, as we could guess by seeing the result of the overall pulse $\psi$ (see figure \ref{fig:A_psi} and \ref{fig:B_psi}, the ISI is almost completely canceled in both cases).
-In case of receivers C and D (black dashed and black solid lines) the performances are worse, because the anti aliasing filter cuts a component of the useful signal and causes a permanent loss of information. Nevertheless the result is acceptable and could be considered as an alternative in those cases where a matched filter is not available or impracticable. The best results are achieved as expected by the Viterbi and forward-backward algorithms, that yield values of the $P_e$ almost equal to those of the bound. These performances however come at the cost of a higher computational cost, indeed the 2 algorithms are significantly slower than the LE and DFE and require more memory.
+In case of receivers C and D (black dashed and black solid lines) the performances are worse, because the anti aliasing filter cuts a component of the useful signal and causes a permanent loss of information. Nevertheless the result is acceptable and could be considered as an alternative in those cases where a matched filter is not available or impracticable. The best results are achieved as expected by the Viterbi and forward-backward algorithms, that yield values of the $P_e$ almost equal to those of the bound. These performances however come at the cost of a higher computational load, indeed the 2 algorithms are significantly slower than the LE and DFE and require more memory.
 
 
 \begin{figure}[ht]
