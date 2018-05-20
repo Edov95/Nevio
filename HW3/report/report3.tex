@@ -67,7 +67,17 @@ In point A at the receiver we have a matched filter $g_{M}$ (see figure \ref{fig
 
 The output of the matched filter is then sampled at $T$ starting from an initial offset called \emph{timing phase} $t_0$. In our case the choice of $t_0$ is made easy by the presence of the matched filter, as we can just choose the value $\bar{t}_0$, multiple of $T/4$, that is the index of the peak of the correlation between $q_c$ and $g_M$, then $t_0$ will be equal to $\bar{t}_0 T/4$. Following this reasoning we chose $\bar{t}_0=16$ (17 with Matlab indexing), equal also to the index of the last sample of $g_M$ (see figure \ref{fig:A_gm}).
 
-The signal is then passed to a linear equalizer (LE) derived by a particular case of a Decision Feedback Equalizer (DFE) where we only have the feedforward filter $c$ (see point B for the detailed analysis of the DFE). The signal at this point in the receiver system is called $x_k$ and is the result of the convolution of the input sequence $a_k$ with the overall impulse response $h_i = q_c * g_M$ that goes from $-N_1$ to $N_2$. We will call precursors the taps of $h$ that go from $-N1$ to $-1$ and postcursors the taps from $1$ to $N_2$. To obtain the coefficients of $c$ we used the Wiener approach on the input random process and solved the Wiener-Hopf equation $\vt{c}_{opt}=\vt{R}^{-1}\vt{p}$ using the matrix $\vt{R}$ and vector $\vt{p}$ as in equations \ref{eq:wienerR} and \ref{eq:wienerp} with the parameter $M_2$ (the order of the feedback filter) set to $0$ because we have no feedback filter in this case. The free parameters that we have to choose are $M_1$, the order of filter $c$ and $D$ the delay that it will introduce on the input sequence. We carried out this choice looking at the value of the cost function $J_{min}$ (see equation \ref{eq:jmin}) for each combination of the two parameters, preferring low values if possible to avoid increasing the complexity. The best choice in this case was $M_1=5$ and $D=2$.
+The signal is then passed to a linear equalizer (LE) derived by a particular case of a Decision Feedback Equalizer (DFE) where we only have the feedforward filter $c$ (see point B for the detailed analysis of the DFE). The signal at this point in the receiver system is called $x_k$ and is the result of the convolution of the input sequence $a_k$ with the overall impulse response $h_i = q_c * g_M$ that goes from $-N_1$ to $N_2$. We will call precursors the taps of $h$ that go from $-N1$ to $-1$ and postcursors the taps from $1$ to $N_2$. To obtain the coefficients of $c$ we used the Wiener approach on the input random process and solved the Wiener-Hopf equation $\vt{c}_{opt}=\vt{R}^{-1}\vt{p}$ using the matrix $\vt{R}$ and vector $\vt{p}$ as in equations \ref{eq:wienerR} and \ref{eq:wienerp} with the parameter $M_2$ (the order of the feedback filter) set to $0$ because we have no feedback filter in this case. The free parameters that we have to choose are $M_1$, the order of filter $c$ and $D$ the delay that it will introduce on the input sequence. We carried out this choice looking at the value of the cost function $J_{min}$ (see equation \ref{eq:jmin}) for each combination of the two parameters, preferring low values if possible to avoid increasing the complexity. The best choice in this case was $M_1=5$ and $D=2$, because for higher values of $D$ the functional only increased and, fixed $D$, we can see from the following figure how all values of $M_1>3$ could be a good choice.
+
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/A_Jmin.png} 
+		\caption{Behavior of $J_{min}$ for $D=2$ varying $M_1$.}
+		\label{fig:A_Jmin}
+	\end{center}
+\end{figure}
+
+We chose $M_1=5$ to have an odd number of taps for filter $c$ while keeping the order low.
 In figure \ref{fig:A_c} we plot the impulse response $c_i$ at sampling time $T$ as obtained from the Wiener solution. 
 
 \begin{figure}[H]
@@ -132,7 +142,18 @@ The value of the cost function $J_{min}$ obtained using these the optimal filter
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
 \end{equation}
 
-Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M_1=5$ and $D=4$, and consequently $M_2=4$ because $N_2=4$. In figure \ref{fig:B_c}, \ref{fig:B_psi} and \ref{fig:B_b} we plot the resulting filters $c$, $\psi$ and $b$ at sampling time $T$. 
+Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M_1=5$ and $D=4$, and consequently $M_2=4$ because $N_2=4$. Like in point A, once we noticed that for a certain value of $D$ the functional could only decrease, we let $M_1$ vary to choose the optimal couple of parameters. The following figure shows the knee of the curve at $M_1=5$ with $D$ fixed at 4:
+
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/B_Jmin.png} 
+		\caption{Behavior of $J_{min}$ for $D=4$ varying $M_1$.}
+		\label{fig:B_Jmin}
+	\end{center}
+\end{figure}
+
+
+ In figure \ref{fig:B_c}, \ref{fig:B_psi} and \ref{fig:B_b} we plot the resulting filters $c$, $\psi$ and $b$ at sampling time $T$. 
 
 \begin{figure}[H]
 	\begin{center}   
@@ -206,7 +227,7 @@ The value of the cost function $J_{min}$ obtained using these the optimal filter
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{2D-l}\right)
 \end{equation}
 
-Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M_1=9$ and $D=4$, and consequently $M2=23$ because $N_1=N_2=19$  In figure \ref{fig:C_c}, \ref{fig:C_psi} and \ref{fig:C_b} we plot the resulting filters $c$, $\psi$ at sampling time $T/2$ and $b$ at sampling time $T$. In the fractionally spaced version of the DFE the aim is again to obtain an overall pulse $\psi$ that satisfies the Nyquist conditions at time $T$ so the samples at even multiples of $T/2$ are not used in the equalizer and are therefore a degree of freedom of the system.
+Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. However in this case the filter $b$ does not work at the same sampling time as $c$ and $h$, for this reason we need to be careful in applying the formula to derive $M_2$ from the other parameters: $N_2$ and $M_1$ should be divided by 2 (and eventually a ceiling function should be applied) before using the relation. This is because $b$ needs to cancel only the postcursors at sampling time $T$ and so only needs half of the taps. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M_1=9$ and $D=4$, and consequently $M2=9$ because $N_1=N_2=18$. Here we do not report the plots of $J_{min}$ for various values of the parameters because their shapes are similar to those of point B, only with a shift to the right of the whole curve.  In figure \ref{fig:C_c}, \ref{fig:C_psi} and \ref{fig:C_b} we plot the resulting filters $c$, $\psi$ at sampling time $T/2$ and $b$ at sampling time $T$. In the fractionally spaced version of the DFE the aim is again to obtain an overall pulse $\psi$ that satisfies the Nyquist conditions at time $T$ so the samples at even multiples of $T/2$ are not used in the equalizer and are therefore a degree of freedom of the system.
 
 \begin{figure}[H]
 	\begin{center}   
@@ -234,7 +255,7 @@ Again the parameters to choose are the order of filter $c$, $M_1$, and the delay
 
 \section*{Point D} 
 
-In this configuration the setup is similar to point C but without the matched filter after the downsampling at $T/2$. This means that all the burden of equalization and reduction of the noise is on filter $c$. The parameter $\bar{t}_0$ is 20 as before (21 with Matlab indexing), because the impulse response of the anti-aliasing filter and of $q_c$ have not changed. The equations for the derivation of the DFE filters with a Wiener approach are \ref{eq:C_wienerR} and \ref{eq:C_wienerp} and the parameters, chosen again by minimizing the value of $J_{min}$ are $M_1=9$, $D=4$ and consequently $M_2=N_2+M_1-D-1=16$ because this time $h$ is not symmetric and $N_2=12$. In figure \ref{fig:D_c}, \ref{fig:D_psi} and \ref{fig:D_b} we show the magnitude of the coefficients of filter $c$, $\psi$ and $b$.
+In this configuration the setup is similar to point C but without the matched filter after the downsampling at $T/2$. This means that all the burden of equalization and reduction of the noise is on filter $c$. The parameter $\bar{t}_0$ is 20 as before (21 with Matlab indexing), because the impulse response of the anti-aliasing filter and of $q_c$ have not changed. The equations for the derivation of the DFE filters with a Wiener approach are \ref{eq:C_wienerR} and \ref{eq:C_wienerp} and the parameters, chosen again by minimizing the value of $J_{min}$ are $M_1=9$, $D=4$ and $M_2=6$ because this time $h$ is not symmetric and $N_2=12$. In figure \ref{fig:D_c}, \ref{fig:D_psi} and \ref{fig:D_b} we show the magnitude of the coefficients of filter $c$, $\psi$ and $b$.
 
 \begin{figure}[H]
 	\begin{center}   
@@ -273,8 +294,8 @@ The following table sums up the final parameters for the 4 configurations A, B, 
 			\midrule
 			A &  4  &  4  & 5 & 0  & 2 & 16 \\
 			B &  4  &  4  & 5 & 4  & 4 & 16 \\
-			C & 19  &  19 & 9 & 23 & 4 & 20 \\
-			D & 10  &  12 & 9 & 16 & 4 & 20 \\
+			C & 18  &  18 & 9 & 9 & 4 & 20 \\
+			D & 10  &  12 & 9 & 6 & 4 & 20 \\
 			\bottomrule
 		\end{tabular}
 	\end{center}

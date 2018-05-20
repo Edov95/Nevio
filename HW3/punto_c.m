@@ -7,7 +7,7 @@ end
 
 load("common.mat");
 
-select = 7;
+select = 3;
 
 %% AA filter
 
@@ -105,8 +105,8 @@ xlim([0 length(c)])
 psi_down = downsample(psi(2:end),2); % The b filter acts at T
 b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 
-% figure, stem([0:length(b)-1],abs(b)), title('|b|'), xlabel('nT')
-% xlim([-1 length(b)-1])
+figure, stem([0:length(b)-1],abs(b)), title('|b|'), xlabel('nT')
+xlim([-1 length(b)-1])
 decisions = equalization_pointC(x, c, b, D);
 
 %detection
