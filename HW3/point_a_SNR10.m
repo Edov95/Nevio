@@ -32,10 +32,18 @@ r_gm = xcorr(g_m);
 N0 = (sigma_a * E_qc)/(4*SNR_lin(3));
 r_w = N0 * downsample(r_gm, 4);
 
-D = 4;
+D = 2;
 M1 = 5;
+M1vect = [2:20];
+for i=1:length(M1vect);
+[c Jmin(i)]= WienerC_LE(h, r_w, sigma_a, M1vect(i), D);
+end
+figure,
+plot(2:20, Jmin)
+xlabel('M_1')
+title('A) D=2')
+ylabel('J_{min} [dB]')
 
-c = WienerC_LE(h, r_w, sigma_a, M1, D);
 psi = conv(c, h);
 
 %equalization no noise

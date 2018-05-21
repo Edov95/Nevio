@@ -41,7 +41,7 @@
 
     temp2 = zeros(M1, 1);
     for l = 0:M1-1
-        temp2(l + 1) = c_opt(l + 1) * hpad(N1 + padding + 1 +2*D-l); 
+        temp2(l + 1) = c_opt(l + 1) * hpad(N1 + padding + 1 + 2*D-l); 
     end
     
     Jmin = 10*log10(abs(sigma_a * (1 - sum(temp2))));
