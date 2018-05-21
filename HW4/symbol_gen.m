@@ -32,4 +32,6 @@ interl_b_l = 2 * (interl_b_l - 0.5);
 
 %% BITMAP
 
-a_k = BMAP(interl_b_l);
+a = BMAP(interl_b_l);
+
+save('generated_symbols.mat','a')
