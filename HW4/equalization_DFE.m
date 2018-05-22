@@ -1,8 +1,9 @@
-function [decisions] = equalization_DFE(x, c, b, D)
+function [decisions] = equalization_DFE(x, c, b, D, psiD)
 %EQUALIZATION for DFE
 M2 = length(b);
 y = conv(x,c);
 y = y(1:length(x)+D);
+y = y./psiD;
 detected = zeros(length(x) + D, 1); 
 for k=0:length(y)-1
      if (k <= M2)
