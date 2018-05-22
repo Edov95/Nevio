@@ -10,7 +10,7 @@ for k=0:length(y)-1
     else
         a_past = flipud(detected(k - M2 + 1: k));
     end
-detected(k + 1) = threshold_detector(y(k + 1) + b.' * a_past);
+detected(k + 1) = y(k + 1) + b.' * a_past;
 end
 %scatterplot(y)
 decisions = detected(D + 1:end);

@@ -28,7 +28,7 @@ interl_b_l = interl(enc_b_l);
 
 %% MAP 0 TO -1
 
-interl_b_l = 2 * (interl_b_l - 0.5);
+interl_b_l = 2 * interl_b_l - 1;
 
 %% BITMAP
 

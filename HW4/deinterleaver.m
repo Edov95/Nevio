@@ -14,8 +14,8 @@ function [deinterleaved_bits] = deinterleaver(bits)
     deinterleaved_bits = zeros(1,length(bits));
     
     % The deinterleaver is just an interleaver with rows and cols switched
-    rows = 36;
-    columns = 30;
+    rows = 41;
+    columns = 43;
     
     % We work with a rowsxcolumns matrix
     for matrix = 0:(length(bits)/(rows*columns) - 1)
