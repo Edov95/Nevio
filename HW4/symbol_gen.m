@@ -34,4 +34,4 @@ interl_b_l = 2 * interl_b_l - 1;
 
 a = BMAP(interl_b_l);
 
-save('generated_symbols.mat','a')
+save('generated_symbols.mat','a','enc_b_l','b_l')

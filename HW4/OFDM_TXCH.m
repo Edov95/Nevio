@@ -1,4 +1,4 @@
-function [x] = OFDM_TXCH(a, Npx, t0_bar, SNRlin)
+function [Pbit] = OFDM_TXCH(a, Npx, t0_bar, SNRlin)
 % works with already coded bits
 
 % pad the last symbols with -1-1i to have an integer multiple of 512
@@ -39,6 +39,43 @@ rec_g_rcos = rcosdesign(ro, span, sps, 'sqrt');
 %r_c = r_c(length(rec_g_rcos):end);
 
 x = filter(rec_g_rcos, 1, r_c);
+g = conv(conv(g_rcos,q_c), rec_g_rcos);
 x = downsample(x(t0_bar:end), 4);
+G = fft(g, 512);
+G = G(:);
 
+
+r_matrix = reshape(r, M+Npx, []);
+r_matrix = r_matrix(Npx + 1:end, :);
+
+G_inv = G.^(-1);
+x_matrix = fft(r_matrix);
+
+y_matrix = bsxfun(@times, x_matrix, G_inv);
+
+sigma_i = 0.5*sigma_w*M*abs(G_inv).^2;
+
+llr_real = -2*bsxfun(@times, real(y_matrix), sigma_i.^(-1));
+llr_imag = -2*bsxfun(@times, imag(y_matrix), sigma_i.^(-1));
+llr_real_ar = reshape(llr_real, [], 1);
+llr_imag_ar = reshape(llr_imag, [], 1);
+llr = zeros(numel(llr_real) + numel(llr_imag), 1);
+llr(1:2:end) = llr_real_ar;
+llr(2:2:end) = llr_imag_ar;
+
+llr = llr(1:length(enc_bits));
+llr = deinterl(llr);
+
+decoderLDPC = comm.LDPCDecoder;
+
+dstep = 2 * sstep;
+
+tic
+for i = 0:(floor(length(llr)/dstep)) - 1
+    block = llr(i * dstep + 1:i * dstep + dstep);
+    dec_b_l(i * dstep / 2 + 1:i * dstep / 2 + dstep / 2) = step(decoderLDPC, block.');
+end
+toc
+
+Pbit = sum(xor(dec_b_l, a))/length(bits);
 end

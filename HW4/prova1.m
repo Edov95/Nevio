@@ -1,5 +1,5 @@
 clear all; close all; clc;
 
-load('generated_symbols.mat','a')
+load('generated_symbols.mat','a','enc_b_l','b_l')
 
-x = OFDM_TXCH(a, 10, 54, 2);
+[Pbit b_l_hat] = OFDM(a, enc_b_l, b_l, 50, 2);
