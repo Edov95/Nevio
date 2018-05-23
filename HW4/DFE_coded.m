@@ -2,7 +2,7 @@ clear all; close all; clc;
 format long g;
 
 % THIS SCRIPT GENERATES THE SYMBOLS BY USING A PN SEQUENCE 
-% AND APPLYING LDP ENCODING AND INTERLEAVING
+% AND APPLYING LDPC, ENCODING AND INTERLEAVING
 
 b_l = [PN(20); PN(20)];
 sstep = 32400;
@@ -44,7 +44,7 @@ a_prime = upsample(a, 4);
 % Filter through the channel
 s_c = filter(q_c, 1, a_prime);
 
-SNR_vector = [1.6:0.01:1.8];
+SNR_vector = [1.2:0.05:1.8];
 Pbit_DFEenc = zeros(length(SNR_vector),1);
 
 for snr_index = 1:length(SNR_vector)
@@ -58,7 +58,7 @@ rcv_bits = s_c + w;
 % Reciver structure
 g_m = conj(flipud(q_c));
 
-% Calculate the h impulse response
+% compute the impulse response h
 h = conv(q_c, g_m);
 h = downsample(h,4);
 h = h(h ~= 0);
