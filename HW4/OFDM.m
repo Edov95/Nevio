@@ -1,4 +1,4 @@
-function [Pbit dec_b_l] = OFDM(a, enc_b_l, b_l, Npx, SNRlin)
+ function [Pbit dec_b_l] = OFDM(a, enc_b_l, b_l, Npx, SNRlin)
 
 % pad the last symbols with -1-1i to have an integer multiple of 512
 M = 512; % number of subchannels
@@ -36,10 +36,11 @@ r_c = s_c + w;
 
 rec_g_rcos = rcosdesign(ro, span, sps, 'sqrt');
 %r_c = r_c(length(rec_g_rcos):end);
-g = conv(conv(g_rcos,q_c), rec_g_rcos);
-t0_bar = find(g == max(g));
+g_up = conv(conv(g_rcos,q_c), rec_g_rcos);
+g_up = g_up(25:end-25);
+t0_bar = find(g_up == max(g_up));
 x = filter(rec_g_rcos, 1, r_c);
-g = conv(conv(g_rcos,q_c), rec_g_rcos);
+g = downsample(g_up(3:end),4);
 x = downsample(x(t0_bar:end), 4);
 G = fft(g, 512);
 G = G(:);
@@ -49,14 +50,17 @@ r_matrix = reshape(x, M+Npx, []);
 r_matrix = r_matrix(Npx + 1:end, :);
 
 G_inv = G.^(-1);
-x_matrix = fft(r_matrix);
 
-y_matrix = bsxfun(@times, x_matrix, G_inv);
+x_matrix = fft(r_matrix);
+% y_matrix = bsxfun(@times, x_matrix, G_inv);
+y_matrix = x_matrix.*G_inv;
 
 sigma_i = 0.5*sigma_w_OFDM*M*abs(G_inv).^2;
-
-llr_real = -2*bsxfun(@times, real(y_matrix), sigma_i.^(-1));
-llr_imag = -2*bsxfun(@times, imag(y_matrix), sigma_i.^(-1));
+% 
+% llr_real = -2*bsxfun(@times, real(y_matrix), sigma_i.^(-1));
+% llr_imag = -2*bsxfun(@times, imag(y_matrix), sigma_i.^(-1));
+llr_real = -2*times(real(y_matrix),(sigma_i.^(-1)));
+llr_imag = -2*times(imag(y_matrix),(sigma_i.^(-1)));
 llr_real_ar = reshape(llr_real, [], 1);
 llr_imag_ar = reshape(llr_imag, [], 1);
 llr = zeros(numel(llr_real) + numel(llr_imag), 1);
