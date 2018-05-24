@@ -33,5 +33,6 @@ interl_b_l = 2 * interl_b_l - 1;
 %% BITMAP
 
 a = BMAP(interl_b_l);
+uncoded_a = BMAP(
 
-save('generated_symbols.mat','a','enc_b_l','b_l')
+save('generated_symbols.mat','a','enc_b_l','b_l','uncoded_a')

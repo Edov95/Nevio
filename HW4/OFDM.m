@@ -9,17 +9,22 @@ a_mat = reshape(a, M, []);
 
 A_no_pr = ifft(a_mat);
 
-A = [A_no_pr(M - Npx:M,:); A_no_pr];
+A = [A_no_pr(M - Npx + 1:M,:); A_no_pr];
 
 s_n = reshape(A, [], 1);
 
+% only to try with ideal channel
+% sigma_w_OFDM = ( (sigma_a/M))/ SNRlin;
+% w = wgn(length(s_n), 1, 10*log10(sigma_w_OFDM), 'complex');
+% x = s_n + w;
+
+
 %channel contruction
 ro = 0.0625;
-span = 12;
+span = 20;
 sps = 4;
-s_up = upsample(s_n,4);
-
 g_rcos = rcosdesign(ro, span, sps, 'sqrt');
+s_up = upsample(s_n,4);
 
 s_up_rcos = filter(g_rcos, 1, s_up);
 %s_up_rcos = s_up_rcos(length(g_rcos):end);
@@ -37,28 +42,30 @@ r_c = s_c + w;
 rec_g_rcos = rcosdesign(ro, span, sps, 'sqrt');
 %r_c = r_c(length(rec_g_rcos):end);
 g_up = conv(conv(g_rcos,q_c), rec_g_rcos);
-g_up = g_up(25:end-25);
+g_up = g_up(find(abs(g_up)>=(max(g_up)*10^-2)));
 t0_bar = find(g_up == max(g_up));
+
 x = filter(rec_g_rcos, 1, r_c);
-g = downsample(g_up(3:end),4);
+g = downsample(g_up(4:end),4);
 x = downsample(x(t0_bar:end), 4);
+
 G = fft(g, 512);
 G = G(:);
 
 x = x(1 : end - mod(length(x), M+Npx));
+x = x( mod(length(x), M+Npx) + 1 : end );
+
 r_matrix = reshape(x, M+Npx, []);
 r_matrix = r_matrix(Npx + 1:end, :);
 
 G_inv = G.^(-1);
 
 x_matrix = fft(r_matrix);
-% y_matrix = bsxfun(@times, x_matrix, G_inv);
+
 y_matrix = x_matrix.*G_inv;
 
 sigma_i = 0.5*sigma_w_OFDM*M*abs(G_inv).^2;
-% 
-% llr_real = -2*bsxfun(@times, real(y_matrix), sigma_i.^(-1));
-% llr_imag = -2*bsxfun(@times, imag(y_matrix), sigma_i.^(-1));
+
 llr_real = -2*times(real(y_matrix),(sigma_i.^(-1)));
 llr_imag = -2*times(imag(y_matrix),(sigma_i.^(-1)));
 llr_real_ar = reshape(llr_real, [], 1);
@@ -68,6 +75,21 @@ llr(1:2:end) = llr_real_ar;
 llr(2:2:end) = llr_imag_ar;
 
 llr = llr(1:length(enc_b_l));
+
+% to try with ideal channel
+% y = reshape(x_matrix, [], 1);
+% llr = zeros(2*length(y),1);
+% sigma_i = 0.5*sigma_w_OFDM*M;
+% llr_real = -2*times(real(y),(sigma_i.^(-1)));
+% llr_imag = -2*times(imag(y),(sigma_i.^(-1)));
+% llr_real_ar = reshape(llr_real, [], 1);
+% llr_imag_ar = reshape(llr_imag, [], 1);
+% llr(1:2:end) = llr_real_ar;
+% llr(2:2:end) = llr_imag_ar;
+% 
+% llr = llr(1:end - mod(length(llr),32400));
+
+
 llr = deinterleaver(llr);
 
 decoderLDPC = comm.LDPCDecoder;
