@@ -1,4 +1,4 @@
- function [Pbit dec_b_l] = OFDM(a, enc_b_l, b_l, Npx, SNRlin)
+ function [Pbit dec_b_l] = OFDM_coded(a, b_l, Npx, SNRlin)
 
 % pad the last symbols with -1-1i to have an integer multiple of 512
 M = 512; % number of subchannels
@@ -22,7 +22,7 @@ s_n = reshape(A, [], 1);
 %channel contruction
 ro = 0.0625;
 span = 30;
-sps = 4;
+sps = 2;
 g_rcos = rcosdesign(ro, span, sps, 'sqrt');
 s_up = upsample(s_n,4);
 
@@ -38,15 +38,14 @@ Eimp = sum(conv(g_rcos,q_c).^2);
 sigma_w_OFDM = (sigma_a * Eimp)/ (M * SNRlin);
 w = wgn(length(s_c), 1, 10*log10(sigma_w_OFDM), 'complex');
 r_c = s_c + w;
+% r_c = s_c;
 
-rec_g_rcos = rcosdesign(ro, span, sps, 'sqrt');
-%r_c = r_c(length(rec_g_rcos):end);
-q_r_up = conv(conv(g_rcos,q_c), rec_g_rcos);
+q_r_up = conv(conv(g_rcos,q_c), g_rcos);
 q_r_up = q_r_up(find(abs(q_r_up)>=(max(q_r_up)*10^-2)));
 q_r = downsample(q_r_up(1:end),4);
-t0_bar = find(q_r_up == max(q_r_up));
-% t0_bar = 5;
-x = filter(rec_g_rcos, 1, r_c);
+% t0_bar = find(q_r_up == max(q_r_up));
+ t0_bar = 17;
+x = filter(g_rcos, 1, r_c);
 x = downsample(x(t0_bar:end), 4);
 
 K_i = fft(q_r, 512);

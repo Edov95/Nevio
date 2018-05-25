@@ -7,4 +7,4 @@ load('generated_symbols.mat','a','enc_b_l','b_l')
 % [Pbit(i) ~] = OFDM(a, enc_b_l, b_l, 18, 2, i);
 % end
 
-[Pbit b_l_hat] = OFDM(a, enc_b_l, b_l, 18, 2);
+[Pbit b_l_hat] = OFDM_coded(a, b_l, 17, 2);
