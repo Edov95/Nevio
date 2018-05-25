@@ -2,4 +2,9 @@ clear all; close all; clc;
 
 load('generated_symbols.mat','a','enc_b_l','b_l')
 
-[Pbit b_l_hat] = OFDM(a, enc_b_l, b_l, 16, 2);
+% Pbit = zeros(100,1);
+% for i=45:100
+% [Pbit(i) ~] = OFDM(a, enc_b_l, b_l, 18, 2, i);
+% end
+
+[Pbit b_l_hat] = OFDM(a, enc_b_l, b_l, 18, 2);
