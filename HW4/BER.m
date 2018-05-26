@@ -1,4 +1,4 @@
-function [Pe, count_errors] = BER(sent, detected)
+function [Pbit, count_errors] = BER(sent, detected)
 % Computes the symbol-error rate, it accepts QPSK symbols
 count_errors = 0;
 for i=1:length(sent)
@@ -6,6 +6,6 @@ for i=1:length(sent)
         count_errors = count_errors + 1;
     end
 end
-Pe = count_errors/length(sent);
+Pbit = count_errors/length(sent);
 end
 

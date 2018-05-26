@@ -26,13 +26,9 @@ end
 
 interl_b_l = interl(enc_b_l);
 
-%% MAP 0 TO -1
-
-interl_b_l = 2 * interl_b_l - 1;
-
 %% BITMAP
 
 a = BMAP(interl_b_l);
-uncoded_a = BMAP(
+uncoded_a = BMAP(b_l.');
 
 save('generated_symbols.mat','a','enc_b_l','b_l','uncoded_a')
