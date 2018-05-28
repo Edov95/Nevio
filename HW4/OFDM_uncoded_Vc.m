@@ -1,4 +1,4 @@
- function [Pbit dec_b_l] = OFDM_coded(a, b_l, Npx, t0_bar, SNRlin)
+ function [Pbit b_l_hat] = OFDM_uncoded(a, b_l, Npx, SNRlin)
 
 % pad the last symbols with -1-1i to have an integer multiple of 512
 M = 512; % number of subchannels
@@ -6,26 +6,17 @@ sigma_a = 2;
 a = [a; ones(M - mod(length(a), M), 1) * (-1-1i)];
 
 a_mat = reshape(a, M, []);
-
-A_no_pr = ifft(a_mat);
-
-A = [A_no_pr(M - Npx + 1:M,:); A_no_pr];
-
-s_n = reshape(A, [], 1);
-
-% only to try with ideal channel
-% sigma_w_OFDM = ( (sigma_a/M))/ SNRlin;
-% w = wgn(length(s_n), 1, 10*log10(sigma_w_OFDM), 'complex');
-% x = s_n + w;
+a_mat(M/2 - 1, :) = 0;
+a_mat(M/2, :) = 0;
+a_mat(M/2 + 1, :) = 0;
 
 
-%channel contruction
 %IFFT should be computed at sampling time Tblock=Tofdm*(M+Npx) according to
 %the book
-A_no_pr = ifft(a_mat);
+A_no_prefix = ifft(a_mat);
 %A_no_pr = A_no_pr(1:512,:);
 
-A = [A_no_pr(M - Npx + 1:M,:); A_no_pr];
+A = [A_no_prefix(M - Npx + 1:M,:); A_no_prefix];
 
 s_n = reshape(A, [], 1);
 
@@ -68,14 +59,14 @@ r_c = s_c + w;
 
 q_r_up = conv(conv(g_rcos,q_c), g_rcos);
 q_r_up = q_r_up(find(abs(q_r_up)>=(max(q_r_up)*10^-2)));
-% t0_bar = find(q_r_up == max(q_r_up));
+%t0_bar = find(q_r_up == max(q_r_up));
+t0_bar = 21;
 q_r = downsample(q_r_up(1:end),4);
 
-%t0_bar = 17;
 x = filter(g_rcos, 1, r_c);
 x = downsample(x(t0_bar:end), 4);
 
-K_i = fft(q_r, 512);
+K_i = fft(q_r, M);
 K_i = K_i(:);
 
 x = x(1: end - mod(length(x), M+Npx));
@@ -88,44 +79,20 @@ K_i_inv = K_i.^(-1);
 x_matrix = fft(r_matrix);
 
 y_matrix = x_matrix .* K_i_inv;
+%cancel the rows set to 0 because of the Vc
+y_matrix = [y_matrix(1:M/2-2,:) ; y_matrix(M/2+2:end,:)];
 
-sigma_i = 0.5*sigma_w_OFDM * M * abs(K_i_inv).^2;
+y = reshape(y_matrix, 1, []);
 
-llr_real = -2 * real(y_matrix) .* (sigma_i.^(-1));
-llr_imag = -2 * imag(y_matrix) .* (sigma_i.^(-1));
-llr_real_ar = reshape(llr_real, [], 1);
-llr_imag_ar = reshape(llr_imag, [], 1);
-llr = zeros(length(llr_real_ar) + length(llr_imag_ar), 1);
-llr(1:2:end) = llr_real_ar;
-llr(2:2:end) = llr_imag_ar;
-llr = llr(1:2*length(b_l));
-
-% to try with ideal channel
-% y = reshape(x_matrix, [], 1);
-% llr = zeros(2*length(y),1);
-% sigma_i = 0.5*sigma_w_OFDM*M;
-% llr_real = -2*times(real(y),(sigma_i.^(-1)));
-% llr_imag = -2*times(imag(y),(sigma_i.^(-1)));
-% llr_real_ar = reshape(llr_real, [], 1);
-% llr_imag_ar = reshape(llr_imag, [], 1);
-% llr(1:2:end) = llr_real_ar;
-% llr(2:2:end) = llr_imag_ar;
-% 
-% llr = llr(1:end - mod(length(llr),32400));
-
-
-llr = deinterleaver(llr);
-
-decoderLDPC = comm.LDPCDecoder;
-
-dstep = 64800;
-
-tic
-for i = 0:(floor(length(llr)/dstep)) - 1
-    block = llr(i * dstep + 1:i * dstep + dstep);
-    dec_b_l(i * dstep / 2 + 1:i * dstep / 2 + dstep / 2) = step(decoderLDPC, block.');
+dec_a_k = zeros(length(y),1);
+for k=1:length(y)
+dec_a_k(k) = threshold_detector(y(k));
 end
-toc
 
-Pbit = BER(b_l, dec_b_l);
+a_conf_mat = [a_mat(1:M/2-2,:) ; a_mat(M/2+2:end,:)];
+a_conf = reshape(a_conf_mat, 1, []);
+b_l_conf = IBMAP(a_conf);
+b_l_hat = IBMAP(dec_a_k);
+
+[Pbit ~]= BER(b_l_conf(1:length(b_l_hat)), b_l_hat(1:end));
 end

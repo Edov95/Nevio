@@ -1,4 +1,4 @@
- function [Pbit b_l_hat] = OFDM_uncoded(a, b_l, Npx, SNRlin)
+ function [Pbit b_l_hat] = OFDM_uncoded(a, b_l, Npx, t0_bar, SNRlin)
 
 % pad the last symbols with -1-1i to have an integer multiple of 512
 M = 512; % number of subchannels
@@ -54,9 +54,9 @@ r_c = s_c + w;
 % r_c = s_c;
 
 q_r_up = conv(conv(g_rcos,q_c), g_rcos);
-q_r_up = q_r_up(find(abs(q_r_up)>=(max(q_r_up)*10^-2)));
+q_r_up = q_r_up(abs(q_r_up)>=(max(q_r_up)*10^-2));
 %t0_bar = find(q_r_up == max(q_r_up));
-t0_bar = 21;
+%t0_bar = 21;
 q_r = downsample(q_r_up(1:end),4);
 
 x = filter(g_rcos, 1, r_c);
