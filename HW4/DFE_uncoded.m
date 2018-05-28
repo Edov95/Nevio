@@ -12,7 +12,7 @@ a_prime = upsample(uncoded_a, 4);
 % Filter through the channel
 s_c = filter(q_c, 1, a_prime);
 
-SNR_vector = [5:0.5:15];
+SNR_vector = [4:0.5:14];
 Pbit_DFEunc = zeros(length(SNR_vector),1);
 
 for snr_index = 1:length(SNR_vector)

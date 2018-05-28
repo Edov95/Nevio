@@ -18,40 +18,30 @@ s_n = reshape(A, [], 1);
 % w = wgn(length(s_n), 1, 10*log10(sigma_w_OFDM), 'complex');
 % x = s_n + w;
 
+%channel construction
+ro = 0.0625;
+span = 30;
+sps = 4;
+g_rcos = rcosdesign(ro, span, sps, 'sqrt');
 
-%channel contruction
-%IFFT should be computed at sampling time Tblock=Tofdm*(M+Npx) according to
-%the book
-A_no_pr = ifft(a_mat);
-%A_no_pr = A_no_pr(1:512,:);
-
-A = [A_no_pr(M - Npx + 1:M,:); A_no_pr];
-
-s_n = reshape(A, [], 1);
-
-%channel contruction
-% ro = 0.0625;
-% span = 30;
-% sps = 2;
-% g_rcos = rcosdesign(ro, span, sps, 'sqrt');
-
-N    = 30;         % Order
-Fc   = 0.5;        % Cutoff Frequency
-TM   = 'Rolloff';  % Transition Mode
-R    = 0.0625;     % Rolloff
-DT   = 'sqrt';     % Design Type
-Beta = 0.5;        % Window Parameter
-
-% Create the window vector for the design algorithm.
-win = kaiser(N+1, Beta);
-
-% Calculate the coefficients using the FIR1 function.
-g_rcos  = firrcos(N, Fc, R, 2, TM, DT, [], win);
-Hd = dfilt.dffir(g_rcos);
+% N    = 30;         % Order
+% Fc   = 0.5;        % Cutoff Frequency
+% TM   = 'Rolloff';  % Transition Mode
+% R    = 0.0625;     % Rolloff
+% DT   = 'sqrt';     % Design Type
+% Beta = 0.5;        % Window Parameter
+% 
+% % Create the window vector for the design algorithm.
+% win = kaiser(N+1, Beta);
+% 
+% % Calculate the coefficients using the FIR1 function.
+% g_rcos  = firrcos(N, Fc, R, 2, TM, DT, [], win);
+% Hd = dfilt.dffir(g_rcos);
 
 s_up = upsample(s_n,4);
 
 s_up_rcos = filter(g_rcos, 1, s_up);
+%s_up_rcos = upfirdn(s_up, g_rcos, 2);
 %s_up_rcos = s_up_rcos(length(g_rcos):end);
 
 q_c = channel_impulse_response();
@@ -71,8 +61,8 @@ q_r_up = q_r_up(find(abs(q_r_up)>=(max(q_r_up)*10^-2)));
 % t0_bar = find(q_r_up == max(q_r_up));
 q_r = downsample(q_r_up(1:end),4);
 
-%t0_bar = 17;
 x = filter(g_rcos, 1, r_c);
+%x = upfirdn(r_c, g_rcos, 2);
 x = downsample(x(t0_bar:end), 4);
 
 K_i = fft(q_r, 512);
@@ -91,14 +81,14 @@ y_matrix = x_matrix .* K_i_inv;
 
 sigma_i = 0.5*sigma_w_OFDM * M * abs(K_i_inv).^2;
 
-llr_real = -2 * real(y_matrix) .* (sigma_i.^(-1));
-llr_imag = -2 * imag(y_matrix) .* (sigma_i.^(-1));
-llr_real_ar = reshape(llr_real, [], 1);
-llr_imag_ar = reshape(llr_imag, [], 1);
-llr = zeros(length(llr_real_ar) + length(llr_imag_ar), 1);
-llr(1:2:end) = llr_real_ar;
-llr(2:2:end) = llr_imag_ar;
-llr = llr(1:2*length(b_l));
+LLR_real = -2 * real(y_matrix) .* (sigma_i.^(-1));
+LLR_imag = -2 * imag(y_matrix) .* (sigma_i.^(-1));
+LLR_real_vec = reshape(LLR_real, [], 1);
+LLR_imag_vec = reshape(LLR_imag, [], 1);
+LLR = zeros(length(LLR_real_vec) + length(LLR_imag_vec), 1);
+LLR(1:2:end) = LLR_real_vec;
+LLR(2:2:end) = LLR_imag_vec;
+LLR = LLR(1:2*length(b_l));
 
 % to try with ideal channel
 % y = reshape(x_matrix, [], 1);
@@ -113,16 +103,15 @@ llr = llr(1:2*length(b_l));
 % 
 % llr = llr(1:end - mod(length(llr),32400));
 
-
-llr = deinterleaver(llr);
+LLR = deinterleaver(LLR);
 
 decoderLDPC = comm.LDPCDecoder;
 
 dstep = 64800;
 
 tic
-for i = 0:(floor(length(llr)/dstep)) - 1
-    block = llr(i * dstep + 1:i * dstep + dstep);
+for i = 0:(floor(length(LLR)/dstep)) - 1
+    block = LLR(i * dstep + 1:i * dstep + dstep);
     dec_b_l(i * dstep / 2 + 1:i * dstep / 2 + dstep / 2) = step(decoderLDPC, block.');
 end
 toc

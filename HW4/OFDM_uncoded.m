@@ -17,24 +17,24 @@ A = [A_no_prefix(M - Npx + 1:M,:); A_no_prefix];
 s_n = reshape(A, [], 1);
 
 %channel contruction
-% ro = 0.0625;
-% span = 30;
-% sps = 2;
-% g_rcos = rcosdesign(ro, span, sps, 'sqrt');
+ro = 0.0625;
+span = 30;
+sps = 4;
+g_rcos = rcosdesign(ro, span, sps, 'sqrt');
 
-N    = 30;         % Order
-Fc   = 0.5;        % Cutoff Frequency
-TM   = 'Rolloff';  % Transition Mode
-R    = 0.0625;     % Rolloff
-DT   = 'sqrt';     % Design Type
-Beta = 0.5;        % Window Parameter
-
-% Create the window vector for the design algorithm.
-win = kaiser(N+1, Beta);
-
-% Calculate the coefficients using the FIR1 function.
-g_rcos  = firrcos(N, Fc, R, 2, TM, DT, [], win);
-Hd = dfilt.dffir(g_rcos);
+% N    = 30;         % Order
+% Fc   = 0.5;        % Cutoff Frequency
+% TM   = 'Rolloff';  % Transition Mode
+% R    = 0.0625;     % Rolloff
+% DT   = 'sqrt';     % Design Type
+% Beta = 0.5;        % Window Parameter
+% 
+% % Create the window vector for the design algorithm.
+% win = kaiser(N+1, Beta);
+% 
+% % Calculate the coefficients using the FIR1 function.
+% g_rcos  = firrcos(N, Fc, R, 2, TM, DT, [], win);
+% Hd = dfilt.dffir(g_rcos);
 
 s_up = upsample(s_n,4);
 
@@ -80,9 +80,9 @@ y = reshape(y_matrix, 1, []);
 
 dec_a_k = zeros(length(y),1);
 for k=1:length(y)
-dec_a_k(k) = threshold_detector(y(k));
+    dec_a_k(k) = threshold_detector(y(k));
 end
 b_l_hat = IBMAP(dec_a_k);
 
 [Pbit ~]= BER(b_l, b_l_hat(1:end));
-end
+ end
