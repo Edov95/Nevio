@@ -159,22 +159,47 @@ In figure \ref{fig:B_c}, \ref{fig:B_psi} and \ref{fig:B_b} we plot the resulting
 
 \section*{OFDM with cyclic prefix}
 
+The system considered in this case is represented in figure \ref{fig:ofdm_schema}:
 
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/OFDM_schema.png} 
+		\caption{Block diagram of the OFDM system with the cyclic prefix method.}
+		\label{fig:ofdm_schema}
+	\end{center}
+\end{figure}
 
-\subsection*{Charactarization of a single OFDM channel}
-The system takes a sequence of input symbols $s_k$ at sampling time $T_{OFDM}=T_{block}/(M + N_{px})$ and applies an upsampling of factor 4, obtaining $a_k'$ at $T_c = T_{OFDM}/4$. This new sequence is then filtered by $g_{\sqrt{rcos}}$ with the as described by the following equation:
+The input sequence of symbols $a_k$ is arranged in a matrix with $\mathcal{M}=512$ rows and on these blocks of length $\mathcal{M}$ we compute the IDFT to obtain the sequence $A_k[i]$ for $i=0,\dots , \mathcal{M}-1$. At this point we used the cyclic prefix method to perform equalization: a prefix of length $N_{px}$ taken from the end of the block obtained form IDFT is repeated on top of the same block. In this way, choosing $N_{px}\geq N_c-1$ (where $N_c$ is the length of the channel impulse response) the data of the next block will be separated from the present one by $N_c-1$ or more samples, that is enough to fill the channel and not have any ICI between consecutive blocks. At the receiver the additional $A_k[i]$ with $i=\mathcal{M}-1-N_{px},\dots ,\mathcal{M}-1$ can be just discarded.
+
+\subsection*{OFDM channel}
+
+The channel, represented as a single block in figure \ref{fig:ofdm_schema} contains all blocks depicted in figure \ref{fig:ofdm_channel_schema}
+
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=10cm]{figs/OFDM_channel_schema.png} 
+		\caption{Channel + transmitter and receiver filters in OFDM.}
+		\label{fig:ofdm_channel_schema}
+	\end{center}
+\end{figure}
+
+where in our case $g_{tx}$ and $g_{Rc}$ are taken both as square root raised cosine filters, and the channel impulse response is the $q_c$ used also for the single carrier channel: 
+\begin{equation}\label{eq:q_c}
+s_c(nT/4) = 0.67 s_c((n-1)T/4) + 0.7424 a_{n-5}
+\end{equation}
+The system takes a sequence of input symbols $s_k$ at sampling time $T_{OFDM}=T_{block}/(M + N_{px})$ and applies an upsampling of factor 4, obtaining $a_k'$ at $T_c = T_{OFDM}/4$. This new sequence is then filtered by $g_{\sqrt{rcos}}$ where the impulse response is described by the following equation:
 
 \begin{equation}\label{eq:g_rcos}
 g_{\sqrt{rcos}}(n) = \frac{\sin\left[\pi\left(1 - \rho\right)\frac{n}{T_c}\right] + 4\rho\frac{n}{T_c}\cos\left[\pi\left(1 - \rho\right)\frac{n}{T_c}\right]}{\pi\left[1-\left(4\rho\frac{n}{T_c}\right)^2\right]\frac{n}{T_c}}
 \end{equation}
 
-After the convolution with the transmission filter, we send the data through the channel with the inpulse response given by (\ref{eq:q_c}) and the white noise is added. From the following relations we can derive $\sigma_w^2$, the variance of the complex valued Gaussian noise:
+After the convolution with the transmit filter, we send the data through the channel with the impulse response given by (\ref{eq:q_c}) and white noise is added. From the following relations we can derive $\sigma_w^2$, the variance of the complex valued Gaussian noise:
 \begin{equation}
 \Gamma = \frac{M_{s_c}}{N_0\frac{1}{T}} = \frac{\sigma_a^2 E_{g_{\sqrt{rcos}} * q_c}}{\sigma_w^2} \longrightarrow \sigma_w^2 = \frac{\sigma_a^2 E_{g_{\sqrt{rcos}} *q_c}}{\Gamma} = 2\sigma_I^2
 \end{equation}
 
-At the reciever we have the matched filter of the transmission filter which is another $g_{\sqrt{rcos}}$ with the impulse response given by (\ref{eq:g_rcos}).
-The output of the matched filter is then sampled at $T_{OFDM}$ starting from an initial offset called \emph{timing phase} $t_0$. We can just choose the value $\bar{t}_0$, multiple of $T/4$ and we have choosen $\bar{t}_0=90$ (91 with Matlab indexing) "because this is the value with the best performace"
+At the receiver we have the matched filter of the transmission filter which is another $g_{\sqrt{rcos}}$ with the impulse response given by (\ref{eq:g_rcos}).
+The output of the matched filter is then sampled at $T_{OFDM}$ starting from an initial offset called \emph{timing phase} $t_0$. We can just choose the value $\bar{t}_0$, multiple of $T_{OFDM}/4$ and we have chosen $\bar{t}_0=90$ (91 with Matlab indexing) "because this is the value with the best performances"
 
 
 
@@ -194,15 +219,11 @@ The output of the matched filter is then sampled at $T_{OFDM}$ starting from an 
 	\end{center}
 \end{figure}
  
-\begin{thebibliography}{15}
-	
+\begin{thebibliography}{15}	
 	\bibitem{nevio<3}
 	Nevio Benvenuto, Giovanni Cherubini,
 	\textit{Algorithms for Communication Systems and their Applications}. 
 	Wiley, 2002.
-	
-
-	
 \end{thebibliography}
 
 \end{document}
