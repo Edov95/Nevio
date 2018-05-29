@@ -19,24 +19,10 @@ s_n = reshape(A, [], 1);
 % x = s_n + w;
 
 %channel construction
-% ro = 0.0625;
-% span = 30;
-% sps = 4;
-% g_rcos = rcosdesign(ro, span, sps, 'sqrt');
-
-N    = 30;         % Order
-Fc   = 0.5;        % Cutoff Frequency
-TM   = 'Rolloff';  % Transition Mode
-R    = 0.0625;     % Rolloff
-DT   = 'sqrt';     % Design Type
-Beta = 0.5;        % Window Parameter
-
-% Create the window vector for the design algorithm.
-win = kaiser(N+1, Beta);
-
-% Calculate the coefficients using the FIR1 function.
-g_rcos  = firrcos(N, Fc, R, 2, TM, DT, [], win);
-Hd = dfilt.dffir(g_rcos);
+ro = 0.0625;
+span = 30;
+sps = 4;
+g_rcos = rcosdesign(ro, span, sps, 'sqrt');
 
 s_up = upsample(s_n,4);
 

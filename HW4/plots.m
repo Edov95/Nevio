@@ -1,11 +1,12 @@
 clear all; close all; clc;
 
 load('AWGN_coded.mat', 'Pbit_AWGN');
-load('OFDM_uncoded.mat','SNR_dB','Pbit_OFDM_uncoded')
+load('OFDM_uncoded2.mat','Pbit_OFDM_uncoded')
 load('DFE_uncoded.mat','Pbit_DFEunc');
 load('DFE_coded.mat','Pbit_DFEenc');
 load('OFDM_coded1.mat','Pbit_OFDM_coded');
 
+SNR_dB = [4:0.5:14];
 SNR_lin = 10.^(SNR_dB./10);
 sigma_a = 2;
 awgn_bound = qfunc(sqrt(SNR_lin));

@@ -18,10 +18,10 @@ s_n = reshape(A, [], 1);
 
 %channel contruction
 ro = 0.0625;
-span = 15;
+span = 30;
 sps = 4;
 g_rcos = rcosdesign(ro, span, sps, 'sqrt');
-
+ 
 % N    = 30;         % Order
 % Fc   = 0.5;        % Cutoff Frequency
 % TM   = 'Rolloff';  % Transition Mode
