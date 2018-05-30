@@ -19,7 +19,7 @@ s_n = reshape(A, [], 1);
 %channel contruction
 ro = 0.0625;
 span = 30;
-sps = 4;
+sps = 2;
 g_rcos = rcosdesign(ro, span, sps, 'sqrt');
  
 % N    = 30;         % Order

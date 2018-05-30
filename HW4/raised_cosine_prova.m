@@ -11,10 +11,10 @@ xlim([0 1])
 ylim([-20 7])
 xlabel('$f/T_c$')
 ylabel('$|G_{\sqrt{rcos}|} [dB]$')
-% figure, stem(g_rcos)
-% figure, stem(conv(g_rcos,g_rcos))
-% 
-% gdown = downsample(conv(g_rcos,g_rcos),4);
-% figure, stem(gdown)
-% [Hdown fd] = freqz(gdown, 1, 'whole');
-% figure, plot(fd/pi, abs(Hdown)), ylim([0 3])
+figure, stem(g_rcos)
+figure, stem(conv(g_rcos,g_rcos))
+
+gdown = downsample(conv(g_rcos,g_rcos),4);
+figure, stem(gdown)
+[Hdown fd] = freqz(gdown, 1, 'whole');
+figure, plot(fd/pi, abs(Hdown)), ylim([0 3])
