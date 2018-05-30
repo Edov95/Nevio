@@ -27,7 +27,6 @@ g_rcos = rcosdesign(ro, span, sps, 'sqrt');
 s_up = upsample(s_n,4);
 
 s_up_rcos = filter(g_rcos, 1, s_up);
-%s_up_rcos = upfirdn(s_up, g_rcos, 2);
 %s_up_rcos = s_up_rcos(length(g_rcos):end);
 
 q_c = channel_impulse_response();
@@ -42,7 +41,8 @@ w = wgn(length(s_c), 1, 10*log10(sigma_w_OFDM), 'complex');
 r_c = s_c + w;
 % r_c = s_c;
 
-q_r_up = conv(conv(g_rcos,q_c), g_rcos);
+gq = conv(g_rcos,q_c);
+q_r_up = conv(gq, g_rcos);
 q_r_up = q_r_up(find(abs(q_r_up)>=(max(q_r_up)*10^-2)));
 % t0_bar = find(q_r_up == max(q_r_up));
 q_r = downsample(q_r_up(1:end),4);

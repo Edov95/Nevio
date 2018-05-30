@@ -42,11 +42,9 @@ In the uncoded case the sequence $b_l$ directly mapped into a sequence of QPSK s
 
 In the coded case the sequence is first coded using an irregular LDPC code with rate $1/2$ and a codelength of $N = 64800$. This operation produces a sequence of bits $c_m$ with double the length of $b_l$ and sampling time $T_{cod}$. To improve the performances by reducing the effect of burst errors, $c_m$ is passed to an interleaver $43 \times 41$ in which we write the input bits by row and read them by column to perform a scramble.
 
-At this point the resulting bit sequence $c_p'$ at $T_a = 2T_{cod}$ is transmitted using the single carrier and OFDM schemes. At the receiver, once the detection has taken place, the reverse operations are carrier out to derive the detected bit sequence $\hat{b}_l$ and compute $P_{bit}$. In particular a LDPC decoder and a deinterleaver $41\times 43$ are used.
+At this point the resulting bit sequence $c_p'$ at $T_a = 2T_{cod}$ is transmitted using the single carrier and OFDM schemes. At the receiver, once the detection has taken place, the reverse operations are carrier out to derive the detected bit sequence $\hat{b}_l$ and compute $P_{bit}$. In particular a LDPC decoder and a deinterleaver $41\times 43$ are used. It is important to remark hat in the coded case the LDPC algorithm works with \emph{soft information}, so we pass to it not the detected bits, but the log-likelihood ratios $l_m$ for which we will provide the expression case by case.
 
 \section*{Single Carrier with DFE}
-
-%% Togliere un po' di merda
 
 The system takes a sequence of input symbols $a_k$ at sampling time $T=1$ and applies an upsampling of factor 4, obtaining $a_k'$ at $T/4$. This new sequence is then filtered by $q_c$ as described by the following difference equation:
 \begin{equation}\label{eq:q_c}
@@ -61,34 +59,18 @@ In figure \ref{fig:qc} we plot the impulse response and the frequency response o
 
 \begin{figure}[H]
 	\begin{center}   
-		%\includegraphics[width=\textwidth]{figs/q_c.png} 
-		%\includegraphics[width=\textwidth]{figs/Qc.png} 
-		\caption{Impulse response of the filter $q_c$ at $T/4$.}
+		\includegraphics[width=\textwidth]{figs/q_c.png}  
+		\caption{Impulse response of the filter $q_c$ at $T_c$.}
 		\label{fig:qc}
 	\end{center}
 \end{figure} 
 
-At the receiver we have a matched filter $g_{M}$ (see figure \ref{fig:A_gm}), obtained from $q_c$ as $g_M=q_c^*(t_0-t)$. For simplicity in the last formula we have denoted the filters as is they were defined on continuous time while in the actual simulation they are at $T/4$. 
-
-\begin{figure}[H]
-	\begin{center}   
-		%\includegraphics[width=\textwidth]{figs/A_gm.png} 
-		\caption{Impulse response of the matched filter $g_{M}$ for the receiver in point A.}
-		\label{fig:A_gm}
-	\end{center}
-\end{figure} 
+At the receiver we have a matched filter $g_{M}$, obtained from $q_c$ as $g_M=q_c^*(t_0-t)$. For simplicity in the last formula we have denoted the filters as is they were defined on continuous time while in the actual simulation they are at $T/4$. 
 
 The output of the matched filter is then sampled at $T$ starting from an initial offset called \emph{timing phase} $t_0$. In our case the choice of $t_0$ is made easy by the presence of the matched filter, as we can just choose the value $\bar{t}_0$, multiple of $T/4$, that is the index of the peak of the correlation between $q_c$ and $g_M$, then $t_0$ will be equal to $\bar{t}_0 T/4$. Following this reasoning we chose $\bar{t}_0=16$ (17 with Matlab indexing), equal also to the index of the last sample of $g_M$ (see figure \ref{fig:A_gm}).
 
 We equalize with a DFE, that is made of two filters called feedforward and feedback filter denoted by $c$ and $b$. The feedforward filter has the role of equalizing only the precursors of the overall impulse response, while the ISI due to postcursors will be canceled by filter $b$ positioned on a feedback loop between the output of the threshold detector and its input. 
 
-\begin{figure}[H]
-	\begin{center}   
-		%\includegraphics[width=\textwidth]{figs/B_gm.png} 
-		\caption{Impulse response of the matched filter $g_{M}$ for the receiver in point B.}
-		\label{fig:B_gm}
-	\end{center}
-\end{figure}
 
 The computation of the optimal filters $c$ and $b$ is carried out using the Wiener filter approach. The relation between the input random process and the output is:
 \begin{equation}
@@ -156,6 +138,23 @@ In figure \ref{fig:B_c}, \ref{fig:B_psi} and \ref{fig:B_b} we plot the resulting
 \end{figure}
 
 
+The following table summarizes the chosen parameters for the single carrier system:
+
+\begin{table}[htbp]
+	\begin{center}
+		\begin{tabular}{cccccc}
+			\toprule
+			$N_1$ & $N_2$ & $M_1$ & $M_2$ & $D$ & $\bar{t}_0$ \\
+			\midrule
+			 4  &  4  & 5 & 4  & 4 & 16 \\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+	\label{tab:sumup}
+	\caption{Choices for the various parameters for the DFE with respect to the number of precursors and postcursors of $h$, $N_1$ and $N_2$.}
+\end{table} 
+
+
 
 \section*{OFDM with cyclic prefix}
 
@@ -169,7 +168,8 @@ The system considered in this case is represented in figure \ref{fig:ofdm_schema
 	\end{center}
 \end{figure}
 
-The input sequence of symbols $a_k$ is arranged in a matrix with $\mathcal{M}=512$ rows and on these blocks of length $\mathcal{M}$ we compute the IDFT to obtain the sequence $A_k[i]$ for $i=0,\dots , \mathcal{M}-1$. At this point we used the cyclic prefix method to perform equalization: a prefix of length $N_{px}$ taken from the end of the block obtained form IDFT is repeated on top of the same block. In this way, choosing $N_{px}\geq N_c-1$ (where $N_c$ is the length of the channel impulse response) the data of the next block will be separated from the present one by $N_c-1$ or more samples, that is enough to fill the channel and not have any ICI between consecutive blocks. At the receiver the additional $A_k[i]$ with $i=\mathcal{M}-1-N_{px},\dots ,\mathcal{M}-1$ can be just discarded.
+The input sequence of symbols $a_k$ is arranged in a matrix with $\mathcal{M}=512$ rows and on these blocks of length $\mathcal{M}$ we compute the IDFT to obtain the sequence $A_k[i]$ for $i=0,\dots , \mathcal{M}-1$. At this point we used the cyclic prefix method to perform equalization: a prefix of length $N_{px}$ taken from the end of the block obtained from IDFT is repeated on top of the same block. In this way, choosing $N_{px}\geq N_c-1$ (where $N_c$ is the length of the channel impulse response) the data of the next block will be separated from the present one by $N_c-1$ or more samples, that is enough to fill the channel and not have any ICI between consecutive blocks. In our specific case $N_c=18$ (see the overall impulse response $h$ in figure \ref{fig:h}) so we can take $N_{px}=17$.
+ At the receiver the additional $A_k[i]$ with $i=\mathcal{M}-1-N_{px},\dots ,\mathcal{M}-1$ can be just discarded. The DFT is compute to retrieve the original symbols and each subchannel is rescaled by a factor $\mathcal{K}_i = \frac{1}{\mathcal{H}_i}$ where $\mathcal{H}_i$ for $i=0, \dots, \mathcal{M}-1$ is the DFT  computed on $\mathcal{M}$ points of the impulse response $h$ (see figure \ref{fig:H}).
 
 \subsection*{OFDM channel}
 
@@ -187,20 +187,81 @@ where in our case $g_{tx}$ and $g_{Rc}$ are taken both as square root raised cos
 \begin{equation}\label{eq:q_c}
 s_c(nT/4) = 0.67 s_c((n-1)T/4) + 0.7424 a_{n-5}
 \end{equation}
-The system takes a sequence of input symbols $s_k$ at sampling time $T_{OFDM}=T_{block}/(M + N_{px})$ and applies an upsampling of factor 4, obtaining $a_k'$ at $T_c = T_{OFDM}/4$. This new sequence is then filtered by $g_{\sqrt{rcos}}$ where the impulse response is described by the following equation:
+The system takes a sequence of input symbols $s_k$ at sampling time $T_{OFDM}=T_{block}/(M + N_{px})$ and applies an upsampling of factor 4, obtaining $a_k'$ at $T_c = T_{OFDM}/4$. This new sequence is then filtered by $g_{\sqrt{rcos}}$ where the impulse response is described by the following equation and depicted in figure \ref{fig:gimp_rcos}:
 
 \begin{equation}\label{eq:g_rcos}
 g_{\sqrt{rcos}}(n) = \frac{\sin\left[\pi\left(1 - \rho\right)\frac{n}{T_c}\right] + 4\rho\frac{n}{T_c}\cos\left[\pi\left(1 - \rho\right)\frac{n}{T_c}\right]}{\pi\left[1-\left(4\rho\frac{n}{T_c}\right)^2\right]\frac{n}{T_c}}
 \end{equation}
 
+
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=10cm]{figs/gimp_rcos.png} 
+		\caption{Impulse response of the square root raised cosine filter $g_{\sqrt{rcos}}$.}
+		\label{fig:gimp_rcos}
+	\end{center}
+\end{figure}
+
+And the following picture represents the frequency response $|\mathcal{G}_{\sqrt{rcos}}|$:
+
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=10cm]{figs/G_rcos.png} 
+		\caption{Frequency response of the square root raised cosine filter.}
+		\label{fig:Grcos}
+	\end{center}
+\end{figure}
+
 After the convolution with the transmit filter, we send the data through the channel with the impulse response given by (\ref{eq:q_c}) and white noise is added. From the following relations we can derive $\sigma_w^2$, the variance of the complex valued Gaussian noise:
 \begin{equation}
-\Gamma = \frac{M_{s_c}}{N_0\frac{1}{T}} = \frac{\sigma_a^2 E_{g_{\sqrt{rcos}} * q_c}}{\sigma_w^2} \longrightarrow \sigma_w^2 = \frac{\sigma_a^2 E_{g_{\sqrt{rcos}} *q_c}}{\Gamma} = 2\sigma_I^2
+\Gamma = \frac{M_{s_c}}{N_0\frac{1}{T}} = \frac{\sigma_s^2 E_{g_{\sqrt{rcos}} * q_c}}{\sigma_w^2} \longrightarrow \sigma_w^2 = \frac{\sigma_a^2 E_{g_{\sqrt{rcos}} *q_c}}{\mathcal{M}\Gamma} = 2\sigma_I^2
 \end{equation}
 
-At the receiver we have the matched filter of the transmission filter which is another $g_{\sqrt{rcos}}$ with the impulse response given by (\ref{eq:g_rcos}).
+where we used the relation $\sigma_s^2 = \frac{\sigma_a^2}{\mathcal{M}}$ \cite{nevio<3}.
+
+At the receiver we have another $g_{\sqrt{rcos}}$ with the impulse response given by (\ref{eq:g_rcos}).
 The output of the matched filter is then sampled at $T_{OFDM}$ starting from an initial offset called \emph{timing phase} $t_0$. We can just choose the value $\bar{t}_0$, multiple of $T_{OFDM}/4$ and we have chosen $\bar{t}_0=90$ (91 with Matlab indexing) "because this is the value with the best performances"
 
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=10cm]{figs/q_R.png} 
+		\caption{Total impulse response of the channel and receiver/transmit filters.}
+		\label{fig:q_R}
+	\end{center}
+\end{figure}
+
+The total impulse response obtained by convolving the three filters is depicted in figure \ref{fig:q_R} at sampling time $T_c$, and the corresponding frequency response can be seen in figure \ref{fig:Qmag_R}.
+
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=10cm]{figs/Qmag_R.png} 
+		\caption{Frequency response of the total channel and receive/transmit filters at $T_c$}
+		\label{fig:Qmag_R}
+	\end{center}
+\end{figure}
+
+However, if we want to derive an impulse response that relates the input of the whole transmitter+channel+receiver system, we have to work on the sampling time $T_{OFDM}$. We will call the downsampled version of $q_R$ with the appropriate timing phase $h$ (see figure \ref{fig:h}). Its DFT is instead plotted in figure \ref{fig:H}.
+
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=10cm]{figs/h.png} 
+		\caption{Total impulse response $h$ at $T_{OFDM}$.}
+		\label{fig:h}
+	\end{center}
+\end{figure}
+
+
+
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=10cm]{figs/H_mag.png} 
+		\caption{Frequency response of the total system at $T_{OFDM}$.}
+		\label{fig:H}
+	\end{center}
+\end{figure}
+
+
+To improve the performance in some case it ca be useful to introduce the so called \emph{virtual carriers}, so to transmit a sequence of all zeros instead of data on subchannels with index close to $\mathcal{M}/2$. This method allows to increase the transition band of the signal $s_n$ and to simply the filters at the transmitter and receiver. However in our case the transition band of the raised cosine filters is very sharp without causing complexity problems. We tried to introduce a small number of virtual carriers $N_{vir} = 3,5$ but the small improvement in the performances was not noticeable, at the cost of reducing the data transmitted with the same bandwidth usage. For this reason we decided to simulate the performances of our system without any virtual carrier.
 
 
 \begin{figure}[H]
@@ -218,6 +279,35 @@ The output of the matched filter is then sampled at $T_{OFDM}$ starting from an 
 		\label{fig:Pbit_coded}
 	\end{center}
 \end{figure}
+
+The following table summarizes the parameters for the OFDM system:
+
+\begin{table}[htbp]
+	\begin{center}
+		\begin{tabular}{ccc}
+			\toprule
+			$N_{px}$ & $N_{vir}$ &$\bar{t}_0$ \\
+			\midrule
+			17 & 0 &90 \\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+	\label{tab:sumup2}
+	\caption{Choices for the various parameters in the OFDM system.}
+\end{table} 
+
+For the simulation with coding we first P/S convert the log-likelihood ratios for each subchannel obtained as:
+
+\begin{equation}
+l'_{2k}[i] =- \frac{2 \Re\{y_k[i]\}}{\sigma_{I,OFDM}^2} \quad \quad
+l'_{2k+1}[i]= - \frac{2 \Im\{y_k[i]\}}{\sigma_{I,OFDM}^2}
+\end{equation}
+
+where we have the noise variance per component $\sigma_{I,OFDM} = \frac{\sigma_W^2}{2 \mathcal{H}_i}=\frac{\mathcal{M} \sigma_w^2}{2 \mathcal{H}_i}$, the variance of the DFT of the noise $\sigma_W^2 = \mathcal{M} \sigma_w^2$ and the output of the OFDM system for each subchannel $y_k[i] = a_k[i] + \frac{W_k[i]}{\mathcal{K}_i}$. The resulting series of values is deinterleaved (see the first section for details on how the interleaver is built) and passed to the LDPC decoder that works with \emph{soft information}.
+
+\section*{Simulation results}
+
+
  
 \begin{thebibliography}{15}	
 	\bibitem{nevio<3}

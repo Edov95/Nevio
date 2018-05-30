@@ -26,9 +26,6 @@ interl_b_l = interl(enc_b_l);
 % MAP 0 TO -1
 interl_b_l = 2 * interl_b_l - 1;
 
-% Generate the channel input response
-[q_c, E_qc] = channel_impulse_response();
-
 a = zeros(floor(length(interl_b_l)/2),1);
 for i=1:2:(length(interl_b_l) - 1)
    a((i+1)/2) =  interl_b_l(i) + 1i * interl_b_l(i+1);

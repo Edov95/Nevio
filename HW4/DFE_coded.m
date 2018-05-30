@@ -44,7 +44,7 @@ a_prime = upsample(a, 4);
 % Filter through the channel
 s_c = filter(q_c, 1, a_prime);
 
-SNR_vector = [1.7];
+SNR_vector = [1.4:0.025:1.75];
 Pbit_DFEenc = zeros(length(SNR_vector),1);
 
 for snr_index = 1:length(SNR_vector)
