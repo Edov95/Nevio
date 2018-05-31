@@ -61,7 +61,7 @@ In figure \ref{fig:qc} we plot the impulse response and the frequency response o
 
 \begin{figure}[H]
 	\begin{center}   
-		\includegraphics[width=\textwidth]{figs/q_c.png}  
+		\includegraphics[width=10cm]{figs/q_c.png}  
 		\caption{Impulse response of the filter $q_c$ at $T_c$.}
 		\label{fig:qc}
 	\end{center}
@@ -102,7 +102,7 @@ The value of the cost function $J_{min}$ obtained using these the optimal filter
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
 \end{equation}
 
-Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, as homework 3 being $M_1=5$ and $D=4$, and consequently $M_2=4$ because $N_2=4$.
+Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, as homework 3 being $M_1=5$ and $D=4$, and consequently $M_2=4$ because $N_2=4$. Before the decision point we scale down the output of the equalizer $y_k$ by the amplitude of the peak of the overall impulse response $\psi_D$, obtaining $\bar{y}_k = a_k + \frac{v_k}{|\psi_D|}$ that is coherent with the input modulation symbols.
 
 The following table summarizes the chosen parameters for the single carrier system:
 
@@ -123,11 +123,11 @@ The following table summarizes the chosen parameters for the single carrier syst
 For the simulation with coding we first P/S convert the log-likelihood ratios as:
 
 \begin{equation}
-l'_{2k}[i] =- \frac{2 \Re\{y_k[i]\}}{\sigma_{w}^2} \quad \quad
-l'_{2k+1}[i]= - \frac{2 \Im\{y_k[i]\}}{\sigma_{w}^2}
+l'_{2k} =- \frac{2 \Re\{y_k\}}{\sigma_{I}^2} \quad \quad
+l'_{2k+1}= - \frac{2 \Im\{y_k\}}{\sigma_{I}^2}
 \end{equation}
 
-where we have the noise variance $\sigma_w$ which is the noise variance scaled by the maximum value of the psi impulse response. The resulting series of values is deinterleaved (see the first section for details on how the interleaver is built) and passed to the LDPC decoder that works with \emph{soft information}.
+where we have the noise variance per component $\sigma_I^2=\frac{\sigma_{w_c}^2}{2}$ where  $\sigma_{w_c}^2 = \frac{J_{min}-\sigma_a^2 |1-\psi_D|^2}{|\psi_D^2|}$ is the noise variance after the feedforward equalizer filter $c$, scaled by the amplitude of the peak of the overall impulse response $\psi_D$ . The resulting series of values is deinterleaved (see the first section for details on how the interleaver is built) and passed to the LDPC decoder that works with \emph{soft information}.
 
 \section*{OFDM with cyclic prefix}
 
@@ -193,11 +193,11 @@ After the convolution with the transmit filter, we send the data through the cha
 where we used the relation $\sigma_s^2 = \frac{\sigma_a^2}{\mathcal{M}}$ \cite{nevio<3}.
 
 At the receiver we have another $g_{\sqrt{rcos}}$ with the impulse response given by (\ref{eq:g_rcos}).
-The output of the matched filter is then sampled at $T_{OFDM}$ starting from an initial offset called \emph{timing phase} $t_0$. We can just choose the value $\bar{t}_0$, multiple of $T_{OFDM}/4$ and we have chosen $\bar{t}_0=90$ (91 with Matlab indexing) "because this is the value with the best performances"
+The output of the matched filter is then sampled at $T_{OFDM}$ starting from an initial offset called \emph{timing phase} $t_0$. We can just choose the value $\bar{t}_0$, multiple of $T_c=T_{OFDM}/4$ and we have chosen $\bar{t}_0=90$ (91 with Matlab indexing) because it corresponds to the peak of the overall impulse response $q_R$ at $T_c$.
 
 \begin{figure}[H]
 	\begin{center}   
-		\includegraphics[width=10cm]{figs/q_R.png} 
+		\includegraphics[width=\textwidth]{figs/q_R.png} 
 		\caption{Total impulse response of the channel and receiver/transmit filters.}
 		\label{fig:q_R}
 	\end{center}
@@ -213,7 +213,7 @@ The total impulse response obtained by convolving the three filters is depicted 
 	\end{center}
 \end{figure}
 
-However, if we want to derive an impulse response that relates the input of the whole transmitter+channel+receiver system, we have to work on the sampling time $T_{OFDM}$. We will call the downsampled version of $q_R$ with the appropriate timing phase $h$ (see figure \ref{fig:h}). Its DFT is instead plotted in figure \ref{fig:H}.
+However, if we want to derive an impulse response that relates the input of the whole transmitter+channel+receiver system, we have to work on the sampling time $T_{OFDM}$. We will call the downsampled version of $q_R$ with the appropriate timing phase $h$ (see figure \ref{fig:h}). Its DFT is instead plotted in figure \ref{fig:H}. To represent $h$ we removed the samples that had an amplitude below $10^{-2}$ times the peak, to avoid plotting values that are almost zero.
 
 \begin{figure}[H]
 	\begin{center}   
@@ -259,9 +259,22 @@ l'_{2k}[i] =- \frac{2 \Re\{y_k[i]\}}{\sigma_{I,OFDM}^2} \quad \quad
 l'_{2k+1}[i]= - \frac{2 \Im\{y_k[i]\}}{\sigma_{I,OFDM}^2}
 \end{equation}
 
-where we have the noise variance per component $\sigma_{I,OFDM} = \frac{\sigma_W^2}{2 \mathcal{H}_i}=\frac{\mathcal{M} \sigma_w^2}{2 \mathcal{H}_i}$, the variance of the DFT of the noise $\sigma_W^2 = \mathcal{M} \sigma_w^2$ and the output of the OFDM system for each subchannel $y_k[i] = a_k[i] + \frac{W_k[i]}{\mathcal{K}_i}$. The resulting series of values is deinterleaved (see the first section for details on how the interleaver is built) and passed to the LDPC decoder that works with \emph{soft information}.
+where we have the noise variance per component $\sigma_{I,OFDM} = \frac{\sigma_W^2}{2 \mathcal{H}_i}=\frac{\mathcal{M} \sigma_w^2}{2 \mathcal{H}_i}$, the variance of the DFT of the noise $\sigma_W^2 = \mathcal{M} \sigma_w^2$ and the output of the OFDM system for each subchannel:
+\begin{equation} \label{eq:outOFDM}
+ y_k[i] = a_k[i] + \frac{W_k[i]}{\mathcal{K}_i}
+\end{equation}
+ The resulting series of values is deinterleaved (see the first section for details on how the interleaver is built) and passed to the LDPC decoder that works with \emph{soft information}.
 
 \section*{Simulation results}
+
+The simulation has been carried out using as input a PN sequence with $r=20$ repeated, so the total length of the bit stream is $2L = 2(2^r-1) = 2097150$. In the coded case we also applied LDPC encoding and interleaving (see the first section). The obtained bits are assumed to be distributed approximately as random. Given that we have to estimate the probability for a range of values going from $10^{-1}$ to $10^{-5}$, we need to be sure that our estimate is not affected by a high variance. The estimator we chose is:
+\begin{equation}
+\hat{P}_e = \frac{\#_{wrong}}{\#_{tx}}
+\end{equation}
+where $\#_{wrong}$ is the number of erroneously detected bits and $\#_{tx}$ is the total number of transmitted bits. As $\#_{tx}$ increases the estimator becomes approximately a Gaussian random variable, unbiased and with variance: $\frac{P_{bit} (1-P_{bit})}{\#_{tx}}$. This confirms that our estimate is reliable because the resulting variance will be very small, according to the empirical rule for which if we want to estimate a $P_{bit}$ of $10^{-k}$, we need to measure it transmitting around $30\cdot 10^{k}$ symbols. Indeed in our case the smallest $P_{bit}$ we need to estimate is $10^{-5}$ and so the required number of bits to have a very good estimate would be $30\cdot 10^{5}= 3000000$. We decide however to use a less stringent criterion, so to transmit at least $20\cdot 10^5$ bits, because we noticed that the resulting variance was already low enough to guarantee a good estimate and the simulation speed was greatly improved.
+
+The results obtained for various values of the SNR are plotted in figure \ref{fig:Pbit_uncoded} for the uncoded case and \ref{fig:Pbit_coded} for the coded case.
+
 
 \begin{figure}[H]
 	\begin{center}   
@@ -271,6 +284,9 @@ where we have the noise variance per component $\sigma_{I,OFDM} = \frac{\sigma_W
 	\end{center}
 \end{figure}
 
+We can notice that in the uncoded case the performances of the DFE are better than the OFDM system. The reason for this is explained by considering equation \ref{eq:outOFDM}. If the coefficients of the channel impulse response DFT are small, we can have that the scaling done at the output of the OFDM structure enhances the noise and disturbs useful data. This problem is solved almost entirely by channel coding, because errors due to this can be corrected. Indeed in figure \ref{fig:Pbit_coded} we can see that in the coded case the situation is reversed and the OFDM performs better than the DFE.
+It is also noticeable the drastic reduction of the SNR values needed to achieve the same values of the $P_{bit}$ using the LDPC. This is due to the fact that the rate is $1/2$, so the real rate of the overall system is reduced by half as we have to transmit this overhead.
+
 \begin{figure}[H]
 	\begin{center}   
 		\includegraphics[width=\textwidth]{figs/Pbit_coded.png} 
@@ -278,6 +294,7 @@ where we have the noise variance per component $\sigma_{I,OFDM} = \frac{\sigma_W
 		\label{fig:Pbit_coded}
 	\end{center}
 \end{figure}
+
 
 
  
