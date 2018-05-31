@@ -46,15 +46,15 @@ At this point the resulting bit sequence $c_p'$ at $T_a = 2T_{cod}$ is transmitt
 
 \section*{Single Carrier with DFE}
 
-The system takes a sequence of input symbols $a_k$ at sampling time $T=1$ and applies an upsampling of factor 4, obtaining $a_k'$ at $T/4$. This new sequence is then filtered by $q_c$ as described by the following difference equation:
+The system takes a sequence of input symbols $a_k$ at sampling time $T_a=2T_{cod}$ and applies an upsampling of factor 4, obtaining $a_k'$ at $T_a/4$. This new sequence is then filtered by $q_c$ as described by the following difference equation:
 \begin{equation}\label{eq:q_c}
-s_c(nT/4) = 0.67 s_c((n-1)T/4) + 0.7424 a_{n-5}
+s_c(nT_a/4) = 0.67 s_c((n-1)T_a/4) + 0.7424 a_{n-5}
 \end{equation}
 After the filtering white noise is added. From the following relations we can derive $\sigma_w^2$, the variance of the complex valued Gaussian noise:
 \begin{equation}
-\Gamma = \frac{M_{s_c}}{N_0\frac{1}{T}} = \frac{\sigma_a^2 E_{q_c}}{\sigma_w^2} \longrightarrow \sigma_w^2 = \frac{\sigma_a^2 E_{q_c}}{\Gamma} = 2\sigma_I^2
+\Gamma = \frac{M_{s_c}}{N_0\frac{1}{T_a}} = \frac{\sigma_a^2 E_{q_c}}{\sigma_w^2} \longrightarrow \sigma_w^2 = \frac{\sigma_a^2 E_{q_c}}{\Gamma} = 2\sigma_I^2
 \end{equation}
-where $\sigma_I^2$ is the variance per component. In addition we can also compute the PSD as $N_0=\sigma_w^2 T_c=\sigma_w^2/4$, because the sampling time $T_c$ at which we add the noise is $T/4$.
+where $\sigma_I^2$ is the variance per component. In addition we can also compute the PSD as $N_0=\sigma_w^2 T_c=\sigma_w^2/4$, because the sampling time $T_c$ at which we add the noise is $T_a/4$.
 In figure \ref{fig:qc} we plot the impulse response and the frequency response of the filter $q_c$.
 
 \begin{figure}[H]
@@ -67,7 +67,7 @@ In figure \ref{fig:qc} we plot the impulse response and the frequency response o
 
 At the receiver we have a matched filter $g_{M}$, obtained from $q_c$ as $g_M=q_c^*(t_0-t)$. For simplicity in the last formula we have denoted the filters as is they were defined on continuous time while in the actual simulation they are at $T/4$. 
 
-The output of the matched filter is then sampled at $T$ starting from an initial offset called \emph{timing phase} $t_0$. In our case the choice of $t_0$ is made easy by the presence of the matched filter, as we can just choose the value $\bar{t}_0$, multiple of $T/4$, that is the index of the peak of the correlation between $q_c$ and $g_M$, then $t_0$ will be equal to $\bar{t}_0 T/4$. Following this reasoning we chose $\bar{t}_0=16$ (17 with Matlab indexing), equal also to the index of the last sample of $g_M$ (see figure \ref{fig:A_gm}).
+The output of the matched filter is then sampled at $T_a$ starting from an initial offset called \emph{timing phase} $t_0$. In our case the choice of $t_0$ is made easy by the presence of the matched filter, as we can just choose the value $\bar{t}_0$, multiple of $T_a/4$, that is the index of the peak of the correlation between $q_c$ and $g_M$, then $t_0$ will be equal to $\bar{t}_0 T_a/4$. Following this reasoning we chose $\bar{t}_0=16$ (17 with Matlab indexing), equal also to the index of the last sample of $g_M$.
 
 We equalize with a DFE, that is made of two filters called feedforward and feedback filter denoted by $c$ and $b$. The feedforward filter has the role of equalizing only the precursors of the overall impulse response, while the ISI due to postcursors will be canceled by filter $b$ positioned on a feedback loop between the output of the threshold detector and its input. 
 
@@ -100,43 +100,7 @@ The value of the cost function $J_{min}$ obtained using these the optimal filter
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
 \end{equation}
 
-Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, this time being $M_1=5$ and $D=4$, and consequently $M_2=4$ because $N_2=4$.Once we noticed that for a certain value of $D$ the functional could only decrease, we let $M_1$ vary to choose the optimal couple of parameters. The following figure shows the knee of the curve at $M_1=5$ with $D$ fixed at 4:
-
-\begin{figure}[H]
-	\begin{center}   
-		%\includegraphics[width=\textwidth]{figs/B_Jmin.png} 
-		\caption{Behavior of $J_{min}$ for $D=4$ varying $M_1$.}
-		\label{fig:B_Jmin}
-	\end{center}
-\end{figure}
-
-
-In figure \ref{fig:B_c}, \ref{fig:B_psi} and \ref{fig:B_b} we plot the resulting filters $c$, $\psi$ and $b$ at sampling time $T$. 
-
-\begin{figure}[H]
-	\begin{center}   
-		%\includegraphics[width=\textwidth]{figs/B_c.png} 
-		\caption{Magnitude of the impulse response of the filter $c$ (feedforward filter) for the receiver in point B.}
-		\label{fig:B_c}
-	\end{center}
-\end{figure}
-
-\begin{figure}[H]
-	\begin{center}   
-		%\includegraphics[width=\textwidth]{figs/B_psi.png} 
-		\caption{Magnitude of the impulse response of the system $\psi$ in point B.}
-		\label{fig:B_psi}
-	\end{center}
-\end{figure}
-
-\begin{figure}[H]
-	\begin{center}   
-		%\includegraphics[width=\textwidth]{figs/B_b.png} 
-		\caption{Magnitude of the impulse response of the filter $b$ (feedback filter) in point B.}
-		\label{fig:B_b}
-	\end{center}
-\end{figure}
-
+Again the parameters to choose are the order of filter $c$, $M_1$, and the delay introduced $D$. This is because the order of $b$ can be chosen in such a way that all the postcursors are canceled by the feedback: $M_2=N_2+M_1-D-1$, and also the expression of the autocorrelation matrix significantly simplifies. The choice is carried out by selecting the values that minimize the functional $J_{min}$, as homework 3 being $M_1=5$ and $D=4$, and consequently $M_2=4$ because $N_2=4$.
 
 The following table summarizes the chosen parameters for the single carrier system:
 
@@ -159,7 +123,7 @@ The following table summarizes the chosen parameters for the single carrier syst
 \section*{OFDM with cyclic prefix}
 
 The system considered in this case is represented in figure \ref{fig:ofdm_schema}:
-
+ 
 \begin{figure}[H]
 	\begin{center}   
 		\includegraphics[width=\textwidth]{figs/OFDM_schema.png} 
