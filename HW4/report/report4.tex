@@ -42,7 +42,9 @@ In the uncoded case the sequence $b_l$ directly mapped into a sequence of QPSK s
 
 In the coded case the sequence is first coded using an irregular LDPC code with rate $1/2$ and a codelength of $N = 64800$. This operation produces a sequence of bits $c_m$ with double the length of $b_l$ and sampling time $T_{cod}$. To improve the performances by reducing the effect of burst errors, $c_m$ is passed to an interleaver $43 \times 41$ in which we write the input bits by row and read them by column to perform a scramble.
 
-At this point the resulting bit sequence $c_p'$ at $T_a = 2T_{cod}$ is transmitted using the single carrier and OFDM schemes. At the receiver, once the detection has taken place, the reverse operations are carrier out to derive the detected bit sequence $\hat{b}_l$ and compute $P_{bit}$. In particular a LDPC decoder and a deinterleaver $41\times 43$ are used. It is important to remark hat in the coded case the LDPC algorithm works with \emph{soft information}, so we pass to it not the detected bits, but the log-likelihood ratios $l_m$ for which we will provide the expression case by case.
+At this point the resulting bit sequence $c_p'$ at $T_a = 2T_{cod}$ is transmitted using the single carrier and OFDM schemes. At the receiver, once the detection has taken place, the reverse operations are carrier out to derive the detected bit sequence $\hat{b}_l$ and compute $P_{bit}$. In particular a LDPC decoder and a deinterleaver $41\times 43$ are used. It is important to remark hat in the coded case the LDPC algorithm works with \emph{soft information}, so we pass to it not the detected bits, but the log-likelihood ratios $l_m$ for which we give proper expression later.
+
+Where $y_k$ is the dectected symbol in case of DFE equalization and the DFT of the recivers it in case of OFDM. The $\sigma_w$ is the noise variance per component.
 
 \section*{Single Carrier with DFE}
 
@@ -118,7 +120,14 @@ The following table summarizes the chosen parameters for the single carrier syst
 	\caption{Choices for the various parameters for the DFE with respect to the number of precursors and postcursors of $h$, $N_1$ and $N_2$.}
 \end{table} 
 
+For the simulation with coding we first P/S convert the log-likelihood ratios as:
 
+\begin{equation}
+l'_{2k}[i] =- \frac{2 \Re\{y_k[i]\}}{\sigma_{w}^2} \quad \quad
+l'_{2k+1}[i]= - \frac{2 \Im\{y_k[i]\}}{\sigma_{w}^2}
+\end{equation}
+
+where we have the noise variance $\sigma_w$ which is the noise variance scaled by the maximum value of the psi impulse response. The resulting series of values is deinterleaved (see the first section for details on how the interleaver is built) and passed to the LDPC decoder that works with \emph{soft information}.
 
 \section*{OFDM with cyclic prefix}
 
@@ -227,23 +236,6 @@ However, if we want to derive an impulse response that relates the input of the 
 
 To improve the performance in some case it ca be useful to introduce the so called \emph{virtual carriers}, so to transmit a sequence of all zeros instead of data on subchannels with index close to $\mathcal{M}/2$. This method allows to increase the transition band of the signal $s_n$ and to simply the filters at the transmitter and receiver. However in our case the transition band of the raised cosine filters is very sharp without causing complexity problems. We tried to introduce a small number of virtual carriers $N_{vir} = 3,5$ but the small improvement in the performances was not noticeable, at the cost of reducing the data transmitted with the same bandwidth usage. For this reason we decided to simulate the performances of our system without any virtual carrier.
 
-
-\begin{figure}[H]
-	\begin{center}   
-		\includegraphics[width=\textwidth]{figs/Pbit_uncoded.png} 
-		\caption{$P_{bit}$ obtained for various values of the SNR with DFE equalization and OFDM, no channel coding used.}
-		\label{fig:Pbit_uncoded}
-	\end{center}
-\end{figure}
-
-\begin{figure}[H]
-	\begin{center}   
-		\includegraphics[width=\textwidth]{figs/Pbit_coded.png} 
-		\caption{$P_{bit}$ obtained for various values of the SNR with DFE equalization and OFDM, LDPC coding has been used.}
-		\label{fig:Pbit_coded}
-	\end{center}
-\end{figure}
-
 The following table summarizes the parameters for the OFDM system:
 
 \begin{table}[htbp]
@@ -270,6 +262,22 @@ l'_{2k+1}[i]= - \frac{2 \Im\{y_k[i]\}}{\sigma_{I,OFDM}^2}
 where we have the noise variance per component $\sigma_{I,OFDM} = \frac{\sigma_W^2}{2 \mathcal{H}_i}=\frac{\mathcal{M} \sigma_w^2}{2 \mathcal{H}_i}$, the variance of the DFT of the noise $\sigma_W^2 = \mathcal{M} \sigma_w^2$ and the output of the OFDM system for each subchannel $y_k[i] = a_k[i] + \frac{W_k[i]}{\mathcal{K}_i}$. The resulting series of values is deinterleaved (see the first section for details on how the interleaver is built) and passed to the LDPC decoder that works with \emph{soft information}.
 
 \section*{Simulation results}
+
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/Pbit_uncoded.png} 
+		\caption{$P_{bit}$ obtained for various values of the SNR with DFE equalization and OFDM, no channel coding used.}
+		\label{fig:Pbit_uncoded}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}   
+		\includegraphics[width=\textwidth]{figs/Pbit_coded.png} 
+		\caption{$P_{bit}$ obtained for various values of the SNR with DFE equalization and OFDM, LDPC coding has been used.}
+		\label{fig:Pbit_coded}
+	\end{center}
+\end{figure}
 
 
  
