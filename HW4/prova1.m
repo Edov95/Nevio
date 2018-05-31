@@ -7,17 +7,17 @@ load('generated_symbols.mat','a','enc_b_l','b_l','uncoded_a')
 %% CODED
 % SNR_dB = [0.9:0.05:1.6];
 % parfor i=1:length(SNR_dB)
-%     [Pbit_OFDM_coded(i) b_l_hat] = OFDM_coded(a, b_l, 17, 91, 10^(SNR_dB(i)/10));
+%     [Pbit_OFDM_coded(i) b_l_hat] = OFDM_coded(a, b_l, 17, 3, 10^(SNR_dB(i)/10));
 % end
 
 % save('OFDM_coded.mat','Pbit_OFDM_coded')
 
-SNR_dB = 1.2;
+SNR_dB = 1.3;
 [Pbit_OFDM_coded b_l_hat] = OFDM_coded(a, b_l, 17, 91, 10^(SNR_dB/10));
 
 % SNR_dB = 1.1;
-% for i=7:20
-% [Pbit_coded(i) b_l_hat] = OFDM_coded(a, b_l, i, 91, 10^(SNR_dB./10));
+% parfor i=1:40
+% [Pbit_coded(i) b_l_hat] = OFDM_coded(a, b_l, 17, i, 10^(SNR_dB./10));
 % end
 % save('OFDM_coded.mat','Pbit_OFDM_coded')
 

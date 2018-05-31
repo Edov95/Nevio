@@ -1,4 +1,4 @@
- function [Pbit dec_b_l] = OFDM_coded(a, b_l, Npx, t0_bar, SNRlin)
+function [Pbit dec_b_l] = OFDM_coded(a, b_l, Npx, t0_bar, SNRlin)
 
 % pad the last symbols with -1-1i to have an integer multiple of 512
 M = 512; % number of subchannels
@@ -20,7 +20,7 @@ s_n = reshape(A, [], 1);
 
 %channel construction
 ro = 0.0625;
-span = 18;
+span = 30;
 sps = 4;
 g_rcos = rcosdesign(ro, span, sps, 'sqrt');
 
@@ -45,7 +45,7 @@ gq = conv(g_rcos,q_c);
 q_r_up = conv(gq, g_rcos);
 % q_r_up = q_r_up(find(abs(q_r_up)>=(max(q_r_up)*10^-2)));
 % t0_bar = find(q_r_up == max(q_r_up));
-q_r = downsample(q_r_up(3:end),4);
+q_r = downsample(q_r_up(1:end),4);
 
 x = filter(g_rcos, 1, r_c);
 %x = upfirdn(r_c, g_rcos, 2);
