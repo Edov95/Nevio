@@ -19,23 +19,9 @@ s_n = reshape(A, [], 1);
 %channel contruction
 ro = 0.0625;
 span = 30;
-sps = 2;
+sps = 4;
 g_rcos = rcosdesign(ro, span, sps, 'sqrt');
- 
-% N    = 30;         % Order
-% Fc   = 0.5;        % Cutoff Frequency
-% TM   = 'Rolloff';  % Transition Mode
-% R    = 0.0625;     % Rolloff
-% DT   = 'sqrt';     % Design Type
-% Beta = 0.5;        % Window Parameter
-% 
-% % Create the window vector for the design algorithm.
-% win = kaiser(N+1, Beta);
-% 
-% % Calculate the coefficients using the FIR1 function.
-% g_rcos  = firrcos(N, Fc, R, 2, TM, DT, [], win);
-% Hd = dfilt.dffir(g_rcos);
-
+g_rcos = g_rcos(abs(g_rcos)>=(max(g_rcos)*10^-2));
 s_up = upsample(s_n,4);
 
 s_up_rcos = filter(g_rcos, 1, s_up);
@@ -53,11 +39,20 @@ w = wgn(length(s_c), 1, 10*log10(sigma_w_OFDM), 'complex');
 r_c = s_c + w;
 % r_c = s_c;
 
-q_r_up = conv(conv(g_rcos,q_c), g_rcos);
-q_r_up = q_r_up(abs(q_r_up)>=(max(q_r_up)*10^-2));
-%t0_bar = find(q_r_up == max(q_r_up));
-%t0_bar = 21;
-q_r = downsample(q_r_up(1:end),4);
+gq = conv(g_rcos,q_c);
+q_r_up = conv(gq, g_rcos);
+q_r_up = q_r_up(abs(q_r_up)>=(max(q_r_up)*10^-3));
+% t0_bar = find(q_r_up == max(q_r_up));
+
+index = find(q_r_up==max(q_r_up));
+rem = mod(index,4);
+if rem==0
+    start = 4;
+else
+    start = rem;
+end
+q_r = downsample(q_r_up(start:end),4);
+q_r = q_r(abs(q_r)>=(max(q_r)*10^-3));
 
 x = filter(g_rcos, 1, r_c);
 x = downsample(x(t0_bar:end), 4);

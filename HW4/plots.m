@@ -1,10 +1,12 @@
 clear all; close all; clc;
 
+set(0,'defaultTextInterpreter','latex')
+
 load('AWGN_coded.mat', 'Pbit_AWGN');
-load('OFDM_uncoded.mat','Pbit_OFDM_uncoded')
+load('OFDM_uncoded_final.mat','Pbit_OFDM_uncoded')
 load('DFE_uncoded.mat','Pbit_DFEunc');
 load('DFE_coded1.mat','Pbit_DFEenc');
-load('OFDM_coded3.mat','Pbit_OFDM_coded');
+load('OFDM_coded_final.mat','Pbit_OFDM_coded');
 
 SNR_dB = [4:0.5:14];
 SNR_lin = 10.^(SNR_dB./10);
@@ -20,7 +22,7 @@ semilogy(SNR_dB, Pbit_OFDM_uncoded,'b-<')
 hold on,
 semilogy(SNR_dB, awgn_bound,'k')
 xlabel('SNR [dB]')
-ylabel('P_{bit}')
+ylabel('$P_{bit}$')
 title('Uncoded')
 legend({'DFE','OFDM','AWGN'})
 
@@ -37,6 +39,6 @@ grid on;
 hold on,
 semilogy(SNR_dB_awgn, Pbit_AWGN,'k')
 xlabel('SNR [dB]')
-ylabel('P_{bit}')
+ylabel('$P_{bit}$')
 title('Coded')
 legend({'DFE','OFDM','AWGN'})

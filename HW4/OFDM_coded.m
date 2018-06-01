@@ -20,10 +20,10 @@ s_n = reshape(A, [], 1);
 
 %channel construction
 ro = 0.0625;
-span = 18;
+span = 30;
 sps = 4;
 g_rcos = rcosdesign(ro, span, sps, 'sqrt');
-
+g_rcos = g_rcos(abs(g_rcos)>=(max(g_rcos)*10^-2));
 s_up = upsample(s_n,4);
 
 s_up_rcos = filter(g_rcos, 1, s_up);
@@ -43,9 +43,18 @@ r_c = s_c + w;
 
 gq = conv(g_rcos,q_c);
 q_r_up = conv(gq, g_rcos);
-% q_r_up = q_r_up(find(abs(q_r_up)>=(max(q_r_up)*10^-2)));
+q_r_up = q_r_up(abs(q_r_up)>=(max(q_r_up)*10^-3));
 % t0_bar = find(q_r_up == max(q_r_up));
-q_r = downsample(q_r_up(3:end),4);
+
+index = find(q_r_up==max(q_r_up));
+rem = mod(index,4);
+if rem==0
+    start = 4;
+else
+    start = rem;
+end
+q_r = downsample(q_r_up(start:end),4);
+q_r = q_r(abs(q_r)>=(max(q_r)*10^-3));
 
 x = filter(g_rcos, 1, r_c);
 %x = upfirdn(r_c, g_rcos, 2);
