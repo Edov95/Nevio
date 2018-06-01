@@ -158,7 +158,7 @@ The channel, represented as a single block in figure \ref{fig:ofdm_schema} conta
 
 where in our case $g_{tx}$ and $g_{Rc}$ are taken both as square root raised cosine filters, and the channel impulse response is the $q_c$ used also for the single carrier channel: 
 \begin{equation}\label{eq:q_c}
-s_c(nT/4) = 0.67 s_c((n-1)T/4) + 0.7424 a_{n-5}
+s_c(nT_{OFDM}/4) = 0.67 s_c((n-1)T_{OFDM}/4) + 0.7424 a_{n-5}
 \end{equation}
 The system takes a sequence of input symbols $s_k$ at sampling time $T_{OFDM}=T_{block}/(M + N_{px})$ and applies an upsampling of factor 4, obtaining $a_k'$ at $T_c = T_{OFDM}/4$. This new sequence is then filtered by $g_{\sqrt{rcos}}$ where the impulse response is described by the following equation and depicted in figure \ref{fig:gimp_rcos}:
 
@@ -187,7 +187,7 @@ And the following picture represents the frequency response $|\mathcal{G}_{\sqrt
 
 After the convolution with the transmit filter, we send the data through the channel with the impulse response given by (\ref{eq:q_c}) and white noise is added. From the following relations we can derive $\sigma_w^2$, the variance of the complex valued Gaussian noise:
 \begin{equation}
-\Gamma = \frac{M_{s_c}}{N_0\frac{1}{T}} = \frac{\sigma_s^2 E_{g_{\sqrt{rcos}} * q_c}}{\sigma_w^2} \longrightarrow \sigma_w^2 = \frac{\sigma_a^2 E_{g_{\sqrt{rcos}} *q_c}}{\mathcal{M}\Gamma} = 2\sigma_I^2
+\Gamma = \frac{M_{s_c}}{N_0\frac{1}{T_OFDM}} = \frac{\sigma_s^2 E_{g_{\sqrt{rcos}} * q_c}}{\sigma_w^2} \longrightarrow \sigma_w^2 = \frac{\sigma_a^2 E_{g_{\sqrt{rcos}} *q_c}}{\mathcal{M}\Gamma} = 2\sigma_I^2
 \end{equation}
 
 where we used the relation $\sigma_s^2 = \frac{\sigma_a^2}{\mathcal{M}}$ \cite{nevio<3}.
