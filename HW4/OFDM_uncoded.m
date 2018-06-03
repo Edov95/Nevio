@@ -7,8 +7,6 @@ a = [a; ones(M - mod(length(a), M), 1) * (-1-1i)];
 
 a_mat = reshape(a, M, []);
 
-%IFFT should be computed at sampling time Tblock=Tofdm*(M+Npx) according to
-%the book
 A_no_prefix = ifft(a_mat);
 %A_no_pr = A_no_pr(1:512,:);
 

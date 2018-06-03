@@ -19,7 +19,8 @@ for i = 0:(ceil(length(b_l)/sstep))-1
     %encodes block by block the input bits
     %block length is equal to 32400
     block = b_l(i * sstep + 1:i * sstep + sstep);
-    enc_b_l(2 * i * sstep + 1:2 * i * sstep + 2 * sstep) = step(encoderLDPC, block);
+    enc_b_l(2 * i * sstep + 1:2 * i * sstep + 2 * sstep) =...
+        step(encoderLDPC, block);
 end
 
 %% INTERLEAVING

@@ -69,7 +69,8 @@ for snr_index = 1:length(SNR_vector)
     
     detected_bits = IBMAP(decisions);
     
-    [Pbit_DFEunc(snr_index), errors] = BER(detected_bits, b_l(1:length(detected_bits)));
+    [Pbit_DFEunc(snr_index), errors] = ...
+        BER(detected_bits, b_l(1:length(detected_bits)));
 end
 
 save('DFE_uncoded.mat','Pbit_DFEunc');

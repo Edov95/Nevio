@@ -48,7 +48,8 @@ hi = h(t0-N1:t0+N2)/h(t0);
 M1_dfe = 15;
 D_dfe = M1_dfe - 1;
 M2_dfe = N2 + M1_dfe - 1 - D_dfe;
-[~, rcv_bits] = DFE_filter(rcv_symb, hi.', N1, N2, sigma_w, D_dfe, M1_dfe, M2_dfe, coding, false);
+[~, rcv_bits] =...
+DFE_filter(rcv_symb, hi.', N1, N2, sigma_w, D_dfe, M1_dfe, M2_dfe, coding, false);
 
 %% Compute Log Likelihood Ratio
 llr = zeros(2*length(symbols),1);

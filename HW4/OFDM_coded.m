@@ -107,7 +107,8 @@ dstep = 64800;
 tic
 for i = 0:(floor(length(LLR)/dstep)) - 1
     block = LLR(i * dstep + 1:i * dstep + dstep);
-    dec_b_l(i * dstep / 2 + 1:i * dstep / 2 + dstep / 2) = step(decoderLDPC, block.');
+    dec_b_l(i * dstep / 2 + 1:i * dstep / 2 + dstep / 2) =...
+        step(decoderLDPC, block.');
 end
 toc
 
