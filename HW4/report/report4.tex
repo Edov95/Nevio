@@ -261,11 +261,19 @@ l'_{2k}[i] =- \frac{2 \Re\{y_k[i]\}}{\sigma_{I,OFDM}^2} \quad \quad
 l'_{2k+1}[i]= - \frac{2 \Im\{y_k[i]\}}{\sigma_{I,OFDM}^2}
 \end{equation}
 
-where we have the noise variance per component $\sigma_{I,OFDM} = \frac{\sigma_W^2}{2 \mathcal{H}_i}=\frac{\mathcal{M} \sigma_w^2}{2 \mathcal{H}_i}$, the variance of the DFT of the noise $\sigma_W^2 = \mathcal{M} \sigma_w^2$ and the output of the OFDM system for each subchannel:
+where we have the noise variance per component $\sigma_{I,OFDM} = \frac{\sigma_W^2}{2 |\mathcal{H}_i|^2}=\frac{\mathcal{M} \sigma_w^2}{2 |\mathcal{H}_i|^2}$, the variance of the DFT of the noise $\sigma_W^2 = \mathcal{M} \sigma_w^2$ and the output of the OFDM system for each subchannel:
 \begin{equation} \label{eq:outOFDM}
  y_k[i] = a_k[i] + \frac{W_k[i]}{\mathcal{K}_i}
 \end{equation}
- The resulting series of values is rearranged with the deinterleaver (see the first section for details on how the interleaver is built) and passed to the LDPC decoder that works with \emph{soft information}.
+
+The previous expressions become then:
+
+\begin{equation}
+l'_{2k}[i] =- \frac{4 |\mathcal{H}_i|^2 \Re\{y_k[i]\}}{\mathcal{M}\sigma_w^2} \quad \quad
+l'_{2k+1}[i]= - \frac{4 |\mathcal{H}_i|^2 \Im\{y_k[i]\}}{\mathcal{M}\sigma_w^2}
+\end{equation}
+
+ The resulting series of values is serialized, rearranged with the deinterleaver (see the first section for details on how the interleaver is built) and passed to the LDPC decoder that works with \emph{soft information}.
 
 \section*{Simulation results}
 
