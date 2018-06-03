@@ -162,9 +162,9 @@ where in our case $g_{tx}$ and $g_{Rc}$ are taken both as square root raised cos
 s_c(nT_{OFDM}/4) = 0.67 s_c((n-1)T_{OFDM}/4) + 0.7424 a_{n-5}
 \end{equation}
 The system takes a sequence of input symbols $s_k$ at sampling time $T_{OFDM}=T_{block}/(M + N_{px})$ and applies an upsampling of factor 4, obtaining $a_k'$ at $T_c = T_{OFDM}/4$. This new sequence is then filtered by $g_{\sqrt{rcos}}$ where the impulse response is described by the following equation sampled at time $T_c=T_{OFDM}/4$ and truncated where the amplitude of the taps was lower than $10^{-2} \cdot \max\{g_{\sqrt{rcos}}\}$. 
-.
+
 \begin{equation}\label{eq:g_rcos}
-g_{\sqrt{rcos}}(n) = \frac{\sin\left[\pi\left(1 - \rho\right)\frac{n}{T_c}\right] + 4\rho\frac{n}{T_c}\cos\left[\pi\left(1 - \rho\right)\frac{n}{T_c}\right]}{\pi\left[1-\left(4\rho\frac{n}{T_c}\right)^2\right]\frac{n}{T_c}}
+g_{\sqrt{rcos}}(t) = \frac{\sin\left[\pi\left(1 - \rho\right)\frac{n}{T_{OFDM}}\right] + 4\rho\frac{n}{T_{OFDM}}\cos\left[\pi\left(1 - \rho\right)\frac{n}{T_{OFDM}}\right]}{\pi\left[1-\left(4\rho\frac{n}{T_{OFDM}}\right)^2\right]\frac{n}{T_{OFDM}}}
 \end{equation}
 The result can be seen in figure \ref{fig:gimp_rcos}:
 
@@ -172,12 +172,12 @@ The result can be seen in figure \ref{fig:gimp_rcos}:
 \begin{figure}[H]
 	\begin{center}   
 		\includegraphics[width=10cm]{figs/gimp_rcos.png} 
-		\caption{Impulse response of the square root raised cosine filter $g_{\sqrt{rcos}}$.}
+		\caption{Impulse response of the square root raised cosine filter $g_{\sqrt{rcos}}(nT_c)$.}
 		\label{fig:gimp_rcos}
 	\end{center}
 \end{figure}
 
-And the following picture represents the frequency response $|\mathcal{G}_{\sqrt{rcos}}|$:
+And the following picture represents the frequency response $|\mathcal{G}_{\sqrt{rcos}}(f)|$:
 
 \begin{figure}[H]
 	\begin{center}   
@@ -236,7 +236,7 @@ However, if we want to derive an impulse response that relates the input of the 
 \end{figure}
 
 
-To improve the performance in some case it ca be useful to introduce the so called \emph{virtual carriers}, so to transmit a sequence of all zeros instead of data on subchannels with index close to $\mathcal{M}/2$. This method allows to increase the transition band of the signal $s_n$ and to simply the filters at the transmitter and receiver. However in our case the transition band of the raised cosine filters is very sharp without causing complexity problems. We tried to introduce a small number of virtual carriers $N_{vir} = 1,3,5$ but the improvement in the performances was not noticeable, at the cost of reducing the data transmitted with the same bandwidth usage. For this reason we decided to simulate the performances of our system without any virtual carrier.
+To improve the performance in some case it ca be useful to introduce the so called \emph{virtual carriers}, transmitting a sequence of all zeros instead of data on subchannels with index close to $\mathcal{M}/2$. This method allows to increase the transition band of the signal $s_n$ and to simply the filters at the transmitter and receiver. We tried to introduce a small number of virtual carriers $N_{vir} = 1,3,5$ but the improvement in the performances was not noticeable, at the cost of reducing the data transmitted for the same bandwidth usage. For this reason we decided to simulate the performances of our system without any virtual carrier.
 
 The following table summarizes the parameters for the OFDM system:
 
